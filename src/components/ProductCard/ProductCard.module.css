@@ -1,0 +1,182 @@
+.productCard {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background: var(--white);
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+  line-height: 1;
+}
+
+.productCardDay {
+  display: flex;
+  flex-direction: column;
+  padding: 0 15px 15px;
+  background: var(--white);
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.productCardHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.productCardLabel {
+  height: 18px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 4px;
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--red);
+  border-radius: 4px;
+}
+
+.productCardActions {
+  display: flex;
+  gap: 10px;
+}
+
+.productCardAction {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.productCardActionActive {
+  filter: invert(24%) sepia(100%) saturate(7486%) hue-rotate(5deg) brightness(91%) contrast(97%);
+}
+
+.productCardAction:hover {
+  filter: invert(24%) sepia(100%) saturate(7486%) hue-rotate(5deg) brightness(91%) contrast(97%);
+}
+
+.productCardView {
+  align-self: center;
+  height: 140px;
+  width: 140px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.productCardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.productCardDay .productCardView {
+  width: 220px;
+  height: 160px;
+}
+
+.productCardTitle {
+  color: inherit;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  height: 3rem;
+  font-size: 14px;
+  color: var(--grey-90);
+  margin-bottom: 10px;
+}
+
+.productCardDay .productCardTitle {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  height: 2rem;
+}
+
+.reviews {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.productCardDay .reviews {
+  margin-bottom: 0px;
+}
+
+.reviewsIcon {
+  width: 20px;
+  height: 20px;
+  margin-right: 3px;
+}
+
+.reviewsRating {
+  font-size: 12px;
+  font-weight: 700;
+  margin-right: 5px;
+}
+
+.reviewsText {
+  line-height: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--grey);
+}
+
+.productCardFooter {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.productCardDay .productCardFooter {
+  margin-bottom: 0;
+}
+
+.productCardPriceActual {
+  color: var(--grey-90);
+  font-size: 14px;
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+.productCardPriceDiscount {
+  color: var(--grey-90);
+  font-size: 12px;
+  text-decoration: line-through;
+}
+
+.productCardButtonCart {
+  color: var(--white);
+  padding: 4px 16px;
+  width: 100%;
+  background: var(--red);
+  border-radius: 8px;
+  transition: background 0.2s ease-in-out;
+}
+
+.productCardDay .productCardButtonCart {
+  width: auto;
+  padding: 8px 16px;
+  background: var(--red);
+}
+
+.productCardButtonCart:hover {
+  background: var(--red-dark);
+}
+
+.productCardStickers {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

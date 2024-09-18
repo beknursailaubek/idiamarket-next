@@ -1,0 +1,48 @@
+.bannerArrow {
+  position: absolute;
+  top: 50%;
+  z-index: 10;
+  transform: translateY(-50%);
+  opacity: 0;
+  width: 30px;
+  height: 30px;
+  background: var(--white);
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+}
+
+.bannerArrowPrev {
+  left: 20px;
+}
+
+.bannerArrowNext {
+  right: 20px;
+}
+
+.welcomeBanner:hover .bannerArrow {
+  opacity: 1;
+}
+
+.bannerArrowIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.swiper-pagination {
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.welcomeBanner:hover .swiper-pagination {
+  opacity: 1;
+}
+
+.swiper-pagination-bullet {
+  opacity: 0.4;
+  background: var(--white);
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1;
+  background: var(--white);
+}

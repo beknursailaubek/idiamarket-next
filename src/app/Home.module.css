@@ -1,0 +1,210 @@
+/* WELCOME */
+.welcome {
+  margin-top: 35px;
+  max-height: 380px;
+}
+
+.welcomeInner {
+  display: flex;
+  gap: 20px;
+}
+
+/* CATEGORIES */
+.categoriesBox {
+  height: 600px;
+  display: flex;
+  gap: 20px;
+}
+
+.categoriesGroup {
+  display: grid;
+  gap: 20px;
+}
+
+.categoriesGroup3 {
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.categoriesGroup4 {
+  grid-template-rows: repeat(4, 1fr);
+}
+
+.category {
+  min-width: 200px;
+  min-height: 135px;
+  position: relative;
+  display: flex;
+  padding: 30px 20px 20px 20px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  text-align: center;
+  background: var(--white);
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.categoryImage {
+  margin: auto;
+  height: 80%;
+  object-fit: contain;
+}
+
+.category:hover {
+  transform: scale(1.02);
+}
+
+.categoryMd {
+  padding: 25px 15px 20px 15px;
+}
+
+.categorySm {
+  padding: 20px 10px 10px 10px;
+  font-size: 12px;
+}
+
+.categoryTitle {
+  color: var(--grey);
+  font-weight: 300;
+}
+
+.categoryCount {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: var(--grey-light);
+  font-size: 12px;
+  font-weight: 300;
+}
+
+/* Specific category classes */
+.categoryTorgovyeStellazhi {
+  grid-row: span 2;
+}
+
+.categoryKassovye {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.categoryPalletnyeStellazhi {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.categorySkladskieStellazhi {
+  grid-column: 2;
+  grid-row: span 2;
+}
+
+.categoryTorgovoeOborudovanie {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.categoryHolodilnoe {
+  grid-column: span 2;
+  grid-row: 1;
+}
+
+.categoryPosOborudovanie {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.categoryVitriny {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.categoryMetallicheskieShkafy {
+  grid-column: 2;
+  grid-row: 2 / span 2;
+}
+
+.categoryOborudovanieDlyaAptek {
+  grid-row: 1;
+}
+
+.categoryNejtralnoeOborudovanie {
+  grid-row: 2 / span 2;
+}
+
+.categoryOborudovanieDlyaObshepita {
+  grid-row: 4;
+}
+
+/* POPULAR */
+.popularProducts {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+/* ABOUT */
+.aboutInner {
+  position: relative;
+  font-size: 12px;
+  background: var(--white);
+  border-radius: 8px;
+  padding: 50px 50px 60px;
+}
+
+.aboutInnerHidden {
+  height: 300px;
+  overflow-y: hidden;
+}
+
+.aboutInnerHidden::before {
+  display: block;
+  content: "";
+  position: absolute;
+  height: 100px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 1) 60%, rgba(255, 255, 255, 0) 100%);
+}
+
+.aboutHide {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.aboutBtn {
+  height: 40px;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.aboutBtnText {
+  color: var(--blue-light);
+  font-size: 14px;
+}
+
+.aboutBtnImg {
+  filter: invert(43%) sepia(97%) saturate(2347%) hue-rotate(189deg) brightness(105%) contrast(91%);
+}
+
+.aboutH1 {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.aboutText {
+  font-size: 12px;
+}
+
+.aboutText:not(:last-child) {
+  margin-bottom: 20px;
+}
