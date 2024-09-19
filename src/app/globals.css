@@ -38,6 +38,13 @@
   --green: #73be6f;
 }
 
+input:focus,
+input:active,
+button:focus,
+button:active {
+  outline: none;
+}
+
 html,
 body {
   height: 100%;

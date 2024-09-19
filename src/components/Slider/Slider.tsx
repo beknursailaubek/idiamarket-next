@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import styles from "./Slider.module.css";
+import "./Slider.css";
 import ProductCard from "../ProductCard/ProductCard";
 
 // Import Swiper React components
@@ -16,7 +16,7 @@ import { Navigation, Pagination } from "swiper/modules";
 
 const Slider = ({ dayProducts }) => {
   return (
-    <div className={"max-w-[310px] pt-[20px] rounded-[8px] bg-white"}>
+    <div className={"max-w-[310px] w-full pt-[20px] rounded-[8px] bg-white relative"}>
       <p className={"px-[20px] mb-[10px] text-base font-bold "}>Товар дня</p>
       <Swiper loop={true} navigation={{ nextEl: ".product-card__arrow_next", prevEl: ".product-card__arrow_prev" }} modules={[Navigation]} className="product-card__swiper">
         {dayProducts.map((product, index) => (
@@ -25,6 +25,15 @@ const Slider = ({ dayProducts }) => {
           </SwiperSlide>
         ))}
       </Swiper>
+
+      <div className="product-card__nav">
+        <button className="product-card__arrow product-card__arrow_prev" aria-label="Кнопка слайдера">
+          <Image className="product-card-arrow__icon" src="/images/icons/arrow-left.svg" width={20} height={20} alt="" />
+        </button>
+        <button className="product-card__arrow product-card__arrow_next" aria-label="Кнопка слайдера">
+          <Image className="product-card-arrow__icon" src="/images/icons/arrow-right.svg" width={20} height={20} alt="" />
+        </button>
+      </div>
     </div>
   );
 };

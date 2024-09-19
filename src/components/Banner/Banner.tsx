@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import styles from "./Banner.module.css";
+import "./Banner.css";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -15,23 +15,32 @@ import { Navigation, Pagination } from "swiper/modules";
 
 const Banner = () => {
   return (
-    <div className={"max-w-[970px] rounded-[8px] relative"}>
+    <div className={`banner max-w-[970px] w-full rounded-[8px] relative`}>
       <Swiper
         loop={true}
         pagination={{
           clickable: true,
         }}
-        navigation={{ nextEl: ".bannerArrowNext", prevEl: ".bannerArrowPrev" }}
+        navigation={{ nextEl: ".banner__arrow_next", prevEl: ".banner__arrow_prev " }}
         modules={[Navigation, Pagination]}
-        className={"rounded-[8px]"}
+        className={`banner__swiper rounded-[8px]`}
       >
         <SwiperSlide>
-          <Image width={970} height={380} className="swiperSlide" src="/images/banner-1.png" alt="" />
+          <Image loading="lazy" width={970} height={380} className="swiperSlide" src="/images/banner-1.png" alt="" />
         </SwiperSlide>
         <SwiperSlide>
           <Image width={970} height={380} className="swiperSlide" src="/images/banner-1.png" alt="" />
         </SwiperSlide>
       </Swiper>
+
+      <div className={"banner__nav"}>
+        <button className={`banner__arrow banner__arrow_prev`} aria-label="Кнопка баннера">
+          <Image className={"banner-arrow__icon"} src="/images/icons/arrow-left.svg" width={20} height={20} alt="" />
+        </button>
+        <button className={`banner__arrow banner__arrow_next`} aria-label="Кнопка баннера">
+          <Image className={"banner-arrow__icon"} src="/images/icons/arrow-right.svg" width={20} height={20} alt="" />
+        </button>
+      </div>
     </div>
   );
 };

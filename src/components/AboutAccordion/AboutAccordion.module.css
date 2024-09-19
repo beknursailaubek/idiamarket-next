@@ -1,0 +1,66 @@
+/* ABOUT */
+.aboutInner {
+  position: relative;
+  font-size: 12px;
+  background: var(--white);
+  border-radius: 8px;
+  padding: 50px 50px 60px;
+}
+
+.aboutInnerHidden {
+  height: 300px;
+  overflow-y: hidden;
+}
+
+.aboutInnerHidden::before {
+  display: block;
+  content: "";
+  position: absolute;
+  height: 100px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 1) 60%, rgba(255, 255, 255, 0) 100%);
+}
+
+.aboutHide {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.aboutBtn {
+  height: 40px;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.aboutBtnText {
+  color: var(--blue-light);
+  font-size: 14px;
+}
+
+.aboutBtnImg {
+  filter: invert(43%) sepia(97%) saturate(2347%) hue-rotate(189deg) brightness(105%) contrast(91%);
+}
+
+.aboutH1 {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.aboutText {
+  font-size: 12px;
+}
+
+.aboutText:not(:last-child) {
+  margin-bottom: 20px;
+}

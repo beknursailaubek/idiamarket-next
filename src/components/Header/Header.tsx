@@ -26,16 +26,16 @@ const Header: React.FC = () => {
       <div className={styles.headerTop}>
         <div className={`${styles.headerInner} container`}>
           <Link href="/" className={styles.headerLogo}>
-            <Image src="/images/logo.svg" alt="Logo" width={110} height={40} />
+            <Image src="/images/logo.svg" alt="Logo" width={110} height={37} />
           </Link>
 
           <div className={styles.headerInfo}>
             <button className={styles.location} onClick={openLocationModal}>
-              <Image src="/images/icons/location.svg" alt="Location" width={16} height={16} />
+              <Image src="/images/icons/location.svg" className={styles.locationIcon} alt="" width={16} height={16} />
               <span className={styles.locationCity}>Алматы</span>
             </button>
             <button className={styles.contacts}>
-              <Image className={styles.contactsIconPhone} src="/images/icons/phone.svg" alt="Phone" width={16} height={16} />
+              <Image className={styles.contactsIconPhone} src="/images/icons/phone.svg" alt="" width={16} height={16} />
               <div className={styles.contactsPhone}>8 (727) 344-99-00</div>
               <Image src="/images/icons/arrow-down.svg" alt="Arrow Down" width={16} height={16} />
             </button>

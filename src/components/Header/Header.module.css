@@ -71,6 +71,7 @@
 .headerSchedule {
   font-size: 14px;
   font-weight: 300;
+  color: var(--grey-90); 
 }
 
 .menuList {
@@ -92,6 +93,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  color: var(--grey-90);
 }
 
 .categoryBtn:hover {
@@ -155,6 +157,7 @@
   flex-direction: column;
   align-items: center;
   cursor: pointer;
+  color: var(--grey-90);
 }
 
 .actionCount {

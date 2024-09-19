@@ -1,0 +1,19 @@
+.product-card__arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 10;
+  transform: translateY(-50%);
+}
+
+.product-card__arrow_prev {
+  left: 0;
+}
+
+.product-card__arrow_next {
+  right: 0;
+}
+
+.product-card-arrow__icon {
+  width: 20px;
+  height: 20px;
+}

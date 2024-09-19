@@ -78,7 +78,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
       <Link href={`${cityPrefix}/p/${product.uri}`} className={styles.productCardTitle} title={product.title}>
         {product.title}
       </Link>
-      <div className={styles.productCardReviews}>
+      <div className={styles.reviews}>
         {product.reviews ? (
           <>
             <Image className={styles.reviewsIcon} src="/images/icons/star.svg" alt="" width={20} height={20} />
@@ -91,13 +91,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
           <span className={styles.reviewsText}>Нет отзывов</span>
         )}
       </div>
-      <div className={styles.productCardFooter}>
-        <div className={styles.productCardPrice}>
-          {product.price_from ? <span className={styles.productCardPriceActual}>от {formatPrice(product.price)} ₸</span> : <span className={styles.productCardPriceActual}>{formatPrice(product.price)} ₸</span>}
-          {product.old_price && <span className={styles.productCardPriceDiscount}>{formatPrice(product.old_price)} ₸</span>}
+      {type === "day" ? (
+        <div className={styles.productCardFooter}>
+          <div className={styles.productCardPrice}>
+            {product.price_from ? <span className={styles.productCardPriceActual}>от {formatPrice(product.price)} ₸</span> : <span className={styles.productCardPriceActual}>{formatPrice(product.price)} ₸</span>}
+            {product.old_price && <span className={styles.productCardPriceDiscount}>{formatPrice(product.old_price)} ₸</span>}
+          </div>
+          <button className={styles.productCardButtonCart}>Купить</button>
         </div>
-        <button className={styles.productCardButtonCart}>Купить</button>
-      </div>
+      ) : (
+        <>
+          <div className={styles.productCardFooter}>
+            <div className={styles.productCardPrice}>
+              {product.price_from ? <span className={styles.productCardPriceActual}>от {formatPrice(product.price)} ₸</span> : <span className={styles.productCardPriceActual}>{formatPrice(product.price)} ₸</span>}
+              {product.old_price && <span className={styles.productCardPriceDiscount}>{formatPrice(product.old_price)} ₸</span>}
+            </div>
+          </div>
+          <button className={styles.productCardButtonCart}>Купить</button>
+        </>
+      )}
     </div>
   );
 };
