@@ -17,7 +17,7 @@ interface BreadcrumbsProps {
   productName?: string;
 }
 
-const fetchBreadcrumbsData = async (code: string, selectedCityUri: string): Promise<Breadcrumb[]> => {
+const fetchBreadcrumbsData = async (code: string, selectedCityUri: string, category_code: string): Promise<Breadcrumb[]> => {
   try {
     const response = await fetch(`http://localhost:8080/api/breadcrumbs/${code || category_code}`);
     if (!response.ok) {

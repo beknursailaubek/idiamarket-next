@@ -4,6 +4,7 @@ import ProductSlider from "@/components/ProductSlider/ProductSlider";
 import styles from "./Product.module.css";
 import Attributes from "@/components/Attributes/Attributes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
+import { getProductsByCategory } from "@/lib/actions";
 
 interface Product {
   sku: string;
@@ -47,7 +48,7 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
 
   const category_code = product?.categories[product?.categories?.length - 1]?.category_code;
 
-  const isTorgovyeStellazhi = product.categories.some((category) => category.category_code === "torgovye-stellazhi");
+  const isTorgovyeStellazhi = product?.categories.some((category) => category.category_code === "torgovye-stellazhi");
 
   return (
     <div className="container">
