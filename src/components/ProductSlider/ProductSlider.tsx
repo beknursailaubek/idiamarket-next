@@ -14,7 +14,7 @@ import "swiper/css/thumbs";
 // import required modules
 import { Navigation, FreeMode, Thumbs } from "swiper/modules";
 
-const ProductSlider = ({ images: string }) => {
+const ProductSlider = ({ images }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   const [transformOrigin, setTransformOrigin] = useState("center center");

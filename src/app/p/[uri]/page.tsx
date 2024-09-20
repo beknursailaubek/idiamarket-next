@@ -4,7 +4,6 @@ import ProductSlider from "@/components/ProductSlider/ProductSlider";
 import styles from "./Product.module.css";
 import Attributes from "@/components/Attributes/Attributes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
-import { getProductsByCategory } from "@/lib/actions";
 
 interface Product {
   sku: string;
