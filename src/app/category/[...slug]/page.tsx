@@ -1,8 +1,10 @@
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import ProductCard from "@/components/ProductCard/ProductCard";
 import styles from "./Category.module.css";
+import Filter from "@/components/Filter/Filter";
 
 const getProductWord = (count: number): string => {
   switch (true) {
@@ -37,7 +39,7 @@ async function getProductsByCategory(category_code: string): Promise<{ products:
   const res = await fetch(`http://localhost:8080/api/categories/${category_code}`);
 
   if (!res.ok) {
-    throw new Error(`HTTP error! status: ${res.status}`);
+    notFound();
   }
 
   const data = await res.json();
@@ -55,6 +57,8 @@ export default async function CategoryPage({ params }: { params: { slug: string[
     <div className="container">
       <Breadcrumbs />
       <div className={styles.categoryPage}>
+        <Filter />
+
         <div className={styles.categoryPageBody}>
           <div className={styles.categoryPageHeader}>
             <div className={styles.categoryPageInfo}>

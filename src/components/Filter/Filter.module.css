@@ -1,0 +1,145 @@
+.filter {
+  max-width: 310px;
+  height: 100%;
+  width: 100%;
+}
+
+.filterBody {
+  padding: 20px;
+  background: var(--white);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.selected-filters {
+  padding: 20px;
+  background: var(--white);
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.selected-filters__title {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.selected-filters__items {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.selected-filters__remove {
+  display: flex;
+  align-items: center;
+  color: var(--grey-light);
+  height: 30px;
+  cursor: pointer;
+  padding: 7px 10px;
+  border: 1px solid var(--grey-light);
+  border-radius: 8px;
+}
+
+.selected-filters__remove span::first-letter {
+  text-transform: uppercase;
+}
+
+.selected-filters__reset {
+  height: 40px;
+  padding: 10px 10px 10px 30px;
+  border: 1px solid var(--grey-light);
+  width: 100%;
+  color: var(--grey-light);
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.filterTitle {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.filterBars {
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filterBar {
+  position: relative;
+  width: 120px;
+  height: 40px;
+}
+
+.filterBarLabel {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+}
+
+.filterBarInput {
+  width: 120px;
+  height: 40px;
+  padding: 10px 10px 10px 30px;
+  border: 1px solid var(--grey-light);
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.filter-bar__input:hover {
+  border-color: black;
+}
+
+.filter-bar__input:focus {
+  border-color: var(--red);
+}
+
+.filter-bar__label {
+  font-size: 12px;
+  color: var(--grey-light);
+}
+
+.filterBarDevider {
+  color: var(--grey-light);
+}
+
+.priceRange {
+  position: relative;
+  height: 15px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.priceRangeSlider {
+  -webkit-appearance: none;
+  width: 100%;
+  position: absolute;
+  pointer-events: none;
+}
+
+.priceRangeSliderMin {
+  z-index: 2;
+  pointer-events: auto;
+}
+
+.priceRangeSliderMax {
+  z-index: 3;
+  pointer-events: auto;
+}
+
+.priceRangeTrack {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 2px;
+  background: var(--red);
+  z-index: 1;
+}

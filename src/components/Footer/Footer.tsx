@@ -91,12 +91,12 @@ const Footer = () => {
 
               <ul className={styles.footerMenu}>
                 <li className={styles.footerItem}>
-                  <Link href={`/category/stellazhi/hrefrgovye`} className={styles.footerLink}>
+                  <Link href={`/category/stellazhi/torgovye-stellazhi`} className={styles.footerLink}>
                     Торговые стеллажи
                   </Link>
                 </li>
                 <li className={styles.footerItem}>
-                  <Link href={`/category/hrefrgovoe-oborudovanie`} className={styles.footerLink}>
+                  <Link href={`/category/torgovoe-oborudovanie`} className={styles.footerLink}>
                     Торговое оборудование
                   </Link>
                 </li>

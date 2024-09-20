@@ -48,12 +48,12 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ onBreadcrumbClick, code, prod
   }, []);
 
   useEffect(() => {
-    if (!isClient || !selectedCity) return; // Ensure selectedCity is defined
+    if (!isClient || !selectedCity) return;
     const pathnames = pathname.split("/").filter((x) => x);
     const categoryCode = code || pathnames[pathnames.length - 1];
 
     const fetchAndSetBreadcrumbs = async () => {
-      const data = await fetchBreadcrumbsData(categoryCode, selectedCity.uri, categoryCode); // Ensure all arguments are provided
+      const data = await fetchBreadcrumbsData(categoryCode, selectedCity.uri, categoryCode);
 
       if (productName) {
         data.push({
