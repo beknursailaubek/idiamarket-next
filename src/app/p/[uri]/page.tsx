@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import ProductSlider from "@/components/ProductSlider/ProductSlider";
 import styles from "./Product.module.css";
+import Attributes from "@/components/Attributes/Attributes";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 
 interface Product {
   sku: string;
@@ -19,6 +21,7 @@ interface Product {
     attributes?: { attribute: { title: string; value: string }; uri: string }[];
   };
   attributes?: { title: string; items: { title: string; value: string }[] }[];
+  categories?: { category_code: string }[];
 }
 
 async function fetchProductData(uri: string): Promise<Product | null> {
@@ -42,9 +45,15 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
     return new Intl.NumberFormat("ru-RU").format(price);
   };
 
+  const category_code = product?.categories[product?.categories?.length - 1]?.category_code;
+
+  const isTorgovyeStellazhi = product.categories.some((category) => category.category_code === "torgovye-stellazhi");
+
   return (
     <div className="container">
       <div className={styles.productPage}>
+        <Breadcrumbs code={category_code} productName={product?.title} />
+
         <div className={styles.productPageBody}>
           <div className={styles.productPageMain}>
             <div className={styles.productPageCard}>
@@ -52,7 +61,7 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
                 {product.stickers && product.stickers.length > 0 ? (
                   <div className={styles.productPageStickers}>
                     {product.stickers.map((label, index) => (
-                      <span key={index} style={{ background: `${label.background_color}` }} className="product-card__label">
+                      <span key={index} style={{ background: `${label.background_color}` }} className={styles.productPageStickersLabel}>
                         {label.title}
                       </span>
                     ))}
@@ -92,11 +101,11 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
                 <h1 className="title">{product.title}</h1>
                 {product.variants && product.variants.colors && product.variants.colors.length > 0 ? (
                   <div className={styles.productPageColors}>
-                    <p className={styles.productPageColorsTitle}>Цвета RAL:</p>
+                    <p className={styles.productPageColorsTitle}>{isTorgovyeStellazhi ? "Цвета RAL:" : "Цвета"}</p>
 
                     <div className={styles.productPageColorsList}>
-                      {product.variants.colors.map((variant) => (
-                        <Link href={`/p/${variant.uri}`} className={`${styles.productPageColorPallete} ${product.color.code === variant.color.code ? styles.productPageColorPalleteActive : null} `} style={{ backgroundColor: `${variant.color.hex}` }}></Link>
+                      {product.variants.colors.map((variant, index) => (
+                        <Link key={index} href={`/p/${variant.uri}`} className={`${styles.productPageColorPallete} ${product.color.code === variant.color.code ? styles.productPageColorPalleteActive : null} `} style={{ backgroundColor: `${variant.color.hex}` }} aria-label={product?.title}></Link>
                       ))}
                     </div>
                   </div>
@@ -107,7 +116,7 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
                     {product.old_price ? <span className={styles.productPagePriceDiscount}>{formatPrice(product.old_price)} ₸</span> : null}
                   </div>
 
-                  <button className={styles.productPageButtonCart}>Рассчитать</button>
+                  {isTorgovyeStellazhi ? <button className={styles.productPageButtonCart}>Рассчитать</button> : <button className={styles.productPageButtonCart}>Купить</button>}
                 </div>
 
                 {product.variants && product.variants.attributes && product.variants.attributes.length > 0 ? (
@@ -162,41 +171,7 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
             </div>
           </div>
 
-          <div className={`product-page__attributes attributes`}>
-            <h2 className="attributes__title title">Характеристики</h2>
-
-            <div className="attributes__list">
-              {product.attributes && product.attributes.length > 0
-                ? product.attributes.map((group, index) => (
-                    <div key={index} className="attributes__group">
-                      <p className="attributes-group__title">{group.title}</p>
-
-                      {group.items && group.items.length > 0 ? (
-                        // Group attributes by title and join values with commas
-                        <ul className="attributes__items">
-                          {Object.entries(
-                            group.items.reduce((acc, item) => {
-                              // Group by title
-                              if (!acc[item.title]) {
-                                acc[item.title] = [];
-                              }
-                              acc[item.title].push(item.value); // Collect values
-                              return acc;
-                            }, {})
-                          ).map(([title, values], idx) => (
-                            <li key={idx} className="attribute">
-                              <span className="attribute__title">{title}</span>
-                              {/* Join values with commas */}
-                              <span className="attribute__value">{values.join(", ")}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      ) : null}
-                    </div>
-                  ))
-                : null}
-            </div>
-          </div>
+          <Attributes attributes={product?.attributes} />
         </div>
       </div>
     </div>

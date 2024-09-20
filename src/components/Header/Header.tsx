@@ -37,7 +37,7 @@ const Header: React.FC = () => {
             <button className={styles.contacts}>
               <Image className={styles.contactsIconPhone} src="/images/icons/phone.svg" alt="" width={16} height={16} />
               <div className={styles.contactsPhone}>8 (727) 344-99-00</div>
-              <Image src="/images/icons/arrow-down.svg" alt="Arrow Down" width={16} height={16} />
+              <Image className={styles.contactsIcon} src="/images/icons/arrow-down.svg" alt="Arrow Down" width={16} height={16} />
             </button>
             <span className={styles.headerSchedule}>с 09:00 до 18:00 ежедневно</span>
           </div>
@@ -58,7 +58,7 @@ const Header: React.FC = () => {
       <header className={styles.headerBottom}>
         <div className={`${styles.headerInner} container`}>
           <button className={styles.categoryBtn}>
-            <Image src="/images/icons/category.svg" alt="Category" width={20} height={20} />
+            <Image src="/images/icons/category.svg" alt="Category" className={styles.categoryBtnIcon} width={20} height={20} />
             <span className={styles.categoryBtnTitle}>Категории</span>
           </button>
           <div className={styles.search} onClick={openSearch}>

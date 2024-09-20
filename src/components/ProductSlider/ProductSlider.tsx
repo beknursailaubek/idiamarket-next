@@ -47,10 +47,10 @@ const ProductSlider = ({ images }) => {
         </Swiper>
         <div className="product-page__nav">
           <button className="product-page__arrow product-page__arrow_prev">
-            <Image className="product-page-arrow__icon" src="/images/icons/arrow-left.svg" width={20} height={20} alt="" />
+            <Image className="product-page-arrow__icon" src="/images/icons/arrow-left.svg" width={20} height={20} alt="" aria-label="Кнопка слайдера" />
           </button>
           <button className="product-page__arrow product-page__arrow_next">
-            <Image className="product-page-arrow__icon" src="/images/icons/arrow-right.svg" width={20} height={20} alt="" />
+            <Image className="product-page-arrow__icon" src="/images/icons/arrow-right.svg" width={20} height={20} alt="" aria-label="Кнопка слайдера" />
           </button>
         </div>
       </div>

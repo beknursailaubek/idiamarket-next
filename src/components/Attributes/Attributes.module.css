@@ -1,0 +1,101 @@
+.attributes {
+  width: 100%;
+  position: relative;
+  padding: 50px 80px 60px;
+  background: var(--white);
+  border-radius: 8px;
+}
+.attributesTitle {
+  margin-bottom: 30px;
+}
+
+.attributesList {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.attributesGroup {
+  display: flex;
+  gap: 20px;
+}
+
+.attributesGroupTitle {
+  color: var(--grey);
+  font-weight: 700;
+  max-width: 300px;
+  width: 100%;
+}
+
+.attributesItems {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.attribute {
+  width: 100%;
+  display: flex;
+  border-bottom: 1px solid rgba(238, 239, 240);
+  padding: 10px 0;
+}
+
+.attribute:first-child {
+  padding-top: 0;
+}
+
+.attributeTitle {
+  width: 50%;
+  color: var(--grey);
+}
+
+.attributeValue {
+  width: 50%;
+  color: var(--grey);
+}
+
+.attributesHide {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.attributesHidden {
+  height: 300px;
+  overflow-y: hidden;
+}
+
+.attributesHidden::before {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 200px;
+  content: "";
+  background: linear-gradient(180deg, hsla(0, 0%, 100%, 0), #fff 66.15%);
+  border-radius: 8px;
+}
+
+.attributesBtn {
+  height: 40px;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.attributesBtnText {
+  color: var(--blue-light);
+  font-size: 14px;
+}
+
+.attributesBtnImg {
+  filter: invert(43%) sepia(97%) saturate(2347%) hue-rotate(189deg) brightness(105%) contrast(91%);
+}
