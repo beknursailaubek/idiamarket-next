@@ -40,7 +40,7 @@ const fetchBreadcrumbsData = async (code: string, selectedCityUri: string, categ
 const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ onBreadcrumbClick, code, productName }) => {
   const pathname = usePathname();
   const [breadcrumbs, setBreadcrumbs] = useState<Breadcrumb[]>([]);
-  const { selectedCity } = useContext(CityContext);
+  const { selectedCity } = useContext(CityContext) || {};
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -48,12 +48,12 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ onBreadcrumbClick, code, prod
   }, []);
 
   useEffect(() => {
-    if (!isClient) return;
+    if (!isClient || !selectedCity) return; // Ensure selectedCity is defined
     const pathnames = pathname.split("/").filter((x) => x);
     const categoryCode = code || pathnames[pathnames.length - 1];
 
     const fetchAndSetBreadcrumbs = async () => {
-      const data = await fetchBreadcrumbsData(categoryCode, selectedCity.uri);
+      const data = await fetchBreadcrumbsData(categoryCode, selectedCity.uri, categoryCode); // Ensure all arguments are provided
 
       if (productName) {
         data.push({
@@ -66,7 +66,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ onBreadcrumbClick, code, prod
     };
 
     fetchAndSetBreadcrumbs();
-  }, [isClient, selectedCity.uri, code, productName, pathname]);
+  }, [isClient, selectedCity?.uri, code, productName, pathname]);
 
   const handleBreadcrumbClick = (breadcrumb: Breadcrumb) => {
     if (onBreadcrumbClick) {

@@ -4,6 +4,7 @@ import { useState } from "react";
 import "./ProductSlider.css";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper as SwiperClass } from "swiper";
 
 // Import Swiper styles
 import "swiper/css";
@@ -14,14 +15,18 @@ import "swiper/css/thumbs";
 // import required modules
 import { Navigation, FreeMode, Thumbs } from "swiper/modules";
 
-const ProductSlider = ({ images }) => {
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+type ProductSliderProps = {
+  images: string[];
+};
+
+const ProductSlider: React.FC<ProductSliderProps> = ({ images }) => {
+  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
 
   const [transformOrigin, setTransformOrigin] = useState("center center");
   const [transform, setTransform] = useState("scale(1)");
 
-  const handleMouseMove = (e) => {
-    const { left, top, width, height } = e.target.getBoundingClientRect();
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - left) / width) * 100;
     const y = ((e.clientY - top) / height) * 100;
     setTransformOrigin(`${x}% ${y}%`);
