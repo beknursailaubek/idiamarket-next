@@ -3,7 +3,21 @@ import React, { useState } from "react";
 import Image from "next/image";
 import styles from "./Attributes.module.css";
 
-const Attributes = ({ attributes }) => {
+type AttributeItem = {
+  title: string;
+  value: string;
+};
+
+type AttributeGroup = {
+  title: string;
+  items: AttributeItem[];
+};
+
+type AttributesProps = {
+  attributes: AttributeGroup[];
+};
+
+const Attributes: React.FC<AttributesProps> = ({ attributes }) => {
   const [isAttributesHidden, setIsAttributesHidden] = useState(true);
 
   const toggleAttributesHidden = () => {
@@ -21,10 +35,9 @@ const Attributes = ({ attributes }) => {
                 <p className={styles.attributesGroupTitle}>{group.title}</p>
 
                 {group.items && group.items.length > 0 ? (
-                  // Group attributes by title and join values with commas
                   <ul className={styles.attributesItems}>
                     {Object.entries(
-                      group.items.reduce((acc, item) => {
+                      group.items.reduce<Record<string, string[]>>((acc, item) => {
                         // Group by title
                         if (!acc[item.title]) {
                           acc[item.title] = [];
@@ -32,10 +45,9 @@ const Attributes = ({ attributes }) => {
                         acc[item.title].push(item.value); // Collect values
                         return acc;
                       }, {})
-                    ).map(([title, values], idx) => (
+                    ).map(([title, values], idx: number) => (
                       <li key={idx} className={styles.attribute}>
                         <span className={styles.attributeTitle}>{title}</span>
-                        {/* Join values with commas */}
                         <span className={styles.attributeValue}>{values.join(", ")}</span>
                       </li>
                     ))}
