@@ -5,17 +5,7 @@ import styles from "./Search.module.css";
 import Filter from "@/components/Filter/Filter";
 import Sort from "@/components/Sort/Sort";
 import CardViews from "@/components/CardViews/CardViews";
-
-const getProductWord = (count: number): string => {
-  switch (true) {
-    case count % 10 === 1 && count % 100 !== 11:
-      return "товар";
-    case [2, 3, 4].includes(count % 10) && ![12, 13, 14].includes(count % 100):
-      return "товара";
-    default:
-      return "товаров";
-  }
-};
+import { getProductWord } from "@/lib/utils";
 
 interface Product {
   sku: string;
@@ -53,7 +43,7 @@ export default async function SearchPage({ params }: { params: { slug: string[] 
   return (
     <div className="container">
       <div className={styles.searchPage}>
-        <Filter />
+        <Filter products={products} />
 
         <div className={styles.searchPageBody}>
           <div className={styles.searchPageHeader}>
