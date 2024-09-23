@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ProductCard from "@/components/ProductCard/ProductCard";

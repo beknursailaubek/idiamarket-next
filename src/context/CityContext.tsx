@@ -1,26 +1,22 @@
-"use client"; // Add this at the top to indicate it's a Client Component
+"use client";
 
 import React, { createContext, useState, useEffect, ReactNode } from "react";
-import { usePathname } from "next/navigation"; // Replace useRouter with usePathname from next/navigation
+import { usePathname } from "next/navigation";
 
-// Define the type for City
 interface City {
   title: string;
   uri: string;
   code: string;
 }
 
-// Define the context type
 interface CityContextProps {
   selectedCity: City;
   setSelectedCity: (city: City) => void;
   cities: City[];
 }
 
-// Create the CityContext with an empty default value
 export const CityContext = createContext<CityContextProps | undefined>(undefined);
 
-// Define the type for the provider's children prop
 interface CityProviderProps {
   children: ReactNode;
 }
@@ -48,9 +44,8 @@ const cities: City[] = [
   { title: "Усть-Каменогорск", uri: "ust-kamenogorsk", code: "ust-kamenogorsk" },
 ];
 
-// Define the CityProvider component
 export const CityProvider: React.FC<CityProviderProps> = ({ children }) => {
-  const pathname = usePathname(); // use usePathname instead of useRouter
+  const pathname = usePathname();
   const [selectedCity, setSelectedCity] = useState<City>(cities.find((city) => city.code === "almaty")!);
 
   useEffect(() => {
@@ -64,9 +59,5 @@ export const CityProvider: React.FC<CityProviderProps> = ({ children }) => {
     }
   }, [pathname]);
 
-  return (
-    <CityContext.Provider value={{ selectedCity, setSelectedCity, cities }}>
-      {children}
-    </CityContext.Provider>
-  );
+  return <CityContext.Provider value={{ selectedCity, setSelectedCity, cities }}>{children}</CityContext.Provider>;
 };

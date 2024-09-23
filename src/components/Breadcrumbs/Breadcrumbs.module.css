@@ -7,12 +7,7 @@
 .breadcrumb {
   color: var(--grey-light);
   font-size: 14px;
-  transition: all 0.2s ease-in-out;
-}
-
-.breadcrumb:last-child {
-  color: var(--grey-light);
-  font-size: 14px;
+  line-height: 17px;
   transition: all 0.2s ease-in-out;
 }
 

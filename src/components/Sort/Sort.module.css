@@ -1,0 +1,51 @@
+.sort {
+  position: relative;
+}
+
+.sortWrapper {
+  height: 32px;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 220px;
+  font-size: 14px;
+  color: var(--grey-90);
+  background: var(--white);
+  border-radius: 8px;
+}
+
+.sortIcon {
+  margin-right: 8px;
+}
+
+.sortIconArrow {
+  width: 16px;
+  height: 16px;
+  margin-left: auto;
+}
+
+.sortOptions {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-radius: 8px;
+}
+
+.sortOption {
+  height: 32px;
+  padding: 10px;
+  font-size: 14px;
+  color: var(--grey-90);
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.sortOptionSelected {
+}

@@ -1,0 +1,136 @@
+.searchModal {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 70px;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.searchModalContent {
+  display: flex;
+  gap: 80px;
+  max-width: 1000px;
+  height: 60vh;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 50px 50px;
+  background-color: var(--white);
+  border-radius: 0 0 8px 8px;
+}
+
+.searchModalInfo {
+  width: 50%;
+}
+
+.searchSuggestions {
+  height: 50%;
+}
+
+.searchOften {
+  height: 50%;
+}
+
+.searchHistory {
+  height: 50%;
+}
+
+.searchModalTitle {
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--grey-90);
+}
+
+.searchModalResults {
+  width: 50%;
+  height: 100%;
+}
+
+.searchResults {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.searchResults::-webkit-scrollbar {
+  width: 4px;
+}
+
+.searchResults::-webkit-scrollbar-thumb {
+  background: #c0c5c9;
+  border-radius: 2px;
+}
+
+.searchResults::-webkit-scrollbar-thumb:hover {
+  background: #606971;
+}
+
+.searchResults::-webkit-scrollbar-track {
+  background: var(--white);
+}
+
+.searchResults {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.searchCard {
+  display: flex;
+  gap: 10px;
+  padding: 5px 10px;
+}
+
+.searchCard:hover {
+  background-color: #ecf7ff;
+}
+
+.searchCardImage {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.searchCardTitle {
+  display: -webkit-box;
+  font-size: 14px;
+  color: var(--grey-90);
+  margin-bottom: 5px;
+}
+
+.searchOftenItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.searchOftenRedirect {
+  display: inline-block;
+  color: var(--grey-light);
+  padding: 4px 8px;
+  border: 1px solid var(--grey-light);
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.searchOftenRedirect:hover {
+  color: var(--white);
+  background: var(--red);
+  border-color: var(--red);
+}
+
+.searchHistoryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.searchHistoryList {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.searchHistoryRedirect {
+  color: var(--grey-90);
+}

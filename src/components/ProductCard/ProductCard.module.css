@@ -8,6 +8,10 @@
   line-height: 1;
 }
 
+.productCard:hover {
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08), 0 -4px 12px 0 rgba(0, 0, 0, 0.05);
+}
+
 .productCardDay {
   display: flex;
   flex-direction: column;

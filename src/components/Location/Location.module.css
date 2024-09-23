@@ -1,0 +1,85 @@
+.locationModal {
+  width: 640px;
+  height: 612px;
+  background: #fff;
+  border-radius: 8px;
+  user-select: none;
+  overflow: hidden;
+}
+
+.locationModalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  position: relative;
+  height: 100%;
+}
+
+.locationModalTitle {
+  color: var(--grey-90);
+  margin-top: 10px;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.locationModalText {
+  text-align: start;
+  margin-top: 8px;
+  color: var(--grey);
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.locationModalCities {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  margin-top: 12px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  background-color: #f4f4f4;
+  font-weight: 700;
+  line-height: 22px;
+  transition: all 0.3s ease;
+  overflow-y: scroll;
+}
+
+.locationModalCities::-webkit-scrollbar {
+  width: 4px;
+}
+
+.locationModalCities::-webkit-scrollbar-thumb {
+  background: #c0c5c9;
+  border-radius: 2px;
+}
+
+.locationModalCities::-webkit-scrollbar-thumb:hover {
+  background: #606971;
+}
+
+.locationModalCities::-webkit-scrollbar-track {
+  background: var(--white);
+}
+
+.locationModalCity {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  color: var(--grey);
+  font-size: 16px;
+  padding: 5px 5px;
+  transition: all 0.3s ease;
+}
+
+.locationModalCityActive {
+  font-weight: 700;
+  color: var(--green);
+}
+
+.locationModalCityIcon {
+  /* Optional styling for icons */
+}

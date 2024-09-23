@@ -5,6 +5,8 @@ import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import ProductCard from "@/components/ProductCard/ProductCard";
 import styles from "./Category.module.css";
 import Filter from "@/components/Filter/Filter";
+import Sort from "@/components/Sort/Sort";
+import CardViews from "@/components/CardViews/CardViews";
 
 const getProductWord = (count: number): string => {
   switch (true) {
@@ -49,8 +51,6 @@ async function getProductsByCategory(category_code: string): Promise<{ products:
 // This is now an async server component
 export default async function CategoryPage({ params }: { params: { slug: string[] } }) {
   const category_code = params.slug[params.slug.length - 1] || "";
-
-  // Fetch data directly inside the component
   const { products, category } = await getProductsByCategory(category_code);
 
   return (
@@ -60,24 +60,48 @@ export default async function CategoryPage({ params }: { params: { slug: string[
         <Filter />
 
         <div className={styles.categoryPageBody}>
-          <div className={styles.categoryPageHeader}>
-            <div className={styles.categoryPageInfo}>
-              <h1 className={`title ${styles.categoryPageTitle}`}>{category.title}</h1>
-              <span className={styles.categoryPageCount}>
-                {products.length === 1 ? "Найден" : "Найдено"} {products.length} {getProductWord(products.length)}
-              </span>
-            </div>
-          </div>
           {category.children && category.children.length > 0 ? (
-            <div className={styles.categoryPageRedirects}>
-              {category.children.map((redirect) => (
-                <Link href={`/category/${redirect.uri}`} className={styles.categoryPageRedirect} key={redirect.uri}>
-                  {redirect.image ? <Image className={styles.redirectImage} src={redirect.image} alt={redirect.title} width={200} height={200} /> : null}
-                  {redirect.title}
-                </Link>
-              ))}
-            </div>
-          ) : null}
+            <>
+              <div className={styles.categoryPageInfo}>
+                <h1 className={`title ${styles.categoryPageTitle}`}>{category.title}</h1>
+              </div>
+              <div className={styles.categoryPageRedirects}>
+                {category.children.map((redirect) => (
+                  <Link href={`/category/${redirect.uri}`} className={styles.categoryPageRedirect} key={redirect.uri}>
+                    {redirect.image ? <Image className={styles.redirectImage} src={redirect.image} alt={redirect.title} width={200} height={200} /> : null}
+                    {redirect.title}
+                  </Link>
+                ))}
+              </div>
+
+              <div className={styles.categoryPageHeader}>
+                <span className={styles.categoryPageCount}>
+                  {products.length === 1 ? "Найден" : "Найдено"} {products.length} {getProductWord(products.length)}
+                </span>
+                <div className="flex gap-[20px]">
+                  <Sort />
+                  <CardViews />
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className={styles.pageHeader}>
+                <div className={styles.categoryPageInfo}>
+                  <h1 className={`title ${styles.pageTitle}`}>{category.title}</h1>
+                  <span className={styles.categoryPageCount}>
+                    {products.length === 1 ? "Найден" : "Найдено"} {products.length} {getProductWord(products.length)}
+                  </span>
+                </div>
+
+                <div className="flex gap-[20px]">
+                  <Sort />
+                  <CardViews />
+                </div>
+              </div>
+            </>
+          )}
+
           <div>
             {products && products.length > 0 ? (
               <div className={styles.categoryPageProducts}>

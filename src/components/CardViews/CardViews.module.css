@@ -1,0 +1,28 @@
+.views {
+  display: flex;
+  gap: 5px;
+}
+
+.view {
+  height: 32px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.viewActive {
+  background: var(--red);
+}
+
+.viewActive .viewImage {
+  filter: invert(99%) sepia(18%) saturate(488%) hue-rotate(318deg) brightness(115%) contrast(100%);
+}
+
+.viewImage {
+  height: 18px;
+  width: 18px;
+}
