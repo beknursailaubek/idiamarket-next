@@ -25,6 +25,7 @@ interface Product {
   rating: number;
   price: number;
 }
+
 interface SearchPageProps {
   products: Product[];
 }

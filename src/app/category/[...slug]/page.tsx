@@ -57,7 +57,7 @@ export default async function CategoryPage({ params }: { params: { slug: string[
     <div className="container">
       <Breadcrumbs />
       <div className={styles.categoryPage}>
-        <Filter />
+        <Filter />  
 
         <div className={styles.categoryPageBody}>
           {category.children && category.children.length > 0 ? (
