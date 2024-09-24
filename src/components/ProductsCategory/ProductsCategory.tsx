@@ -118,7 +118,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData 
               ))}
             </div>
 
-        54    <div className={styles.categoryPageHeader}>
+            <div className={styles.categoryPageHeader}>
               <span className={styles.categoryPageCount}>
                 {pagination.totalProducts === 1 ? "Найден" : "Найдено"} {pagination.totalProducts} {getProductWord(pagination.totalProducts)}
               </span>
