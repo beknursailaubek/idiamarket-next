@@ -1,37 +1,17 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ProductCard from "@/components/ProductCard/ProductCard";
-import styles from "./ProductsCategory.module.css";
+import styles from "./ProductsSearch.module.css";
 import Filter from "@/components/Filter/Filter";
 import Sort from "@/components/Sort/Sort";
 import CardViews from "@/components/CardViews/CardViews";
-import Pagination from "@/components/Pagination/Pagination";
 import { getProductWord } from "@/lib/utils";
-import { useRouter, useSearchParams } from "next/navigation";
 
-export const ProductsCategory = ({ initialData }) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const [data, setData] = useState(initialData);
-  const { products, category, pagination } = data;
-  const { totalPages, currentPage } = pagination;
+export const ProductsSearch = ({ products, title }) => {
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [sortOption, setSortOption] = useState("");
-
-  // Fetch new products whenever the page number changes
-  useEffect(() => {
-    const page = searchParams.get("page") || "1";
-    const fetchData = async () => {
-      const res = await fetch(`http://localhost:8080/api/categories/${category.category_code}?page=${page}`);
-      const newData = await res.json();
-      setData(newData);
-      setFilteredProducts(newData.products); // Update filtered products as well
-    };
-    fetchData();
-  }, [searchParams]);
 
   useEffect(() => {
     sortProducts(products, sortOption);
@@ -95,55 +75,26 @@ export const ProductsCategory = ({ initialData }) => {
   };
 
   return (
-    <div className={styles.categoryPage}>
+    <div className={styles.searchPage}>
       <Filter products={products} onFilterChange={handleFilterChange} />
 
-      <div className={styles.categoryPageBody}>
-        {category.children && category.children.length > 0 ? (
-          <>
-            <div className={styles.categoryPageInfo}>
-              <h1 className={`title ${styles.categoryPageTitle}`}>{category.title}</h1>
-            </div>
-            <div className={styles.categoryPageRedirects}>
-              {category.children.map((redirect) => (
-                <Link href={`/category/${redirect.uri}`} className={styles.categoryPageRedirect} key={redirect.uri}>
-                  {redirect.image ? <Image className={styles.redirectImage} src={redirect.image} alt={redirect.title} width={200} height={200} /> : null}
-                  {redirect.title}
-                </Link>
-              ))}
-            </div>
-
-            <div className={styles.categoryPageHeader}>
-              <span className={styles.categoryPageCount}>
-                {filteredProducts.length === 1 ? "Найден" : "Найдено"} {pagination.totalProducts} {getProductWord(filteredProducts.length)}
-              </span>
-              <div className="flex gap-[20px]">
-                <Sort onSortChange={handleSortChange} />
-                <CardViews />
-              </div>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className={styles.pageHeader}>
-              <div className={styles.categoryPageInfo}>
-                <h1 className={`title ${styles.pageTitle}`}>{category.title}</h1>
-                <span className={styles.categoryPageCount}>
-                  {filteredProducts.length === 1 ? "Найден" : "Найдено"} {filteredProducts.length} {getProductWord(products.length)}
-                </span>
-              </div>
-
-              <div className="flex gap-[20px]">
-                <Sort onSortChange={handleSortChange} />
-                <CardViews />
-              </div>
-            </div>
-          </>
-        )}
+      <div className={styles.searchPageBody}>
+        <div className={styles.searchPageHeader}>
+          <div className={styles.searchPageInfo}>
+            <h1 className={`title ${styles.searchPageTitle}`}>Результаты поиска: {title}</h1>
+            <span className={styles.searchPageCount}>
+              {products?.length === 1 ? "Найден" : "Найдено"} {products?.length} {getProductWord(products?.length)}
+            </span>
+          </div>
+          <div className="flex gap-[20px]">
+            <Sort />
+            <CardViews />
+          </div>
+        </div>
 
         <div>
           {filteredProducts && filteredProducts.length > 0 ? (
-            <div className={styles.categoryPageProducts}>
+            <div className={styles.searchPageProducts}>
               {filteredProducts.map((product) => (
                 <ProductCard type="" key={product.sku} product={product} />
               ))}
@@ -152,7 +103,6 @@ export const ProductsCategory = ({ initialData }) => {
             <div>Не найдено</div>
           )}
         </div>
-        {pagination && pagination.totalPages > 1 && <Pagination totalPages={totalPages} currentPage={currentPage} />}
       </div>
     </div>
   );

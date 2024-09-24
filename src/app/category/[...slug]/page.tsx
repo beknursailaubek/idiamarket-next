@@ -2,28 +2,13 @@ import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { ProductsCategory } from "@/components/ProductsCategory/ProductsCategory";
 
-interface Product {
-  sku: string;
-  title: string;
-  images: string[];
-  uri: string;
-  rating: number;
-  price: number;
-}
-
-interface Category {
-  title: string;
-  children?: Array<{ uri: string; image?: string; title: string }>;
-}
-
 interface CategoryPageProps {
-  products: Product[];
-  category: Category;
+  params: { slug: string[] };
+  searchParams: { [key: string]: string };
 }
 
-async function getProductsByCategory(category_code: string): Promise<{ products: Product[]; category: Category }> {
-  const res = await fetch(`http://localhost:8080/api/categories/${category_code}`);
-
+async function getProductsByCategory(category_code: string, page: number = 1): Promise<{ products: Product[]; category: Category }> {
+  const res = await fetch(`http://localhost:8080/api/categories/${category_code}?page=${page}&limit=20`, { cache: "no-store" });
   if (!res.ok) {
     notFound();
   }
@@ -32,15 +17,16 @@ async function getProductsByCategory(category_code: string): Promise<{ products:
   return data;
 }
 
-// This is now an async server component
-export default async function CategoryPage({ params }: { params: { slug: string[] } }) {
+export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const category_code = params.slug[params.slug.length - 1] || "";
-  const { products, category } = await getProductsByCategory(category_code);
+  const page = parseInt(searchParams.page || "1", 10);
+
+  const data = await getProductsByCategory(category_code, page);
 
   return (
     <div className="container">
       <Breadcrumbs />
-      <ProductsCategory products={products} category={category} />
+      <ProductsCategory initialData={data} />
     </div>
   );
 }
