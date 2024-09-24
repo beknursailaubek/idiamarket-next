@@ -11,44 +11,48 @@ import CardViews from "@/components/CardViews/CardViews";
 import Pagination from "@/components/Pagination/Pagination";
 import { getProductWord } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
+import { InitialData, Product, Filters } from "@/types";
 
-export const ProductsCategory = ({ initialData }) => {
+interface ProductsCategoryProps {
+  initialData: InitialData;
+}
+
+export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState<InitialData>(initialData);
   const { products, category, pagination } = data;
   const { totalPages, currentPage } = pagination;
-  const [filteredProducts, setFilteredProducts] = useState(products);
-  const [sortOption, setSortOption] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+  const [sortOption, setSortOption] = useState<string>("");
 
-  // Fetch new products whenever the page number changes
   useEffect(() => {
     const page = searchParams.get("page") || "1";
     const fetchData = async () => {
       const res = await fetch(`http://localhost:8080/api/categories/${category.category_code}?page=${page}`);
       const newData = await res.json();
       setData(newData);
-      setFilteredProducts(newData.products); // Update filtered products as well
+      setFilteredProducts(newData.products);
     };
     fetchData();
-  }, [searchParams]);
+  }, [searchParams, category.category_code]);
 
   useEffect(() => {
     sortProducts(products, sortOption);
-  }, [sortOption]);
+  }, [sortOption, products]);
 
-  const handleFilterChange = (filters) => {
+  const handleFilterChange = (filters: Filters) => {
     const { priceRange, colors, attributes } = filters;
 
     const filtered = products.filter((product) => {
-      const productPrice = parseInt(product.price, 10);
+      const productPrice = parseFloat(product.price); // Преобразуем строку в число
       const priceMatch = productPrice >= priceRange[0] && productPrice <= priceRange[1];
-      const colorMatch = colors.length === 0 || (product.color && colors.includes(product.color.code));
+      const colorMatch = colors.length === 0 || (product && product.color && colors.includes(product.color.code));
       const attributeMatch = Object.entries(attributes).every(([attrCode, values]) => {
         return values.some((selectedValue) => {
           return product.attributes.some((attribute) => {
             return attribute.items.some((item) => {
-              return item.attribute_values === selectedValue || item.value === selectedValue;
+              return item.value === selectedValue;
             });
           });
         });
@@ -58,10 +62,10 @@ export const ProductsCategory = ({ initialData }) => {
     });
 
     setFilteredProducts(filtered);
-    sortProducts(filtered, sortOption); // Keep the sort order after filtering
+    sortProducts(filtered, sortOption);
   };
 
-  const handleSortChange = (selectedSortOption) => {
+  const handleSortChange = (selectedSortOption: string) => {
     setSortOption(selectedSortOption);
     sortProducts(filteredProducts, selectedSortOption);
   };
@@ -74,19 +78,19 @@ export const ProductsCategory = ({ initialData }) => {
         break;
       case "По скидке":
         sortedProducts.sort((a, b) => {
-          const discountA = a.old_price ? a.old_price - a.price : 0;
-          const discountB = b.old_price ? b.old_price - b.price : 0;
+          const discountA = a.old_price ? parseFloat(a.old_price) - parseFloat(a.price) : 0;
+          const discountB = b.old_price ? parseFloat(b.old_price) - parseFloat(b.price) : 0;
           return discountB - discountA;
         });
         break;
       case "По новизне":
-        sortedProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
+        sortedProducts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
         break;
       case "По возрастанию цены":
-        sortedProducts.sort((a, b) => a.price - b.price);
+        sortedProducts.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
         break;
       case "По убыванию цены":
-        sortedProducts.sort((a, b) => b.price - a.price);
+        sortedProducts.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
         break;
       default:
         break;
@@ -104,6 +108,7 @@ export const ProductsCategory = ({ initialData }) => {
             <div className={styles.categoryPageInfo}>
               <h1 className={`title ${styles.categoryPageTitle}`}>{category.title}</h1>
             </div>
+
             <div className={styles.categoryPageRedirects}>
               {category.children.map((redirect) => (
                 <Link href={`/category/${redirect.uri}`} className={styles.categoryPageRedirect} key={redirect.uri}>
@@ -113,9 +118,9 @@ export const ProductsCategory = ({ initialData }) => {
               ))}
             </div>
 
-            <div className={styles.categoryPageHeader}>
+        54    <div className={styles.categoryPageHeader}>
               <span className={styles.categoryPageCount}>
-                {filteredProducts.length === 1 ? "Найден" : "Найдено"} {pagination.totalProducts} {getProductWord(filteredProducts.length)}
+                {pagination.totalProducts === 1 ? "Найден" : "Найдено"} {pagination.totalProducts} {getProductWord(pagination.totalProducts)}
               </span>
               <div className="flex gap-[20px]">
                 <Sort onSortChange={handleSortChange} />
@@ -129,7 +134,7 @@ export const ProductsCategory = ({ initialData }) => {
               <div className={styles.categoryPageInfo}>
                 <h1 className={`title ${styles.pageTitle}`}>{category.title}</h1>
                 <span className={styles.categoryPageCount}>
-                  {filteredProducts.length === 1 ? "Найден" : "Найдено"} {filteredProducts.length} {getProductWord(products.length)}
+                  {pagination.totalProducts === 1 ? "Найден" : "Найдено"} {pagination.totalProducts} {getProductWord(pagination.totalProducts)}
                 </span>
               </div>
 

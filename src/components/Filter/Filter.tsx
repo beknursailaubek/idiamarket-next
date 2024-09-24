@@ -107,7 +107,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
       }
       setTempMinPrice(value);
       setMinPrice(value); // Update slider in real-time
-      updateTrackBackground(value, tempMaxPrice);
     }
   };
 
@@ -119,7 +118,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
       }
       setTempMaxPrice(value);
       setMaxPrice(value); // Update slider in real-time
-      updateTrackBackground(tempMinPrice, value);
     }
   };
 
@@ -136,15 +134,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
     setMaxPrice(adjustedMaxPrice);
     setTempMinPrice(adjustedMinPrice);
     setTempMaxPrice(adjustedMaxPrice);
-    updateTrackBackground(adjustedMinPrice, adjustedMaxPrice);
-  };
-
-  const updateTrackBackground = (minPrice: number, maxPrice: number) => {
-    const minPercent = ((minPrice - minInitialPrice) / (maxInitialPrice - minInitialPrice)) * 100;
-    const maxPercent = ((maxPrice - minInitialPrice) / (maxInitialPrice - minInitialPrice)) * 100;
-
-    const track = document.querySelector(".price-range__track") as HTMLElement;
-    track.style.background = `linear-gradient(to right, var(--grey-light) 0%, var(--grey-light) ${minPercent}%, var(--red) ${minPercent}%, var(--red) ${maxPercent}%, var(--grey-light) ${maxPercent}%, var(--grey-light) 100%)`;
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -159,45 +148,12 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
     setSelectedColors(newSelectedColors);
   };
 
-  const handleAttributeChange = (attributeCode: string, valueCode: string) => {
-    const newAttributes = { ...selectedAttributes };
-
-    if (!newAttributes[attributeCode]) {
-      newAttributes[attributeCode] = [];
-    }
-
-    if (Array.isArray(newAttributes[attributeCode]) && newAttributes[attributeCode].includes(valueCode)) {
-      newAttributes[attributeCode] = newAttributes[attributeCode].filter((val) => val !== valueCode);
-    } else {
-      newAttributes[attributeCode] = [...(newAttributes[attributeCode] as string[]), valueCode];
-    }
-
-    if ((newAttributes[attributeCode] as string[]).length === 0) {
-      delete newAttributes[attributeCode];
-    }
-
-    setSelectedAttributes(newAttributes);
-  };
-
   const formatPrice = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };
 
   return (
     <div className={styles.filter}>
-      {selectedFilters.length > 0 && (
-        <div className={styles.selectedFilters}>
-          <p className={styles.selectedFiltersTitle}>Вы выбрали:</p>
-          <div className={styles.selectedFiltersItems}>
-            {selectedFilters.map((filter, index) => (
-              <button key={index} className={styles.selectedFiltersRemove} onClick={() => handleRemoveFilter(filter)}>
-                <span>{filter.label} X</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
       <div className={styles.filterBody}>
         {/* Price Filter Section */}
         <div className={styles.filterSection}>
@@ -219,11 +175,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
               <input className={styles.filterBarInput} type="text" id="maxPrice" value={formatPrice(tempMaxPrice)} onBlur={handlePriceChange} onKeyDown={handleKeyDown} onChange={handleMaxPriceChange} />
             </div>
           </div>
-          <div className={styles.priceRange}>
-            <input type="range" min={minInitialPrice} max={maxInitialPrice} value={tempMinPrice} onChange={handleMinPriceChange} className={styles.priceRangeSlider} />
-            <input type="range" min={minInitialPrice} max={maxInitialPrice} value={tempMaxPrice} onChange={handleMaxPriceChange} className={styles.priceRangeSlider} />
-            <div className={styles.priceRangeTrack}></div>
-          </div>
         </div>
 
         {/* Color Filter Section */}
@@ -241,22 +192,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
             </div>
           </div>
         )}
-
-        {/* Attribute Filter Section */}
-        {attributes.map((attribute, index) => (
-          <div key={`${attribute.title}-${index}`} className={styles.filterSection}>
-            <label className={styles.filterTitle}>{attribute.title}</label>
-            <div className={styles.filterAttributes}>
-              {attribute.values.map((value) => (
-                <label key={value} className={`${styles.filterAttribute} ${selectedAttributes[attribute.code]?.includes(value) ? styles.filterAttributeActive : ""}`}>
-                  <input type="checkbox" value={value} onChange={() => handleAttributeChange(attribute.code, value)} checked={selectedAttributes[attribute.code]?.includes(value)} />
-                  <span className={styles.filterAttributeCustomCheckbox}></span>
-                  <span className={styles.filterAttributeLabel}>{value}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   );

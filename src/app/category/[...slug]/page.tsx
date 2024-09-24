@@ -1,13 +1,16 @@
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { ProductsCategory } from "@/components/ProductsCategory/ProductsCategory";
+import { Product, Category, Pagination, InitialData } from "@/types";
 
 interface CategoryPageProps {
   params: { slug: string[] };
   searchParams: { [key: string]: string };
+  initialData: InitialData;
 }
 
-async function getProductsByCategory(category_code: string, page: number = 1): Promise<{ products: Product[]; category: Category }> {
+async function getProductsByCategory(category_code: string, page: number = 1): Promise<InitialData> {
+  // Возвращаем тип InitialData
   const res = await fetch(`http://localhost:8080/api/categories/${category_code}?page=${page}&limit=20`, { cache: "no-store" });
   if (!res.ok) {
     notFound();
