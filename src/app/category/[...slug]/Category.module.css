@@ -18,7 +18,6 @@
 .categoryPageRedirects {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 5px;
   margin-bottom: 15px;
   border-radius: 8px;
 }

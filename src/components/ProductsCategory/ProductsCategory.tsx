@@ -26,43 +26,44 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData 
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
   const [sortOption, setSortOption] = useState<string>("");
 
-  useEffect(() => {
+  const [filters, setFilters] = useState<Filters>({
+    priceRange: [0, Infinity],
+    colors: [],
+    attributes: {},
+  });
+
+  const { priceRange, colors, attributes } = filters;
+
+  const fetchFilteredData = async () => {
     const page = searchParams.get("page") || "1";
-    const fetchData = async () => {
-      const res = await fetch(`http://localhost:8080/api/categories/${category.category_code}?page=${page}`);
+    const minPrice = priceRange[0];
+    const maxPrice = priceRange[1];
+    const colorParams = colors.map((color) => `colors[]=${color}`).join("&");
+    const attributeParams = Object.entries(attributes)
+      .map(([key, values]) => values.map((value) => `attributes[${key}][]=${value}`).join("&"))
+      .join("&");
+
+    try {
+      const res = await fetch(`http://localhost:8080/api/categories/${category.category_code}?page=${page}&minPrice=${minPrice}&maxPrice=${maxPrice}&${colorParams}&${attributeParams}`);
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch data");
+      }
+
       const newData = await res.json();
       setData(newData);
       setFilteredProducts(newData.products);
-    };
-    fetchData();
-  }, [searchParams, category.category_code]);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
 
   useEffect(() => {
-    sortProducts(products, sortOption);
-  }, [sortOption, products]);
+    fetchFilteredData();
+  }, [filters, searchParams]);
 
-  const handleFilterChange = (filters: Filters) => {
-    const { priceRange, colors, attributes } = filters;
-
-    const filtered = products.filter((product) => {
-      const productPrice = parseFloat(product.price); // Преобразуем строку в число
-      const priceMatch = productPrice >= priceRange[0] && productPrice <= priceRange[1];
-      const colorMatch = colors.length === 0 || (product && product.color && colors.includes(product.color.code));
-      const attributeMatch = Object.entries(attributes).every(([attrCode, values]) => {
-        return values.some((selectedValue) => {
-          return product.attributes.some((attribute) => {
-            return attribute.items.some((item) => {
-              return item.value === selectedValue;
-            });
-          });
-        });
-      });
-
-      return priceMatch && colorMatch && attributeMatch;
-    });
-
-    setFilteredProducts(filtered);
-    sortProducts(filtered, sortOption);
+  const handleFilterChange = (newFilters: Filters) => {
+    setFilters(newFilters);
   };
 
   const handleSortChange = (selectedSortOption: string) => {

@@ -18,9 +18,9 @@
 .categoryPageRedirects {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 5px;
   margin-bottom: 15px;
   border-radius: 8px;
+  overflow: hidden;
 }
 
 .categoryPageRedirect {
@@ -31,12 +31,25 @@
   font-size: 12px;
   padding: 15px 10px;
   background: var(--white);
-  border-radius: 8px;
   transition: all 0.2s ease-in-out;
+  border-right: 1px solid rgba(128, 128, 128, 0.2);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.categoryPageRedirect:nth-child(6n) {
+  border-right: none;
+}
+
+.categoryPageRedirect:nth-last-child(-n + 6) {
+  border-bottom: none;
+}
+
+.categoryPageRedirect:last-child {
+  border-right: none;
 }
 
 .categoryPageRedirect:hover {
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08), 0 -4px 12px 0 rgba(0, 0, 0, 0.05);
+  transform: scale(1.05);
 }
 
 .categoryPageTitle {

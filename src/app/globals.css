@@ -45,12 +45,6 @@ button:active {
   outline: none;
 }
 
-html,
-body {
-  height: 100%;
-  line-height: 1;
-}
-
 body {
   font-size: 16px;
   font-family: "MuseoSansCyrl";

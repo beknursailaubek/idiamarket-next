@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import styles from "./Filter.module.css";
 
 interface Product {
@@ -36,11 +37,15 @@ interface Color {
 }
 
 interface SelectedFilter {
-  key: string;
   label: string;
+  type: "color" | "price" | "attribute";
 }
 
 const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   // Extract prices from products and set initial price range
   const prices = products.length > 0 ? products.map((product) => parseInt(product.price, 10)) : [0];
   const minInitialPrice = Math.min(...prices);
@@ -53,43 +58,16 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedAttributes, setSelectedAttributes] = useState<{ [key: string]: string[] | [number, number] }>({});
   const [selectedFilters, setSelectedFilters] = useState<SelectedFilter[]>([]);
-  const [rangeValues, setRangeValues] = useState<{ [key: string]: { minValue: number; maxValue: number } }>({});
 
   const colorMap = products.reduce((acc: { [key: string]: Color }, product) => {
     if (product.color && !acc[product.color.code]) {
       acc[product.color.code] = product.color;
     }
+
     return acc;
   }, {});
 
   const colors = Object.values(colorMap);
-
-  const attributeMap = products.reduce((acc: { [key: string]: { values: Set<string>; display_type: string; code: string } }, product) => {
-    if (product.attributes && Array.isArray(product.attributes)) {
-      product.attributes.forEach((attribute) => {
-        if (attribute.items && Array.isArray(attribute.items)) {
-          attribute.items.forEach((item) => {
-            if (item.display_type) {
-              if (!acc[item.title]) {
-                acc[item.title] = { values: new Set(), display_type: item.display_type, code: attribute.code };
-              }
-              acc[item.title].values.add(item.value);
-            }
-          });
-        }
-      });
-    }
-    return acc;
-  }, {});
-
-  const attributes: Attribute[] = Object.entries(attributeMap)
-    .map(([title, { values, display_type, code }]) => ({
-      title,
-      values: Array.from(values),
-      display_type,
-      code,
-    }))
-    .filter((attribute) => attribute.values.length > 0);
 
   useEffect(() => {
     onFilterChange({
@@ -98,6 +76,24 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
       attributes: selectedAttributes,
     });
   }, [minPrice, maxPrice, selectedColors, selectedAttributes]);
+
+  const updateURLParams = () => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    // Update price range in URL
+    params.set("minPrice", String(minPrice));
+    params.set("maxPrice", String(maxPrice));
+
+    // Update selected colors in URL
+    params.delete("colors[]"); // First clear the color params to avoid duplicates
+    selectedColors.forEach((color) => {
+      params.append("colors[]", color);
+    });
+
+    // You can similarly add logic for attributes if needed
+
+    router.push(`${pathname}?${params.toString()}`);
+  };
 
   const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = Number(e.target.value.replace(/\s+/g, ""));
@@ -108,6 +104,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
       setTempMinPrice(value);
       setMinPrice(value); // Update slider in real-time
     }
+    updateSelectedFilters();
   };
 
   const handleMaxPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,21 +116,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
       setTempMaxPrice(value);
       setMaxPrice(value); // Update slider in real-time
     }
-  };
-
-  const handlePriceChange = () => {
-    let adjustedMinPrice = Math.max(minInitialPrice, Math.min(tempMinPrice, maxInitialPrice));
-    let adjustedMaxPrice = Math.min(maxInitialPrice, Math.max(tempMaxPrice, minInitialPrice));
-
-    if (adjustedMinPrice > adjustedMaxPrice) {
-      adjustedMinPrice = adjustedMaxPrice;
-    }
-
-    // Update state with validated values
-    setMinPrice(adjustedMinPrice);
-    setMaxPrice(adjustedMaxPrice);
-    setTempMinPrice(adjustedMinPrice);
-    setTempMaxPrice(adjustedMaxPrice);
+    updateSelectedFilters();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -145,7 +128,85 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
   const handleColorChange = (color: Color) => {
     const newSelectedColors = selectedColors.includes(color.code) ? selectedColors.filter((c) => c !== color.code) : [...selectedColors, color.code];
 
+    // Update state first
     setSelectedColors(newSelectedColors);
+    updateSelectedFilters(); // Update selected filters
+  };
+
+  const handlePriceChange = () => {
+    let adjustedMinPrice = Math.max(minInitialPrice, Math.min(tempMinPrice, maxInitialPrice));
+    let adjustedMaxPrice = Math.min(maxInitialPrice, Math.max(tempMaxPrice, minInitialPrice));
+
+    if (adjustedMinPrice > adjustedMaxPrice) {
+      adjustedMinPrice = adjustedMaxPrice;
+    }
+
+    // Update state with validated values first
+    setMinPrice(adjustedMinPrice);
+    setMaxPrice(adjustedMaxPrice);
+    setTempMinPrice(adjustedMinPrice);
+    setTempMaxPrice(adjustedMaxPrice);
+
+    updateSelectedFilters(); // Then update selected filters
+  };
+  const updateSelectedFilters = () => {
+    const filters: SelectedFilter[] = [];
+
+    if (minPrice !== minInitialPrice || maxPrice !== maxInitialPrice) {
+      filters.push({
+        label: `Цена: от ${minPrice} до ${maxPrice}`,
+        type: "price",
+      });
+    }
+
+    selectedColors.forEach((colorCode) => {
+      const color = colors.find((color) => color.code === colorCode);
+      if (color) {
+        filters.push({
+          label: `Цвет: ${color.title}`,
+          type: "color",
+        });
+      }
+    });
+
+    // Add logic for attributes if needed
+
+    setSelectedFilters(filters);
+
+    // Only now, update the URL after the filters are set
+    updateURLParams();
+  };
+
+  const removeFilter = (filter: SelectedFilter) => {
+    if (filter.type === "price") {
+      setMinPrice(minInitialPrice);
+      setMaxPrice(maxInitialPrice);
+    }
+
+    if (filter.type === "color") {
+      setSelectedColors((prev) => prev.filter((colorCode) => !filter.label.includes(colorCode)));
+    }
+
+    updateSelectedFilters();
+  };
+
+  const clearAllFilters = () => {
+    setMinPrice(minInitialPrice);
+    setMaxPrice(maxInitialPrice);
+    setSelectedColors([]);
+    setSelectedAttributes({});
+    updateSelectedFilters();
+
+    // Clear URL parameters
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("minPrice");
+    params.delete("maxPrice");
+    params.delete("colors[]");
+
+    // You can add additional logic to clear attributes if needed
+
+    // Update the URL
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   const formatPrice = (price: number) => {
@@ -154,6 +215,23 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
 
   return (
     <div className={styles.filter}>
+      {/* Selected Filters Section */}
+      {selectedFilters.length > 0 && (
+        <div className={styles.selectedFilters}>
+          <p className={styles.selectedFiltersTitle}>Вы выбрали:</p>
+          <div className={styles.selectedFiltersItems}>
+            {selectedFilters.map((filter, index) => (
+              <button key={index} className={styles.selectedFiltersRemove} onClick={() => removeFilter(filter)}>
+                <span>{filter.label} X</span>
+              </button>
+            ))}
+          </div>
+          <button className={styles.selectedFiltersReset} onClick={clearAllFilters}>
+            Очистить все
+          </button>
+        </div>
+      )}
+
       <div className={styles.filterBody}>
         {/* Price Filter Section */}
         <div className={styles.filterSection}>
@@ -178,7 +256,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
         </div>
 
         {/* Color Filter Section */}
-        {colors.length > 0 && (
+        {colors && colors.length > 0 && (
           <div className={styles.filterSection}>
             <label className={styles.filterTitle}>Цвет</label>
             <div className={styles.filterColors}>
