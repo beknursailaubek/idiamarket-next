@@ -44,7 +44,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData 
       .join("&");
 
     try {
-      const res = await fetch(`http://localhost:8080/api/categories/${category.category_code}?page=${page}&minPrice=${minPrice}&maxPrice=${maxPrice}&${colorParams}&${attributeParams}`);
+      const res = await fetch(`http://localhost:8080/api/categories/${category.category_code}?page=${page}&limit=20&minPrice=${minPrice}&maxPrice=${maxPrice}&${colorParams}&${attributeParams}`);
 
       if (!res.ok) {
         throw new Error("Failed to fetch data");
