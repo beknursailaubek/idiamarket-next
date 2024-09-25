@@ -38,7 +38,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData 
     const page = searchParams.get("page") || "1";
     const minPrice = priceRange[0];
     const maxPrice = priceRange[1];
-    const colorParams = colors.map((color) => `colors[]=${color}`).join("&");
+    const colorParams = colors.map((color) => `colors=${color}`).join("&");
     const attributeParams = Object.entries(attributes)
       .map(([key, values]) => values.map((value) => `attributes[${key}][]=${value}`).join("&"))
       .join("&");

@@ -73,24 +73,19 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
     onFilterChange({
       priceRange: [minPrice, maxPrice],
       colors: selectedColors,
-      attributes: selectedAttributes,
+      attributes: {},
     });
-  }, [minPrice, maxPrice, selectedColors, selectedAttributes]);
+  }, [minPrice, maxPrice, selectedColors]);
 
   const updateURLParams = () => {
     const params = new URLSearchParams(searchParams.toString());
-
-    // Update price range in URL
     params.set("minPrice", String(minPrice));
     params.set("maxPrice", String(maxPrice));
 
-    // Update selected colors in URL
-    params.delete("colors[]"); // First clear the color params to avoid duplicates
-    selectedColors.forEach((color) => {
-      params.append("colors[]", color);
-    });
-
-    // You can similarly add logic for attributes if needed
+    params.delete("colors");
+    if (selectedColors.length > 0) {
+      params.set("colors", selectedColors.join(","));
+    }
 
     router.push(`${pathname}?${params.toString()}`);
   };
@@ -128,9 +123,8 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
   const handleColorChange = (color: Color) => {
     const newSelectedColors = selectedColors.includes(color.code) ? selectedColors.filter((c) => c !== color.code) : [...selectedColors, color.code];
 
-    // Update state first
     setSelectedColors(newSelectedColors);
-    updateSelectedFilters(); // Update selected filters
+    updateURLParams();
   };
 
   const handlePriceChange = () => {
@@ -152,13 +146,15 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
   const updateSelectedFilters = () => {
     const filters: SelectedFilter[] = [];
 
+    // Price filter logic
     if (minPrice !== minInitialPrice || maxPrice !== maxInitialPrice) {
       filters.push({
-        label: `Цена: от ${minPrice} до ${maxPrice}`,
+        label: `Цена: от ${formatPrice(minPrice)} до ${formatPrice(maxPrice)}`,
         type: "price",
       });
     }
 
+    // Color filter logic
     selectedColors.forEach((colorCode) => {
       const color = colors.find((color) => color.code === colorCode);
       if (color) {
@@ -169,12 +165,11 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
       }
     });
 
-    // Add logic for attributes if needed
+    // Add logic for other filters (e.g., attributes) here if needed
 
-    setSelectedFilters(filters);
+    setSelectedFilters(filters); // Update state with selected filters
 
-    // Only now, update the URL after the filters are set
-    updateURLParams();
+    updateURLParams(); // Update URL after filters are applied
   };
 
   const removeFilter = (filter: SelectedFilter) => {
