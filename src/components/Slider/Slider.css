@@ -1,3 +1,12 @@
+.day-product__slider {
+  max-width: 310px;
+  width: 100%;
+  padding-top: 20px;
+  border-radius: 8px;
+  background: var(--white);
+  position: relative;
+}
+
 .product-card__arrow {
   position: absolute;
   top: 50%;
@@ -16,4 +25,10 @@
 .product-card-arrow__icon {
   width: 20px;
   height: 20px;
+}
+
+@media(max-width: 1024px ) {
+  .day-product__slider {
+    max-width: 100%;
+  }
 }

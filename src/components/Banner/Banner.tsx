@@ -15,7 +15,7 @@ import { Navigation, Pagination } from "swiper/modules";
 
 const Banner = () => {
   return (
-    <div className={`banner max-w-[970px] w-full rounded-[8px] relative`}>
+    <div className={`banner`}>
       <Swiper
         loop={true}
         pagination={{

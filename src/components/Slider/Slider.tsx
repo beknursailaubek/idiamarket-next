@@ -15,10 +15,20 @@ import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 
 const Slider = ({ dayProducts }) => {
+  const handleResize = () => {
+    if (window.innerWidth > 769 && window.innerWidth < 1025) {
+      return 3;
+    } else if (window.innerWidth < 769) {
+      return 2;
+    } else {
+      return 1;
+    }
+  };
+
   return (
-    <div className={"max-w-[310px] w-full pt-[20px] rounded-[8px] bg-white relative"}>
+    <div className={"day-product__slider"}>
       <p className={"px-[20px] mb-[10px] text-base font-bold "}>Товар дня</p>
-      <Swiper loop={true} navigation={{ nextEl: ".product-card__arrow_next", prevEl: ".product-card__arrow_prev" }} modules={[Navigation]} className="product-card__swiper">
+      <Swiper slidesPerView={handleResize()} loop={true} navigation={{ nextEl: ".product-card__arrow_next", prevEl: ".product-card__arrow_prev" }} modules={[Navigation]} className="product-card__swiper">
         {dayProducts.map((product, index) => (
           <SwiperSlide key={index}>
             <ProductCard type={"day"} key={index} product={product} className={"pt-0"} />

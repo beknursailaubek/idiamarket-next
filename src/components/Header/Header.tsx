@@ -83,7 +83,7 @@ const Header: React.FC = () => {
       <div className={styles.headerTop}>
         <div className={`${styles.headerInner} container`}>
           <Link href="/" className={styles.headerLogo}>
-            <Image src="/images/logo.svg" alt="Logo" width={110} height={37} />
+            <Image className={styles.logoImage} src="/images/logo.svg" alt="Logo" width={110} height={37} />
           </Link>
 
           <div className={styles.headerInfo}>
@@ -110,6 +110,8 @@ const Header: React.FC = () => {
               ))}
             </ul>
           </nav>
+
+          <Image className={styles.burger} src="/images/icons/burger.svg" alt="" width={24} height={24} />
         </div>
       </div>
 
@@ -127,20 +129,20 @@ const Header: React.FC = () => {
 
           <div className={styles.actions}>
             <div className={styles.action}>
-              <Image className={styles.actionIcon} src="/images/icons/heart.svg" alt="Favorite" width={20} height={20} />
+              <Image className={styles.actionIcon} src="/images/icons/heart.svg" alt="Favorite" width={30} height={30} />
               <p className={styles.actionTitle}>Избранное</p>
               {favorites.length > 0 && <span className={styles.actionCount}>{favorites.length}</span>}
             </div>
             <div className={styles.action}>
-              <Image className={styles.actionIcon} src="/images/icons/compare.svg" alt="Compare" width={20} height={20} />
+              <Image className={styles.actionIcon} src="/images/icons/compare.svg" alt="Compare" width={30} height={30} />
               <p className={styles.actionTitle}>Сравнить</p>
             </div>
             <div className={styles.action}>
-              <Image className={styles.actionIcon} src="/images/icons/cart.svg" alt="Cart" width={20} height={20} />
+              <Image className={styles.actionIcon} src="/images/icons/cart.svg" alt="Cart" width={30} height={30} />
               <p className={styles.actionTitle}>Корзина</p>
             </div>
             <div className={styles.action}>
-              <Image className={styles.actionIcon} src="/images/icons/user.svg" alt="Sign In" width={20} height={20} />
+              <Image className={styles.actionIcon} src="/images/icons/user.svg" alt="Sign In" width={30} height={30} />
               <p className={styles.actionTitle}>Вход</p>
             </div>
           </div>

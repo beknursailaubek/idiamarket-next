@@ -61,7 +61,7 @@ export default async function HomePage({ params }: HomePageProps) {
     <>
       <section className={styles.welcome}>
         <div className="container">
-          <div className={"flex gap-[20px] max-h-[380px]"}>
+          <div className={styles.welcomeInner}>
             <Banner />
             <Slider dayProducts={dayProducts} />
           </div>

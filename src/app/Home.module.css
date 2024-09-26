@@ -7,6 +7,7 @@
 .welcomeInner {
   display: flex;
   gap: 20px;
+  max-height: 380px;
 }
 
 /* CATEGORIES */
@@ -140,4 +141,21 @@
   display: grid;
   gap: 20px;
   grid-template-columns: repeat(6, 1fr);
+}
+
+@media (max-width: 1024px) {
+  .welcome {
+    max-height: none;
+  }
+  .welcomeInner {
+    flex-direction: column;
+    gap: 30px;
+    max-height: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .welcome {
+    margin-top: 0;
+  }
 }

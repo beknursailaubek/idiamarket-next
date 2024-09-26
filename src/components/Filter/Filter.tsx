@@ -68,6 +68,67 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
 
   const colors = Object.values(colorMap);
 
+  // Group attributes from products
+  const attributeMap = products.reduce<{ [key: string]: { values: Set<string>; display_type: string; code: string } }>((acc, product) => {
+    if (product.attributes && Array.isArray(product.attributes)) {
+      product.attributes.forEach((attribute) => {
+        attribute.items.forEach((item) => {
+          if (!acc[item.title]) {
+            acc[item.title] = { values: new Set(), display_type: item.display_type, code: attribute.code };
+          }
+          acc[item.title].values.add(item.value);
+        });
+      });
+    }
+    return acc;
+  }, {});
+
+  // Convert attribute map to array format for rendering
+  const attributes = Object.entries(attributeMap)
+    .map(([title, { values, display_type, code }]) => ({
+      title,
+      values: Array.from(values),
+      display_type,
+      code,
+    }))
+    .filter((attribute) => attribute.values.length > 0);
+
+  const handleAttributeChange = (attributeCode, valueCode) => {
+    const newAttributes = { ...selectedAttributes };
+
+    if (!newAttributes[attributeCode]) {
+      newAttributes[attributeCode] = [];
+    }
+
+    if (newAttributes[attributeCode].includes(valueCode)) {
+      newAttributes[attributeCode] = newAttributes[attributeCode].filter((val) => val !== valueCode);
+    } else {
+      newAttributes[attributeCode].push(valueCode);
+    }
+
+    if (newAttributes[attributeCode].length === 0) {
+      delete newAttributes[attributeCode];
+    }
+
+    setSelectedAttributes(newAttributes);
+
+    // Проверяем, есть ли атрибуты и они не undefined перед вызовом map
+    const attribute = attributes.find((attr) => attr.code === attributeCode);
+    const values = attribute ? attribute.values : [];
+
+    const newAttributeFilters = Object.entries(newAttributes).flatMap(([code, values]) =>
+      values.map((valueCode) => {
+        const value = attribute ? values.find((val) => val === valueCode) : valueCode;
+        return {
+          key: `attribute:${code}:${valueCode}`,
+          label: `${value}`,
+        };
+      })
+    );
+
+    updateSelectedFilters();
+  };
+
   useEffect(() => {
     onFilterChange({
       priceRange: [minPrice, maxPrice],
@@ -236,6 +297,22 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
             </div>
           </div>
         )}
+
+        {attributes.map((attribute, index) => (
+          <div key={`${attribute.title}-${index}`} className={styles.filterSection}>
+            <label className={styles.filterTitle}>{attribute.title}</label>
+            <div className={styles.filterAttributes}>
+              {attribute.values.map((value) => (
+                <label key={value} className={`${styles.filterAttribute} ${selectedAttributes[attribute.code]?.includes(value) ? styles.filterAttributeActive : ""}`}>
+                  <input type="checkbox" value={value} onChange={() => handleAttributeChange(attribute.code, value)} checked={selectedAttributes[attribute.code]?.includes(value)} />
+                  <span className={styles.filterAttributeCustomCheckbox}></span>
+                  <span className={styles.filterAttributeLabel}>{value}</span>
+                  <span className={styles.filterAttributeCount}></span>
+                </label>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -113,3 +113,9 @@ body::-webkit-scrollbar-track {
 .no-scroll {
   overflow: hidden;
 }
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 12px;
+  }
+}
