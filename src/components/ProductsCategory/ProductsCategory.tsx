@@ -21,34 +21,39 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData 
   const router = useRouter();
   const searchParams = useSearchParams();
   const [data, setData] = useState<InitialData>(initialData);
-  const { products, category, pagination } = data;
-  const { totalPages, currentPage } = pagination;
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+  const [initialProducts, setInitialProducts] = useState<Product[]>(initialData.products);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(initialData.products);
   const [sortOption, setSortOption] = useState<string>("");
-
   const [filters, setFilters] = useState<Filters>({
     priceRange: [0, Infinity],
     colors: [],
     attributes: {},
   });
 
-  const { priceRange, colors, attributes } = filters;
+  const { products, category, pagination } = data;
+  const { totalPages, currentPage } = pagination;
+
+  useEffect(() => {
+    fetchFilteredData();
+  }, [filters]);
 
   const fetchFilteredData = async () => {
     const page = searchParams.get("page") || "1";
-    const minPrice = priceRange[0];
-    const maxPrice = priceRange[1];
-    const colorParams = colors.map((color) => `colors=${color}`).join("&");
-    const attributeParams = Object.entries(attributes)
+    const minPrice = filters.priceRange[0];
+    const maxPrice = filters.priceRange[1];
+
+    // Construct color and attribute params
+    const colorParams = filters.colors.length > 0 ? `colors=${filters.colors.join(",")}` : "";
+
+    const attributeParams = Object.entries(filters.attributes)
       .map(([key, values]) => values.map((value) => `attributes[${key}][]=${value}`).join("&"))
       .join("&");
 
-    try {
-      const res = await fetch(`http://localhost:8080/api/categories/${category.category_code}?page=${page}&limit=20&minPrice=${minPrice}&maxPrice=${maxPrice}&${colorParams}&${attributeParams}`);
+    const url = `http://localhost:8080/api/categories/${category.category_code}?page=${page}&limit=20&minPrice=${minPrice}&maxPrice=${maxPrice}&${colorParams}&${attributeParams}`;
 
-      if (!res.ok) {
-        throw new Error("Failed to fetch data");
-      }
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("Failed to fetch data");
 
       const newData = await res.json();
       setData(newData);
@@ -57,10 +62,6 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData 
       console.error("Error fetching products:", error);
     }
   };
-
-  useEffect(() => {
-    fetchFilteredData();
-  }, [filters, searchParams]);
 
   const handleFilterChange = (newFilters: Filters) => {
     setFilters(newFilters);
@@ -101,7 +102,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData 
 
   return (
     <div className={styles.categoryPage}>
-      <Filter products={products} onFilterChange={handleFilterChange} />
+      <Filter products={initialProducts} onFilterChange={handleFilterChange} />
 
       <div className={styles.categoryPageBody}>
         {category.children && category.children.length > 0 ? (
