@@ -35,7 +35,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData 
 
   useEffect(() => {
     fetchFilteredData();
-  }, [filters]);
+  }, [filters, searchParams.get("page")]);
 
   const fetchFilteredData = async () => {
     const page = searchParams.get("page") || "1";
