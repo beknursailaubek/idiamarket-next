@@ -3,18 +3,14 @@ import React, { useState, useEffect } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import styles from "./Filter.module.css";
 
-interface Product {
-  price: string;
-  color?: { code: string; title: string; hex: string };
-  attributes: Array<{
-    code: string;
-    items: Array<{ title: string; value: string; display_type: string }>;
-  }>;
-}
-
 interface FilterProps {
   onFilterChange: (filters: FilterValues) => void;
-  products: Product[];
+  onFilterConfirm: () => void;
+  filterOptions: {
+    priceRange: [number, number];
+    colors: Color[];
+    attributes: Attribute[];
+  };
 }
 
 interface FilterValues {
@@ -41,58 +37,32 @@ interface SelectedFilter {
   type: "color" | "price" | "attribute";
 }
 
-const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
+const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, onFilterConfirm }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const prices = products.length > 0 ? products.map((product) => parseInt(product.price, 10)) : [0];
-  const minInitialPrice = Math.min(...prices);
-  const maxInitialPrice = Math.max(...prices);
+  const { priceRange, colors, attributes } = filterOptions || { priceRange: [0, 0], colors: [], attributes: [] };
 
-  const [minPrice, setMinPrice] = useState<number>(minInitialPrice);
-  const [maxPrice, setMaxPrice] = useState<number>(maxInitialPrice);
-  const [tempMinPrice, setTempMinPrice] = useState<number>(minInitialPrice);
-  const [tempMaxPrice, setTempMaxPrice] = useState<number>(maxInitialPrice);
+  const [minPrice, setMinPrice] = useState<number>(0);
+  const [maxPrice, setMaxPrice] = useState<number>(0);
+  const [tempMinPrice, setTempMinPrice] = useState<number>(0);
+  const [tempMaxPrice, setTempMaxPrice] = useState<number>(0);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedAttributes, setSelectedAttributes] = useState<{ [key: string]: string[] | [number, number] }>({});
   const [selectedFilters, setSelectedFilters] = useState<SelectedFilter[]>([]);
 
-  const colorMap = products.reduce((acc: { [key: string]: Color }, product) => {
-    if (product.color && !acc[product.color.code]) {
-      acc[product.color.code] = product.color;
+  useEffect(() => {
+    if (filterOptions && filterOptions.priceRange) {
+      const { priceRange } = filterOptions;
+      setMinPrice(priceRange[0]);
+      setMaxPrice(priceRange[1]);
+      setTempMinPrice(priceRange[0]);
+      setTempMaxPrice(priceRange[1]);
     }
+  }, [filterOptions]);
 
-    return acc;
-  }, {});
-
-  const colors = Object.values(colorMap);
-
-  // Group attributes from products
-  const attributeMap = products.reduce<{ [key: string]: { values: Set<string>; display_type: string; code: string } }>((acc, product) => {
-    if (product.attributes && Array.isArray(product.attributes)) {
-      product.attributes.forEach((attribute) => {
-        attribute.items.forEach((item) => {
-          if (!acc[item.title]) {
-            acc[item.title] = { values: new Set(), display_type: item.display_type, code: attribute.code };
-          }
-          acc[item.title].values.add(item.value);
-        });
-      });
-    }
-    return acc;
-  }, {});
-
-  // Convert attribute map to array format for rendering
-  const attributes = Object.entries(attributeMap)
-    .map(([title, { values, display_type, code }]) => ({
-      title,
-      values: Array.from(values),
-      display_type,
-      code,
-    }))
-    .filter((attribute) => attribute.values.length > 0);
-
+  // Handle attribute changes
   const handleAttributeChange = (attributeCode, valueCode) => {
     const newAttributes = { ...selectedAttributes };
 
@@ -111,22 +81,8 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
     }
 
     setSelectedAttributes(newAttributes);
-
-    // Проверяем, есть ли атрибуты и они не undefined перед вызовом map
-    const attribute = attributes.find((attr) => attr.code === attributeCode);
-    const values = attribute ? attribute.values : [];
-
-    const newAttributeFilters = Object.entries(newAttributes).flatMap(([code, values]) =>
-      values.map((valueCode) => {
-        const value = attribute ? values.find((val) => val === valueCode) : valueCode;
-        return {
-          key: `attribute:${code}:${valueCode}`,
-          label: `${value}`,
-        };
-      })
-    );
-
     updateSelectedFilters();
+    onFilterConfirm(); // Call onFilterConfirm after updating attributes
   };
 
   useEffect(() => {
@@ -135,7 +91,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
       colors: selectedColors,
       attributes: selectedAttributes,
     });
-
     updateSelectedFilters();
   }, [minPrice, maxPrice, selectedColors, selectedAttributes]);
 
@@ -164,39 +119,46 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handlePriceChange();
+      onFilterConfirm();
     }
+  };
+
+  const handleBlur = () => {
+    handlePriceChange();
+    onFilterConfirm();
   };
 
   const handleColorChange = (color: Color) => {
     const newSelectedColors = selectedColors.includes(color.code) ? selectedColors.filter((c) => c !== color.code) : [...selectedColors, color.code];
 
     setSelectedColors(newSelectedColors);
+    onFilterConfirm();
   };
 
   const handlePriceChange = () => {
-    let adjustedMinPrice = Math.max(minInitialPrice, Math.min(tempMinPrice, maxInitialPrice));
-    let adjustedMaxPrice = Math.min(maxInitialPrice, Math.max(tempMaxPrice, minInitialPrice));
+    let adjustedMinPrice = Math.max(priceRange[0], Math.min(tempMinPrice, priceRange[1]));
+    let adjustedMaxPrice = Math.min(priceRange[1], Math.max(tempMaxPrice, priceRange[0]));
 
     if (adjustedMinPrice > adjustedMaxPrice) {
       adjustedMinPrice = adjustedMaxPrice;
     }
 
-    setTempMinPrice(adjustedMinPrice);
-    setTempMaxPrice(adjustedMaxPrice);
-
-    updateSelectedFilters();
+    setMinPrice(adjustedMinPrice);
+    setMaxPrice(adjustedMaxPrice);
   };
 
   const updateSelectedFilters = () => {
     const filters: SelectedFilter[] = [];
 
-    if (tempMinPrice !== minInitialPrice || tempMaxPrice !== maxInitialPrice) {
+    // Handle price filter
+    if (tempMinPrice !== priceRange[0] || tempMaxPrice !== priceRange[1]) {
       filters.push({
         label: `Цена: от ${formatPrice(tempMinPrice)} до ${formatPrice(tempMaxPrice)}`,
         type: "price",
       });
     }
 
+    // Handle color filter
     selectedColors.forEach((colorCode) => {
       const color = colors.find((color) => color.code === colorCode);
       if (color) {
@@ -207,25 +169,71 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
       }
     });
 
+    // Handle attribute filter
+    Object.keys(selectedAttributes).forEach((attributeCode) => {
+      const attribute = attributes.find((attr) => attr.code === attributeCode);
+      if (attribute) {
+        const selectedValues = selectedAttributes[attributeCode];
+        if (Array.isArray(selectedValues)) {
+          selectedValues.forEach((value) => {
+            filters.push({
+              label: `${attribute.title}: ${value}`,
+              type: "attribute",
+            });
+          });
+        }
+      }
+    });
+
     setSelectedFilters(filters);
   };
 
   const removeFilter = (filter: SelectedFilter) => {
+    // Reset the price range if it's a price filter
     if (filter.type === "price") {
-      setMinPrice(minInitialPrice);
-      setMaxPrice(maxInitialPrice);
+      setMinPrice(priceRange[0]);
+      setMaxPrice(priceRange[1]);
+      setTempMinPrice(priceRange[0]);
+      setTempMaxPrice(priceRange[1]);
     }
 
+    // Deselect the color if it's a color filter
     if (filter.type === "color") {
-      setSelectedColors((prev) => prev.filter((colorCode) => !filter.label.includes(colorCode)));
+      const colorTitle = filter.label.split(": ")[1]; // Extract color title from label
+      const colorToRemove = colors.find((color) => color.title === colorTitle);
+
+      if (colorToRemove) {
+        setSelectedColors((prev) => prev.filter((colorCode) => colorCode !== colorToRemove.code));
+      }
     }
 
+    // Deselect the attribute if it's an attribute filter
+    if (filter.type === "attribute") {
+      const [attributeTitle, attributeValue] = filter.label.split(": "); // Extract attribute title and value
+      const attribute = attributes.find((attr) => attr.title === attributeTitle);
+
+      if (attribute) {
+        setSelectedAttributes((prevAttributes) => {
+          const updatedAttributes = { ...prevAttributes };
+          updatedAttributes[attribute.code] = (updatedAttributes[attribute.code] as string[]).filter((val) => val !== attributeValue);
+
+          // If no values left for the attribute, remove the attribute key
+          if (updatedAttributes[attribute.code].length === 0) {
+            delete updatedAttributes[attribute.code];
+          }
+
+          return updatedAttributes;
+        });
+      }
+    }
+
+    // Update the filters to reflect changes
     updateSelectedFilters();
   };
 
   const clearAllFilters = () => {
-    setMinPrice(minInitialPrice);
-    setMaxPrice(maxInitialPrice);
+    setMinPrice(priceRange[0]);
+    setMaxPrice(priceRange[1]);
     setSelectedColors([]);
     setSelectedAttributes({});
     updateSelectedFilters();
@@ -235,7 +243,8 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
     params.delete("maxPrice");
     params.delete("colors[]");
 
-    router.push(`${pathname}?${params.toString()}`);
+    const queryString = params.toString();
+    router.push(`${pathname}${queryString ? `?${queryString}` : ""}`);
   };
 
   const formatPrice = (price: number) => {
@@ -271,14 +280,14 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, products }) => {
               <label className={styles.filterBarLabel} htmlFor="minPrice">
                 От
               </label>
-              <input className={styles.filterBarInput} type="text" id="minPrice" value={formatPrice(tempMinPrice)} onBlur={handlePriceChange} onKeyDown={handleKeyDown} onChange={handleMinPriceChange} />
+              <input className={styles.filterBarInput} type="text" id="minPrice" value={formatPrice(tempMinPrice)} onBlur={handleBlur} onKeyDown={handleKeyDown} onChange={handleMinPriceChange} />
             </div>
             <span className={styles.filterBarDivider}>-</span>
             <div className={styles.filterBar}>
               <label className={styles.filterBarLabel} htmlFor="maxPrice">
                 До
               </label>
-              <input className={styles.filterBarInput} type="text" id="maxPrice" value={formatPrice(tempMaxPrice)} onBlur={handlePriceChange} onKeyDown={handleKeyDown} onChange={handleMaxPriceChange} />
+              <input className={styles.filterBarInput} type="text" id="maxPrice" value={formatPrice(tempMaxPrice)} onBlur={handleBlur} onKeyDown={handleKeyDown} onChange={handleMaxPriceChange} />
             </div>
           </div>
         </div>

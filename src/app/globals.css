@@ -52,6 +52,7 @@ body {
   color: var(--grey-90);
   background: var(--background);
   overflow-x: hidden;
+  line-height: 1;
 }
 
 body::-webkit-scrollbar {
