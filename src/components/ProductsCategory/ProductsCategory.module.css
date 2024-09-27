@@ -5,7 +5,6 @@
 
 .categoryPageBody {
   max-width: 970px;
-  width: 100%;
 }
 
 .categoryPageHeader {
@@ -81,4 +80,10 @@
   height: 80px;
   object-fit: contain;
   margin-bottom: 10px;
+}
+
+@media (max-width: 1024px) {
+  .categoryPageProducts {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
