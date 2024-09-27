@@ -36,13 +36,13 @@ const Pagination = ({ totalPages, currentPage }: PaginationProps) => {
 
   return (
     <div className={styles.pagination}>
-      <button onClick={() => handlePageChange(currentPage - 1)} className={styles.pageArrow} disabled={currentPage === 1}>
+      {/* <button onClick={() => handlePageChange(currentPage - 1)} className={styles.pageArrow} disabled={currentPage === 1}>
         &larr;
-      </button>
+      </button> */}
       {renderPageNumbers()}
-      <button onClick={() => handlePageChange(currentPage + 1)} className={styles.pageArrow} disabled={currentPage === totalPages}>
+      {/* <button onClick={() => handlePageChange(currentPage + 1)} className={styles.pageArrow} disabled={currentPage === totalPages}>
         &rarr;
-      </button>
+      </button> */}
     </div>
   );
 };

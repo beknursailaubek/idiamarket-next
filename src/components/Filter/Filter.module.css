@@ -44,6 +44,15 @@
   border-radius: 8px;
 }
 
+.selectedFiltersRemove:hover {
+  color: var(--red);
+  border-color: var(--red);
+}
+
+.selectedFiltersRemove:hover .selectedFiltersRemoveImage {
+  filter: invert(10%) sepia(99%) saturate(7452%) hue-rotate(16deg) brightness(98%) contrast(97%);
+}
+
 .selectedFiltersRemove span::first-letter {
   text-transform: uppercase;
 }
@@ -58,10 +67,52 @@
   border-radius: 8px;
 }
 
+.selectedFiltersReset:hover {
+  background: var(--red);
+  color: var(--white);
+  border-color: var(--red);
+}
+
+.filterSectionHeader {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.filterValuesHidden {
+  position: relative;
+  height: 100%;
+  max-height: 150px;
+  overflow: hidden;
+}
+
+.filterValuesHidden::after {
+  position: absolute;
+  bottom: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 35px;
+  background: linear-gradient(180deg, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 100%, 0.9) 70%);
+  content: "";
+}
+
+.toggleButton {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--blue-light);
+}
+
+.toggleButton:hover {
+  text-decoration: underline;
+}
+
 .filterTitle {
   display: block;
-  margin-bottom: 10px;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .filterBars {
