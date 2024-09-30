@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { ProductsCategory } from "@/components/ProductsCategory/ProductsCategory";
-import { Product, Category, Pagination, InitialData } from "@/types";
+import { InitialData, FilterOptions } from "@/types";
 
 interface CategoryPageProps {
   params: { slug: string[] };
@@ -31,6 +31,14 @@ async function getProductsByCategory(category_code: string, page: number = 1, mi
   return data;
 }
 
+async function getFilterOptions(category_code: string): Promise<FilterOptions> {
+  const response = await fetch(`http://localhost:8080/api/categories/${category_code}/filters`);
+  if (!response.ok) throw new Error("Failed to fetch filter options");
+
+  const options = await response.json();
+  return options;
+}
+
 export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const category_code = params.slug[params.slug.length - 1] || "";
   const page = parseInt(searchParams.page || "1", 10);
@@ -42,10 +50,12 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
   const data = await getProductsByCategory(category_code, page, minPrice, maxPrice, colors);
 
+  const filterOptions = await getFilterOptions(category_code);
+
   return (
     <div className="container">
       <Breadcrumbs />
-      <ProductsCategory initialData={data} />
+      <ProductsCategory initialData={data} filterOptions={filterOptions} />
     </div>
   );
 }

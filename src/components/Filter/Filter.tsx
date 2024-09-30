@@ -6,7 +6,6 @@ import styles from "./Filter.module.css";
 
 interface FilterProps {
   onFilterChange: (filters: FilterValues) => void;
-  onFilterConfirm: () => void;
   filterOptions: {
     priceRange: [number, number];
     colors: Color[];
@@ -38,7 +37,7 @@ interface SelectedFilter {
   type: "color" | "price" | "attribute";
 }
 
-const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, onFilterConfirm }) => {
+const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -54,7 +53,8 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, onFilter
   const [selectedFilters, setSelectedFilters] = useState<SelectedFilter[]>([]);
 
   const [showColors, setShowColors] = useState<boolean>(true);
-  const [visibleAttributes, setVisibleAttributes] = useState<{ [key: string]: boolean }>({});
+  const [visibleAttributes, setVisibleAttributes] = useState<{ [key: string]: boolean }>(attributes.reduce((acc, attr) => ({ ...acc, [attr.code]: true }), {}));
+
   const [expandedSections, setExpandedSections] = useState<{ [key: string]: boolean }>({});
 
   const toggleColors = () => setShowColors((prev) => !prev);
@@ -81,10 +81,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, onFilter
       setTempMinPrice(priceRange[0]);
       setTempMaxPrice(priceRange[1]);
     }
-
-    if (attributes) {
-      setVisibleAttributes(attributes.reduce((acc, attr) => ({ ...acc, [attr.code]: true }), {}));
-    }
   }, [filterOptions]);
 
   // Handle attribute changes
@@ -107,7 +103,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, onFilter
 
     setSelectedAttributes(newAttributes);
     updateSelectedFilters();
-    onFilterConfirm(); // Call onFilterConfirm after updating attributes
   };
 
   useEffect(() => {
@@ -144,20 +139,17 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, onFilter
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handlePriceChange();
-      onFilterConfirm();
     }
   };
 
   const handleBlur = () => {
     handlePriceChange();
-    onFilterConfirm();
   };
 
   const handleColorChange = (color: Color) => {
     const newSelectedColors = selectedColors.includes(color.code) ? selectedColors.filter((c) => c !== color.code) : [...selectedColors, color.code];
 
     setSelectedColors(newSelectedColors);
-    onFilterConfirm();
   };
 
   const handlePriceChange = () => {
@@ -170,6 +162,8 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, onFilter
 
     setMinPrice(adjustedMinPrice);
     setMaxPrice(adjustedMaxPrice);
+
+    updateSelectedFilters();
   };
 
   const updateSelectedFilters = () => {

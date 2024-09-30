@@ -128,3 +128,9 @@ export interface Filters {
   colors: Array<{ code: string }>;
   attributes: Record<string, string[]>;
 }
+
+export interface FilterOptions {
+  priceRange: [number, number];
+  colors: Color[];
+  attributes: Attributes[];
+}

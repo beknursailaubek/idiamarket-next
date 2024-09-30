@@ -11,25 +11,26 @@ import CardViews from "@/components/CardViews/CardViews";
 import Pagination from "@/components/Pagination/Pagination";
 import { getProductWord } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
-import { InitialData, Product, Filters } from "@/types";
+import { InitialData, Product, Filters, FilterOptions } from "@/types";
 
 interface ProductsCategoryProps {
   initialData: InitialData;
 }
 
-export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData }) => {
+export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData, filterOptions }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [data, setData] = useState<InitialData>(initialData);
   const [initialProducts, setInitialProducts] = useState<Product[]>(initialData.products);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(initialData.products);
-  const [filterOptions, setFilterOptions] = useState<FilterOptions | null>(null);
   const [sortOption, setSortOption] = useState<string>("");
+
   const [tempFilters, setTempFilters] = useState<Filters>({
     priceRange: [0, Infinity],
     colors: [],
     attributes: {},
   });
+
   const [filters, setFilters] = useState<Filters>({
     priceRange: [0, Infinity],
     colors: [],
@@ -39,27 +40,10 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData 
   const { products, category, pagination } = data;
   const { totalPages, currentPage } = pagination;
 
-  // Fetch all filter options once when component is mounted
-  useEffect(() => {
-    fetchFilterOptions();
-  }, []);
-
   // Fetch product data based on filters
   useEffect(() => {
     fetchFilteredData();
   }, [filters, searchParams.get("page")]);
-
-  const fetchFilterOptions = async () => {
-    try {
-      const response = await fetch(`http://localhost:8080/api/categories/${category.category_code}/filters`);
-      if (!response.ok) throw new Error("Failed to fetch filter options");
-
-      const options = await response.json();
-      setFilterOptions(options);
-    } catch (error) {
-      console.error("Error fetching filter options:", error);
-    }
-  };
 
   const fetchFilteredData = async () => {
     const page = searchParams.get("page") || "1";
@@ -67,7 +51,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData 
     const maxPrice = filters.priceRange[1];
 
     // Concatenate color filters properly
-    const colorParams = filters.colors.length > 0 ? `&colors=${filters.colors.join(",")}` : "";
+    const colorParams = filters.colors.length > 0 ? `colors=${filters.colors.join(",")}` : "";
 
     // Concatenate attribute filters properly
     const attributeParams = Object.entries(filters.attributes)
@@ -89,8 +73,21 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData 
     }
   };
 
-  const confirmFilters = () => {
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      applyFilters();
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [tempFilters]);
+
+  const applyFilters = () => {
     setFilters(tempFilters);
+    goToFirstPage();
+  };
+
+  const goToFirstPage = () => {
+    router.push(`?page=1`);
   };
 
   const handleFilterChange = (newFilters: Filters) => {
@@ -135,7 +132,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData 
 
   return (
     <div className={styles.categoryPage}>
-      <Filter filterOptions={filterOptions} onFilterChange={handleFilterChange} onFilterConfirm={confirmFilters} />
+      <Filter filterOptions={filterOptions} onFilterChange={handleFilterChange} />
 
       <div className={styles.categoryPageBody}>
         {category.children && category.children.length > 0 ? (

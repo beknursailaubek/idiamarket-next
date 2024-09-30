@@ -1,6 +1,7 @@
 .filter {
   height: 100%;
   max-width: 310px;
+  width: 100%;
 }
 
 .filterBody {
