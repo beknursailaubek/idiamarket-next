@@ -67,7 +67,7 @@ export default async function HomePage({ params }: HomePageProps) {
 
           <div className={"h-[600px] flex gap-[20px]"}>
             <div className={`grid gap-[20px] grid-rows-3`}>
-              <Link href={`/category/stellazhi/torgovye-stellazhi`} className={`${styles.category} row-span-2`}>
+              <Link href={`/category/metallicheskie-stellazhi/torgovye-stellazhi`} className={`${styles.category} row-span-2`}>
                 <span className={styles.categoryCount}>Товаров: {categoryCounts["torgovye-stellazhi"] || 79}</span>
                 <Image loading="lazy" className={styles.categoryImage} src="/images/categories/torgovye-stellazhi.png" alt="Торговые стеллажи" width={142} height={275} />
                 <p className={styles.categoryTitle}>Торговые стеллажи</p>
