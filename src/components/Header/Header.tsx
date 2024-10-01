@@ -87,7 +87,7 @@ const Header: React.FC = () => {
       }
     };
 
-    fetchSearchProducts();
+    if (searchQuery.length === 0 || searchQuery.length > 2) fetchSearchProducts();
   }, [searchQuery]);
 
   return (

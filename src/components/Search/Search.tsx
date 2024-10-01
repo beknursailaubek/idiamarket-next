@@ -36,23 +36,27 @@ const Search: React.FC<SearchProps> = ({ isOpen, onClose, searchProducts, search
   };
 
   useEffect(() => {
-    const fetchSuitableProducts = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/products/popular`);
-        if (!response.ok) throw new Error("Failed to fetch suitable products");
-        const data = await response.json();
-        setSuitableProducts(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    if (isOpen) {
+      const fetchSuitableProducts = async () => {
+        try {
+          const response = await fetch(`${apiUrl}/products/popular`);
+          if (!response.ok) throw new Error("Failed to fetch suitable products");
+          const data = await response.json();
+          setSuitableProducts(data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
 
-    fetchSuitableProducts();
-  }, []);
+      fetchSuitableProducts();
+    }
+  }, [isOpen]);
 
   useEffect(() => {
-    const storedHistory = JSON.parse(localStorage.getItem("searchHistory") || "[]");
-    setSearchHistory(storedHistory);
+    if (isOpen) {
+      const storedHistory = JSON.parse(localStorage.getItem("searchHistory") || "[]");
+      setSearchHistory(storedHistory);
+    }
   }, [isOpen, searchQuery]);
 
   const clearHistory = () => {
