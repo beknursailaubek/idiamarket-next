@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CityContext } from "@/context/CityContext";
 import styles from "./Breadcrumbs.module.css";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 interface Breadcrumb {
   name: string;
