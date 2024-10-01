@@ -1,45 +1,48 @@
 import { notFound } from "next/navigation";
-import styles from "./Search.module.css";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { ProductsSearch } from "@/components/ProductsSearch/ProductsSearch";
-
-interface Product {
-  sku: string;
-  title: string;
-  images: string[];
-  uri: string;
-  rating: number;
-  price: number;
-}
+import { InitialData, FilterOptions } from "@/types";
 
 interface SearchPageProps {
-  products: Product[];
+  params: { slug: string[] };
+  searchParams: { [key: string]: string };
 }
 
-async function fetchProducts(searchQuery: string): Promise<{ products: Product[] }> {
-  try {
-    console.log("Fetching products with query:", searchQuery);
-    const res = await fetch(`http://localhost:8080/api/products/search?query=${searchQuery}`);
-    if (!res.ok) {
-      notFound();
-    }
-    const data = await res.json();
-    return data;
-  } catch (error) {
+async function fetchSearchResults(searchQuery: string, page: number = 1): Promise<InitialData> {
+  let url = `http://localhost:8080/api/products/search?query=${encodeURIComponent(searchQuery)}&page=${page}&limit=20`;
+  const res = await fetch(url);
+  if (!res.ok) {
     notFound();
   }
+
+  const data = await res.json();
+  return data;
 }
 
-export default async function SearchPage({ params }: { params: { slug: string[] } }) {
-  const searchQuery = params.slug?.join(" ") || "";
-  console.log("Search query:", searchQuery);
+async function getFilterOptions(): Promise<FilterOptions> {
+  const response = await fetch(`http://localhost:8080/api/products/search/filters`);
+  if (!response.ok) {
+    console.warn("No filters found for search");
+  }
 
-  const products = await fetchProducts(searchQuery);
+  const options = await response.json();
+  return options;
+}
+
+export default async function SearchPage({ params, searchParams }: SearchPageProps) {
+  const searchQuery = params.slug?.map(decodeURIComponent).join(" ") || "";
+  console.log("Decoded search query:", searchQuery);
+
+  const page = parseInt(searchParams.page || "1", 10);
+  console.log("Params.slug:", params.slug);
+
+  const data = await fetchSearchResults(searchQuery, page);
+  const filterOptions = await getFilterOptions();
 
   return (
     <div className="container">
-      <div className={styles.searchPage}>
-        <ProductsSearch products={products} title={decodeURI(searchQuery)} />
-      </div>
+      <Breadcrumbs />
+      <ProductsSearch initialData={data} filterOptions={filterOptions} title={decodeURI(searchQuery)} searchQuery={searchQuery} />
     </div>
   );
 }
