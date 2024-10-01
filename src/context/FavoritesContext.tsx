@@ -1,12 +1,6 @@
 "use client";
 import React, { createContext, useState, useEffect, ReactNode } from "react";
-
-// Define the type for the context
-interface FavoritesContextProps {
-  favorites: string[];
-  addToFavorite: (productCode: string) => void;
-  removeFromFavorite: (productCode: string) => void;
-}
+import { FavoritesContextProps } from "@/types";
 
 // Create the context with a default empty value
 export const FavoritesContext = createContext<FavoritesContextProps | undefined>(undefined);

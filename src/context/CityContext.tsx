@@ -2,18 +2,7 @@
 
 import React, { createContext, useState, useEffect, ReactNode } from "react";
 import { usePathname } from "next/navigation";
-
-interface City {
-  title: string;
-  uri: string;
-  code: string;
-}
-
-interface CityContextProps {
-  selectedCity: City;
-  setSelectedCity: (city: City) => void;
-  cities: City[];
-}
+import { CityContextProps, City } from "@/types";
 
 export const CityContext = createContext<CityContextProps | undefined>(undefined);
 

@@ -13,22 +13,33 @@ import styles from "./Header.module.css";
 
 const Header: React.FC = () => {
   const router = useRouter();
-  const { favorites } = useContext(FavoritesContext);
-  const { selectedCity } = useContext(CityContext);
+  const favoritesContext = useContext(FavoritesContext);
+  const cityContext = useContext(CityContext);
+
+  if (!favoritesContext) {
+    throw new Error("FavoritesContext must be used within its provider");
+  }
+  if (!cityContext) {
+    throw new Error("CityContext must be used within its provider");
+  }
+
+  const { favorites } = favoritesContext;
+  const { selectedCity } = cityContext;
+
   const [isLocationModalOpen, setLocationModalOpen] = useState(false);
   const [isSearchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchProducts, setSearchProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [searchHistory, setSearchHistory] = useState([]);
+  const [searchHistory, setSearchHistory] = useState<{ query: string; path: string }[]>([]);
 
   const openLocationModal = () => setLocationModalOpen(true);
   const closeLocationModal = () => setLocationModalOpen(false);
   const openSearch = () => setSearchOpen(true);
   const closeSearch = () => setSearchOpen(false);
 
-  const cityPrefix = selectedCity.uri ? `/${selectedCity.uri}` : "";
+  const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
 
   const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -40,9 +51,9 @@ const Header: React.FC = () => {
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && searchQuery.trim()) {
-      const updatedHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+      const updatedHistory = JSON.parse(localStorage.getItem("searchHistory") || "[]") as { query: string; path: string }[];
 
-      if (!updatedHistory.some((item) => item.query === searchQuery)) {
+      if (!updatedHistory.some((item: { query: string }) => item.query === searchQuery)) {
         updatedHistory.unshift({ query: searchQuery, path: `/search/${searchQuery}` });
         localStorage.setItem("searchHistory", JSON.stringify(updatedHistory.slice(0, 5)));
         setSearchHistory(updatedHistory.slice(0, 5));
@@ -89,7 +100,7 @@ const Header: React.FC = () => {
           <div className={styles.headerInfo}>
             <button className={styles.location} onClick={openLocationModal}>
               <Image src="/images/icons/location.svg" className={styles.locationIcon} alt="Location" width={16} height={16} />
-              <span className={styles.locationCity}>{selectedCity.title}</span>
+              <span className={styles.locationCity}>{selectedCity?.title}</span>
             </button>
             <button className={styles.contacts}>
               <Image className={styles.contactsIconPhone} src="/images/icons/phone.svg" alt="Phone" width={16} height={16} />
@@ -131,7 +142,7 @@ const Header: React.FC = () => {
             <div className={styles.action}>
               <Image className={styles.actionIcon} src="/images/icons/heart.svg" alt="Favorite" width={30} height={30} />
               <p className={styles.actionTitle}>Избранное</p>
-              {favorites.length > 0 && <span className={styles.actionCount}>{favorites.length}</span>}
+              {favorites && favorites.length > 0 && <span className={styles.actionCount}>{favorites.length}</span>}
             </div>
             <div className={styles.action}>
               <Image className={styles.actionIcon} src="/images/icons/compare.svg" alt="Compare" width={30} height={30} />

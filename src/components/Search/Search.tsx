@@ -28,7 +28,7 @@ const Search: React.FC<SearchProps> = ({ isOpen, onClose, searchProducts, search
   const [searchHistory, setSearchHistory] = useState<HistoryItem[]>([]);
   const searchRef = useRef<HTMLDivElement | null>(null);
 
-  const handleClickOutside = (event: MouseEvent) => {
+  const handleClickOutside = (event: React.MouseEvent<HTMLDivElement>) => {
     if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
       onClose();
     }
@@ -68,7 +68,7 @@ const Search: React.FC<SearchProps> = ({ isOpen, onClose, searchProducts, search
   }
 
   return (
-    <div className={styles.searchModal} onClick={handleClickOutside as React.MouseEventHandler<HTMLDivElement>}>
+    <div className={styles.searchModal} onClick={handleClickOutside}>
       <div className={styles.searchModalContent} ref={searchRef}>
         <div className={styles.searchModalInfo}>
           {searchQuery.length > 0 ? (

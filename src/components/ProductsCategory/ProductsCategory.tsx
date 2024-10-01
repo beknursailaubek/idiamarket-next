@@ -11,10 +11,12 @@ import CardViews from "@/components/CardViews/CardViews";
 import Pagination from "@/components/Pagination/Pagination";
 import { getProductWord } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
-import { InitialData, Product, Filters, FilterOptions } from "@/types";
+import { InitialData, Product, Filters, FilterOptions, SeoData, FilterValues } from "@/types";
+import Seo from "@/components/Seo/Seo";
 
 interface ProductsCategoryProps {
   initialData: InitialData;
+  filterOptions: FilterOptions;
 }
 
 export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData, filterOptions }) => {
@@ -90,7 +92,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
     router.push(`?page=1`);
   };
 
-  const handleFilterChange = (newFilters: Filters) => {
+  const handleFilterChange = (newFilters: FilterValues) => {
     setTempFilters((prevFilters) => ({
       ...prevFilters,
       ...newFilters,
@@ -102,11 +104,11 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
     sortProducts(filteredProducts, selectedSortOption);
   };
 
-  const sortProducts = (productsList, sortOption) => {
+  const sortProducts = (productsList: Product[], sortOption: string) => {
     let sortedProducts = [...productsList];
     switch (sortOption) {
       case "По популярности":
-        sortedProducts.sort((a, b) => b.view_count - a.view_count);
+        sortedProducts.sort((a, b) => (b.view_count || 0) - (a.view_count || 0));
         break;
       case "По скидке":
         sortedProducts.sort((a, b) => {
@@ -116,7 +118,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
         });
         break;
       case "По новизне":
-        sortedProducts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        sortedProducts.sort((a, b) => new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime());
         break;
       case "По возрастанию цены":
         sortedProducts.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
@@ -190,6 +192,8 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
           )}
         </div>
         {pagination && pagination.totalPages > 1 && <Pagination totalPages={totalPages} currentPage={currentPage} />}
+
+        {category.meta_data && <Seo data={category.meta_data as SeoData} />}
       </div>
     </div>
   );

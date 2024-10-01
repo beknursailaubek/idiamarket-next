@@ -22,9 +22,10 @@ export interface Product {
   stickers?: Sticker[];
   meta_data?: SeoMetadata;
   reviews?: number;
-  rating?: number;
+  rating?: number | 0;
   positive_reviews_rate?: number;
   view_count?: number;
+  date?: string;
   url_videos?: string[];
   about_url?: string;
   is_enabled?: boolean;
@@ -40,6 +41,7 @@ export interface Category {
   category_code: string;
   children?: Category[];
   image?: string;
+  meta_data?: SeoMetadata;
 }
 
 export interface Attributes {
@@ -48,6 +50,7 @@ export interface Attributes {
   title: string;
   is_active?: boolean;
   items?: AttributeItem[];
+  values: string[];
 }
 
 export interface AttributeItem {
@@ -125,12 +128,40 @@ export interface InitialData {
 
 export interface Filters {
   priceRange: [number, number];
-  colors: Array<{ code: string }>;
-  attributes: Record<string, string[]>;
+  colors: string[];
+  attributes: { [key: string]: string[] };
 }
 
 export interface FilterOptions {
   priceRange: [number, number];
   colors: Color[];
-  attributes: Attributes[];
+  attributes: { code: string; title: string; values: string[] }[];
+}
+export interface FilterValues {
+  priceRange: [number, number];
+  colors: string[];
+  attributes: { [key: string]: string[] };
+}
+
+export interface SeoData {
+  meta_header: string;
+  seo_text: string;
+}
+
+export interface FavoritesContextProps {
+  favorites?: string[];
+  addToFavorite?: (sku: string) => void;
+  removeFromFavorite?: (sku: string) => void;
+}
+
+export interface CityContextProps {
+  selectedCity?: City;
+  setSelectedCity?: (city: City) => void;
+  cities?: City[];
+}
+
+export interface City {
+  title: string;
+  uri: string;
+  code: string;
 }

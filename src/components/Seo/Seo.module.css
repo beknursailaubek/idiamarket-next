@@ -1,0 +1,112 @@
+.seo {
+  position: relative;
+  font-size: 12px;
+  background: var(--white);
+  border-radius: 8px;
+  padding: 50px 50px 60px;
+  margin-top: 50px;
+}
+
+.seoInnerHidden {
+  height: 150px;
+  overflow-y: hidden;
+}
+
+.seoInnerHidden::before {
+  display: block;
+  content: "";
+  position: absolute;
+  height: 100px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 1) 60%, rgba(255, 255, 255, 0) 100%);
+}
+
+.seoHide {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.seoBtn {
+  height: 40px;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.seoBtnText {
+  color: var(--blue-light);
+  font-size: 14px;
+}
+
+.seoBtnText:hover {
+  text-decoration: underline;
+}
+
+.seoBtnImg {
+  filter: invert(43%) sepia(97%) saturate(2347%) hue-rotate(189deg) brightness(105%) contrast(91%);
+}
+
+.seoHeader {
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.seoText > p {
+  font-size: 16px;
+}
+
+.seoText > p:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.seoText > h3 {
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.seoText > h3:not(:first-child) {
+  margin-top: 20px;
+}
+
+.seoText > ul {
+  list-style-type: disc;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 16px;
+}
+
+.seoText > ul:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.seoText > ul > li {
+  margin-left: 30px;
+}
+
+.seoText > ol {
+  list-style-type: decimal;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 16px;
+}
+
+.seoText > ol:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.seoText > ol > li {
+  margin-left: 30px;
+}

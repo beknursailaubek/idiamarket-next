@@ -6,19 +6,7 @@ import { FavoritesContext } from "../../context/FavoritesContext";
 import { CityContext } from "../../context/CityContext";
 import Link from "next/link";
 import Image from "next/image";
-
-interface Product {
-  sku: string;
-  stickers?: { title: string; background_color: string }[];
-  uri: string;
-  title: string;
-  images?: string[];
-  reviews?: number;
-  rating: number;
-  price: number;
-  old_price?: number;
-  price_from?: boolean;
-}
+import { Product, FavoritesContextProps, CityContextProps } from "@/types";
 
 interface ProductCardProps {
   product: Product;
@@ -26,10 +14,23 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
-  const { favorites, addToFavorite, removeFromFavorite } = useContext(FavoritesContext);
-  const { selectedCity } = useContext(CityContext);
+  const favoritesContext = useContext(FavoritesContext);
+  const cityContext = useContext(CityContext);
 
-  const isFavorite = favorites.includes(product.sku);
+  if (!favoritesContext) {
+    throw new Error("FavoritesContext must be used within its provider");
+  }
+  if (!cityContext) {
+    throw new Error("CityContext must be used within its provider");
+  }
+
+  const { favorites } = favoritesContext;
+  const { selectedCity } = cityContext;
+
+  const addToFavorite = favoritesContext.addToFavorite ?? (() => {});
+  const removeFromFavorite = favoritesContext.removeFromFavorite ?? (() => {});
+
+  const isFavorite = favorites?.includes(product.sku) ?? false;
 
   const toggleFavorite = () => {
     if (isFavorite) {
@@ -50,9 +51,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
     }
   };
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("ru-RU").format(price);
-  };
+  function formatPrice(price: string): string {
+    const numberPrice = parseFloat(price);
+    return numberPrice.toLocaleString("kz", { useGrouping: true }).replace(/,/g, " ");
+  }
 
   const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
 
@@ -60,7 +62,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
     <div className={`${styles.productCard} ${type === "day" ? styles.productCardDay : ""}`}>
       <div className={styles.productCardHeader}>
         <div className={styles.productCardStickers}>
-          {product.stickers?.length > 0 &&
+          {product.stickers &&
+            product.stickers?.length > 0 &&
             product.stickers.map((label, index) => (
               <span key={index} style={{ backgroundColor: label.background_color }} className={styles.productCardLabel}>
                 {label.title}
@@ -82,7 +85,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
         {product.reviews ? (
           <>
             <Image className={styles.reviewsIcon} src="/images/icons/star.svg" alt="" width={20} height={20} />
-            <span className={styles.reviewsRating}>{(product.rating * 0.05).toFixed(2)}</span>
+            {product.rating ? <span className={styles.reviewsRating}>{(product.rating * 0.05).toFixed(2)}</span> : <span className={styles.reviewsRating}>5.00</span>}
+
             <span className={styles.reviewsText}>
               ({product.reviews} {getReviewWord(product.reviews)})
             </span>

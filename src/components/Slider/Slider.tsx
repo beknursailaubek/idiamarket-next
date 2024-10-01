@@ -2,6 +2,7 @@
 import Image from "next/image";
 import "./Slider.css";
 import ProductCard from "../ProductCard/ProductCard";
+import { Product } from "@/types";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -14,7 +15,11 @@ import "swiper/css/pagination";
 // import required modules
 import { Navigation, Pagination } from "swiper/modules";
 
-const Slider = ({ dayProducts }) => {
+interface SliderProps {
+  dayProducts: Product[];
+}
+
+const Slider: React.FC<SliderProps> = ({ dayProducts }) => {
   const handleResize = () => {
     if (window.innerWidth > 769 && window.innerWidth < 1025) {
       return 3;
@@ -29,9 +34,9 @@ const Slider = ({ dayProducts }) => {
     <div className={"day-product__slider"}>
       <p className={"px-[20px] mb-[10px] text-base font-bold "}>Товар дня</p>
       <Swiper slidesPerView={handleResize()} loop={true} navigation={{ nextEl: ".product-card__arrow_next", prevEl: ".product-card__arrow_prev" }} modules={[Navigation]} className="product-card__swiper">
-        {dayProducts.map((product, index) => (
+        {dayProducts.map((product: Product, index: number) => (
           <SwiperSlide key={index}>
-            <ProductCard type={"day"} key={index} product={product} className={"pt-0"} />
+            <ProductCard type={"day"} key={index} product={product} />
           </SwiperSlide>
         ))}
       </Swiper>

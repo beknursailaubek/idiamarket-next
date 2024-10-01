@@ -3,33 +3,11 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import styles from "./Filter.module.css";
+import { FilterOptions, FilterValues, Color } from "@/types";
 
 interface FilterProps {
   onFilterChange: (filters: FilterValues) => void;
-  filterOptions: {
-    priceRange: [number, number];
-    colors: Color[];
-    attributes: Attribute[];
-  };
-}
-
-interface FilterValues {
-  priceRange: [number, number];
-  colors: string[];
-  attributes: { [key: string]: string[] | [number, number] };
-}
-
-interface Attribute {
-  title: string;
-  values: string[];
-  display_type: string;
-  code: string;
-}
-
-interface Color {
-  code: string;
-  title: string;
-  hex: string;
+  filterOptions: FilterOptions;
 }
 
 interface SelectedFilter {
@@ -42,18 +20,18 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const { priceRange, colors, attributes } = filterOptions || { priceRange: [0, 0], colors: [], attributes: [] };
+  const { priceRange = [0, 0], colors = [], attributes = [] } = filterOptions || {};
 
   const [minPrice, setMinPrice] = useState<number>(0);
   const [maxPrice, setMaxPrice] = useState<number>(0);
   const [tempMinPrice, setTempMinPrice] = useState<number>(0);
   const [tempMaxPrice, setTempMaxPrice] = useState<number>(0);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
-  const [selectedAttributes, setSelectedAttributes] = useState<{ [key: string]: string[] | [number, number] }>({});
+  const [selectedAttributes, setSelectedAttributes] = useState<Record<string, string[]>>({});
   const [selectedFilters, setSelectedFilters] = useState<SelectedFilter[]>([]);
 
   const [showColors, setShowColors] = useState<boolean>(true);
-  const [visibleAttributes, setVisibleAttributes] = useState<{ [key: string]: boolean }>(attributes.reduce((acc, attr) => ({ ...acc, [attr.code]: true }), {}));
+  const [visibleAttributes, setVisibleAttributes] = useState<{ [key: string]: boolean }>(attributes?.reduce((acc, attr) => ({ ...acc, [attr.code]: true }), {}));
 
   const [expandedSections, setExpandedSections] = useState<{ [key: string]: boolean }>({});
 
@@ -84,24 +62,20 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions }) => {
   }, [filterOptions]);
 
   // Handle attribute changes
-  const handleAttributeChange = (attributeCode, valueCode) => {
-    const newAttributes = { ...selectedAttributes };
+  const handleAttributeChange = (attributeCode: string, valueCode: string) => {
+    setSelectedAttributes((prevAttributes) => {
+      const attributeValues = prevAttributes[attributeCode] || [];
 
-    if (!newAttributes[attributeCode]) {
-      newAttributes[attributeCode] = [];
-    }
+      // Toggle the value in the array
+      const newValues = attributeValues.includes(valueCode) ? attributeValues.filter((val) => val !== valueCode) : [...attributeValues, valueCode];
 
-    if (newAttributes[attributeCode].includes(valueCode)) {
-      newAttributes[attributeCode] = newAttributes[attributeCode].filter((val) => val !== valueCode);
-    } else {
-      newAttributes[attributeCode].push(valueCode);
-    }
+      // Create a new attributes object with the updated value
+      return {
+        ...prevAttributes,
+        [attributeCode]: newValues,
+      };
+    });
 
-    if (newAttributes[attributeCode].length === 0) {
-      delete newAttributes[attributeCode];
-    }
-
-    setSelectedAttributes(newAttributes);
     updateSelectedFilters();
   };
 
@@ -149,7 +123,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions }) => {
   const handleColorChange = (color: Color) => {
     const newSelectedColors = selectedColors.includes(color.code) ? selectedColors.filter((c) => c !== color.code) : [...selectedColors, color.code];
 
-    setSelectedColors(newSelectedColors);
+    setSelectedColors(newSelectedColors as string[]);
   };
 
   const handlePriceChange = () => {
@@ -170,7 +144,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions }) => {
     const filters: SelectedFilter[] = [];
 
     // Handle price filter
-    if (tempMinPrice !== priceRange[0] || tempMaxPrice !== priceRange[1]) {
+    if (priceRange && (tempMinPrice !== priceRange[0] || tempMaxPrice !== priceRange[1])) {
       filters.push({
         label: `Цена: от ${formatPrice(tempMinPrice)} до ${formatPrice(tempMaxPrice)}`,
         type: "price",
@@ -208,7 +182,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions }) => {
   };
 
   const removeFilter = (filter: SelectedFilter) => {
-    // Reset the price range if it's a price filter
     if (filter.type === "price") {
       setMinPrice(priceRange[0]);
       setMaxPrice(priceRange[1]);
@@ -216,9 +189,8 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions }) => {
       setTempMaxPrice(priceRange[1]);
     }
 
-    // Deselect the color if it's a color filter
     if (filter.type === "color") {
-      const colorTitle = filter.label.split(": ")[1]; // Extract color title from label
+      const colorTitle = filter.label.split(": ")[1];
       const colorToRemove = colors.find((color) => color.title === colorTitle);
 
       if (colorToRemove) {
@@ -226,19 +198,20 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions }) => {
       }
     }
 
-    // Deselect the attribute if it's an attribute filter
     if (filter.type === "attribute") {
-      const [attributeTitle, attributeValue] = filter.label.split(": "); // Extract attribute title and value
+      const [attributeTitle, attributeValue] = filter.label.split(": ");
       const attribute = attributes.find((attr) => attr.title === attributeTitle);
 
       if (attribute) {
         setSelectedAttributes((prevAttributes) => {
           const updatedAttributes = { ...prevAttributes };
-          updatedAttributes[attribute.code] = (updatedAttributes[attribute.code] as string[]).filter((val) => val !== attributeValue);
 
-          // If no values left for the attribute, remove the attribute key
-          if (updatedAttributes[attribute.code].length === 0) {
-            delete updatedAttributes[attribute.code];
+          if (Array.isArray(updatedAttributes[attribute.code])) {
+            updatedAttributes[attribute.code] = (updatedAttributes[attribute.code] as string[]).filter((val) => val !== attributeValue);
+
+            if ((updatedAttributes[attribute.code] as string[]).length === 0) {
+              delete updatedAttributes[attribute.code];
+            }
           }
 
           return updatedAttributes;
@@ -246,7 +219,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions }) => {
       }
     }
 
-    // Update the filters to reflect changes
     updateSelectedFilters();
   };
 
@@ -340,7 +312,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions }) => {
           </div>
         )}
 
-        {attributes.map((attribute, index) => (
+        {attributes?.map((attribute, index) => (
           <div key={`${attribute.title}-${index}`} className={styles.filterSection}>
             <div className={styles.filterSectionHeader} onClick={() => toggleAttribute(attribute.code)}>
               <label className={styles.filterTitle}>{attribute.title}</label>

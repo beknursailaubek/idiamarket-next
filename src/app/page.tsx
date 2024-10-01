@@ -6,18 +6,10 @@ import Image from "next/image";
 import ProductCard from "@/components/ProductCard/ProductCard";
 import Banner from "@/components/Banner/Banner";
 import Slider from "@/components/Slider/Slider";
+import { Product } from "@/types";
 
 import styles from "./Home.module.css";
 import AboutAccordion from "@/components/AboutAccordion/AboutAccordion";
-
-interface Product {
-  sku: string;
-  title: string;
-  images: string[];
-  uri: string;
-  rating: number;
-  price: number;
-}
 
 interface HomePageProps {
   params: {
