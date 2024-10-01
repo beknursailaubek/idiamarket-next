@@ -79,7 +79,7 @@ const Header: React.FC = () => {
         const response = await fetch(`${apiUrl}/products/search?query=${encodeURIComponent(searchQuery)}`);
         if (!response.ok) throw new Error("Failed to fetch search results");
         const data = await response.json();
-        setSearchProducts(data);
+        setSearchProducts(data.products);
       } catch (error) {
         setError("An error occurred while fetching search results.");
       } finally {

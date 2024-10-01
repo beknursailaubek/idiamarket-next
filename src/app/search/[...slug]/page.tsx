@@ -12,11 +12,9 @@ interface SearchPageProps {
 async function fetchSearchResults(searchQuery: string, page: number = 1): Promise<InitialData> {
   let url = `${apiUrl}/products/search?query=${encodeURIComponent(searchQuery)}&page=${page}&limit=20`;
   const res = await fetch(url);
-  if (!res.ok) {
-    notFound();
-  }
 
   const data = await res.json();
+  console.log(data);
   return data;
 }
 
@@ -32,10 +30,8 @@ async function getFilterOptions(): Promise<FilterOptions> {
 
 export default async function SearchPage({ params, searchParams }: SearchPageProps) {
   const searchQuery = params.slug?.map(decodeURIComponent).join(" ") || "";
-  console.log("Decoded search query:", searchQuery);
 
   const page = parseInt(searchParams.page || "1", 10);
-  console.log("Params.slug:", params.slug);
 
   const data = await fetchSearchResults(searchQuery, page);
   const filterOptions = await getFilterOptions();

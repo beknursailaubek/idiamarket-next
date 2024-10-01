@@ -41,7 +41,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
   });
 
   const { products, category, pagination } = data;
-  const { totalPages, currentPage } = pagination;
+  const { totalPages, currentPage, totalProducts } = pagination;
 
   // Fetch product data based on filters
   useEffect(() => {
@@ -155,7 +155,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
 
             <div className={styles.categoryPageHeader}>
               <span className={styles.categoryPageCount}>
-                {pagination.totalProducts === 1 ? "Найден" : "Найдено"} {pagination.totalProducts} {getProductWord(pagination.totalProducts)}
+                {totalProducts === 1 ? "Найден" : "Найдено"} {totalProducts} {getProductWord(totalProducts)}
               </span>
               <div className="flex gap-[20px]">
                 <Sort onSortChange={handleSortChange} />
@@ -169,7 +169,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
               <div className={styles.categoryPageInfo}>
                 <h1 className={`title ${styles.pageTitle}`}>{category.title}</h1>
                 <span className={styles.categoryPageCount}>
-                  {pagination.totalProducts === 1 ? "Найден" : "Найдено"} {pagination.totalProducts} {getProductWord(pagination.totalProducts)}
+                  {totalProducts === 1 ? "Найден" : "Найдено"} {totalProducts} {getProductWord(totalProducts)}
                 </span>
               </div>
 

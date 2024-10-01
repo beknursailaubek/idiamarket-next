@@ -10,6 +10,7 @@ import Sort from "@/components/Sort/Sort";
 import CardViews from "@/components/CardViews/CardViews";
 import { getProductWord } from "@/lib/utils";
 import { Product, Filters, InitialData, FilterOptions, FilterValues } from "@/types";
+import Pagination from "@/components/Pagination/Pagination";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
 interface ProductsSearchProps {
@@ -39,11 +40,12 @@ export const ProductsSearch: React.FC<ProductsSearchProps> = ({ initialData, fil
     attributes: {},
   });
 
-  const { products } = data;
+  const { products, pagination } = data;
+  const { totalPages, currentPage, totalProducts } = pagination;
 
   useEffect(() => {
     fetchFilteredData();
-  }, [filters]);
+  }, [filters, searchParams.get("page")]);
 
   const fetchFilteredData = async () => {
     const page = searchParams.get("page") || "1";
@@ -66,7 +68,6 @@ export const ProductsSearch: React.FC<ProductsSearchProps> = ({ initialData, fil
 
     try {
       const res = await fetch(url);
-
       if (!res.ok) throw new Error("Failed to fetch products");
 
       const newData = await res.json();
@@ -87,6 +88,11 @@ export const ProductsSearch: React.FC<ProductsSearchProps> = ({ initialData, fil
 
   const applyFilters = () => {
     setFilters(tempFilters);
+    goToFirstPage();
+  };
+
+  const goToFirstPage = () => {
+    router.push(`?page=1`);
   };
 
   const handleFilterChange = (newFilters: FilterValues) => {
@@ -138,7 +144,7 @@ export const ProductsSearch: React.FC<ProductsSearchProps> = ({ initialData, fil
           <div className={styles.searchPageInfo}>
             <h1 className={`title ${styles.searchPageTitle}`}>Результаты поиска: {title}</h1>
             <span className={styles.searchPageCount}>
-              {products?.length === 1 ? "Найден" : "Найдено"} {products?.length} {getProductWord(products?.length)}
+              {totalProducts === 1 ? "Найден" : "Найдено"} {totalProducts} {getProductWord(totalProducts)}
             </span>
           </div>
           <div className="flex gap-[20px]">
@@ -158,6 +164,8 @@ export const ProductsSearch: React.FC<ProductsSearchProps> = ({ initialData, fil
             <div>Не найдено</div>
           )}
         </div>
+
+        {pagination && pagination.totalPages > 1 && <Pagination totalPages={totalPages} currentPage={currentPage} />}
       </div>
     </div>
   );
