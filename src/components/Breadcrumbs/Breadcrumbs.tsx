@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CityContext } from "@/context/CityContext";
 import styles from "./Breadcrumbs.module.css";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
 interface Breadcrumb {
   name: string;
@@ -19,7 +20,7 @@ interface BreadcrumbsProps {
 
 const fetchBreadcrumbsData = async (code: string, selectedCityUri: string, category_code: string): Promise<Breadcrumb[]> => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/breadcrumbs/${code || category_code}`);
+    const response = await fetch(`${apiUrl}/breadcrumbs/${code || category_code}`);
     if (!response.ok) {
       throw new Error("Failed to fetch breadcrumbs");
     }

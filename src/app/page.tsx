@@ -10,6 +10,7 @@ import { Product } from "@/types";
 
 import styles from "./Home.module.css";
 import AboutAccordion from "@/components/AboutAccordion/AboutAccordion";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
 interface HomePageProps {
   params: {
@@ -18,7 +19,7 @@ interface HomePageProps {
 }
 
 async function getProductsByType(type: string): Promise<Product[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${type}`);
+  const res = await fetch(`${apiUrl}/products/${type}`);
   const products: Product[] = await res.json();
 
   if (!products || products.length === 0) notFound();
@@ -28,7 +29,7 @@ async function getProductsByType(type: string): Promise<Product[]> {
 async function getCategoryCounts(): Promise<Record<string, number>> {
   const categoryCodes = ["torgovye-stellazhi", "palletnye-stellazhi", "skladskie-stellazhi", "metallicheskie-shkafy", "oborudovanie-dlya-aptek", "nejtralnoe-oborudovanie", "vitriny"];
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories/count`, {
+  const res = await fetch(`${apiUrl}/categories/count`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -5,6 +5,7 @@ import ProductSlider from "@/components/ProductSlider/ProductSlider";
 import styles from "./Product.module.css";
 import Attributes from "@/components/Attributes/Attributes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
 interface Product {
   sku: string;
@@ -28,7 +29,7 @@ interface Product {
 
 async function fetchProductData(uri: string): Promise<Product | null> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/${uri}`);
+    const response = await fetch(`${apiUrl}/product/${uri}`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
