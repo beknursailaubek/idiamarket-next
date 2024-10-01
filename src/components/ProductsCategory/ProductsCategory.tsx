@@ -13,7 +13,6 @@ import { getProductWord } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { InitialData, Product, Filters, FilterOptions, SeoData, FilterValues } from "@/types";
 import Seo from "@/components/Seo/Seo";
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 interface ProductsCategoryProps {
   initialData: InitialData;
@@ -62,7 +61,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
       .join("&");
 
     // Build URL with all parameters
-    const url = `${apiUrl}/categories/${category.category_code}?page=${page}&limit=20&minPrice=${minPrice}&maxPrice=${maxPrice}${colorParams ? `&${colorParams}` : ""}${attributeParams ? `&${attributeParams}` : ""}`;
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/categories/${category.category_code}?page=${page}&limit=20&minPrice=${minPrice}&maxPrice=${maxPrice}${colorParams ? `&${colorParams}` : ""}${attributeParams ? `&${attributeParams}` : ""}`;
 
     try {
       const res = await fetch(url);

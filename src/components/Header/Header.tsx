@@ -8,7 +8,6 @@ import { CityContext } from "@/context/CityContext";
 import Modal from "../Modal/Modal";
 import Location from "../Location/Location";
 import Search from "../Search/Search";
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 import styles from "./Header.module.css";
 
@@ -76,7 +75,7 @@ const Header: React.FC = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await fetch(`${apiUrl}/products/search?query=${encodeURIComponent(searchQuery)}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/search?query=${encodeURIComponent(searchQuery)}`);
         if (!response.ok) throw new Error("Failed to fetch search results");
         const data = await response.json();
         setSearchProducts(data);

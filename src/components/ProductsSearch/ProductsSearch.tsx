@@ -10,7 +10,6 @@ import Sort from "@/components/Sort/Sort";
 import CardViews from "@/components/CardViews/CardViews";
 import { getProductWord } from "@/lib/utils";
 import { Product, Filters, InitialData, FilterOptions, FilterValues } from "@/types";
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 interface ProductsSearchProps {
   initialData: InitialData;
@@ -62,7 +61,7 @@ export const ProductsSearch: React.FC<ProductsSearchProps> = ({ initialData, fil
     const sortParams = sortOption ? `&sort=${encodeURIComponent(sortOption)}` : "";
 
     // Build the URL with all query parameters for filtering and sorting
-    const url = `${apiUrl}/products/search?query=${encodeURIComponent(searchQuery)}&page=${page}&limit=20&minPrice=${minPrice}&maxPrice=${maxPrice}${colorParams}${attributeParams ? `&${attributeParams}` : ""}${sortParams}`;
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/products/search?query=${encodeURIComponent(searchQuery)}&page=${page}&limit=20&minPrice=${minPrice}&maxPrice=${maxPrice}${colorParams}${attributeParams ? `&${attributeParams}` : ""}${sortParams}`;
 
     try {
       const res = await fetch(url);

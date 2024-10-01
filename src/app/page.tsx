@@ -7,7 +7,6 @@ import ProductCard from "@/components/ProductCard/ProductCard";
 import Banner from "@/components/Banner/Banner";
 import Slider from "@/components/Slider/Slider";
 import { Product } from "@/types";
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 import styles from "./Home.module.css";
 import AboutAccordion from "@/components/AboutAccordion/AboutAccordion";
@@ -19,7 +18,7 @@ interface HomePageProps {
 }
 
 async function getProductsByType(type: string): Promise<Product[]> {
-  const res = await fetch(`${apiUrl}/products/${type}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${type}`);
   const products: Product[] = await res.json();
 
   if (!products || products.length === 0) notFound();
@@ -29,7 +28,7 @@ async function getProductsByType(type: string): Promise<Product[]> {
 async function getCategoryCounts(): Promise<Record<string, number>> {
   const categoryCodes = ["torgovye-stellazhi", "palletnye-stellazhi", "skladskie-stellazhi", "metallicheskie-shkafy", "oborudovanie-dlya-aptek", "nejtralnoe-oborudovanie", "vitriny"];
 
-  const res = await fetch(`${apiUrl}/categories/count`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories/count`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
