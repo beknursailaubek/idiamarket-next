@@ -5,6 +5,7 @@ import ProductSlider from "@/components/ProductSlider/ProductSlider";
 import styles from "./Product.module.css";
 import Attributes from "@/components/Attributes/Attributes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 interface Product {
   sku: string;
