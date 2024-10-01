@@ -24,7 +24,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     };
   }, [isOpen]);
 
-  const handleClickOutside = (event: MouseEvent) => {
+  const handleClickOutside = (event: React.MouseEvent<HTMLDivElement>) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
       onClose();
     }
@@ -35,7 +35,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   }
 
   return (
-    <div className={`${styles.modalOverlay} ${isOpen ? styles.modalOverlayActive : ""}`} onClick={handleClickOutside as React.MouseEventHandler<HTMLDivElement>}>
+    <div className={`${styles.modalOverlay} ${isOpen ? styles.modalOverlayActive : ""}`} onClick={handleClickOutside}>
       <div className={`${styles.modalContent} ${isOpen ? styles.modalContentActive : ""}`} ref={modalRef}>
         <Image className={styles.modalClose} src="/images/icons/close.svg" alt="" onClick={onClose} width={24} height={24} />
         {children}
