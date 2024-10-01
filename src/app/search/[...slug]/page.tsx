@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { ProductsSearch } from "@/components/ProductsSearch/ProductsSearch";
 import { InitialData, FilterOptions } from "@/types";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 interface SearchPageProps {
   params: { slug: string[] };
@@ -9,7 +10,7 @@ interface SearchPageProps {
 }
 
 async function fetchSearchResults(searchQuery: string, page: number = 1): Promise<InitialData> {
-  let url = `http://localhost:8080/api/products/search?query=${encodeURIComponent(searchQuery)}&page=${page}&limit=20`;
+  let url = `${apiUrl}/products/search?query=${encodeURIComponent(searchQuery)}&page=${page}&limit=20`;
   const res = await fetch(url);
   if (!res.ok) {
     notFound();
@@ -20,7 +21,7 @@ async function fetchSearchResults(searchQuery: string, page: number = 1): Promis
 }
 
 async function getFilterOptions(): Promise<FilterOptions> {
-  const response = await fetch(`http://localhost:8080/api/products/search/filters`);
+  const response = await fetch(`${apiUrl}/products/search/filters`);
   if (!response.ok) {
     console.warn("No filters found for search");
   }

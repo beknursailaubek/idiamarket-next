@@ -28,7 +28,7 @@ interface Product {
 
 async function fetchProductData(uri: string): Promise<Product | null> {
   try {
-    const response = await fetch(`http://localhost:8080/api/product/${uri}`);
+    const response = await fetch(`${apiUrl}/product/${uri}`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }

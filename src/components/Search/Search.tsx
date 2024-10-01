@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import styles from "./Search.module.css";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 interface Product {
   uri: string;
@@ -37,7 +38,7 @@ const Search: React.FC<SearchProps> = ({ isOpen, onClose, searchProducts, search
   useEffect(() => {
     const fetchSuitableProducts = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/products/popular`);
+        const response = await fetch(`${apiUrl}/products/popular`);
         if (!response.ok) throw new Error("Failed to fetch suitable products");
         const data = await response.json();
         setSuitableProducts(data);

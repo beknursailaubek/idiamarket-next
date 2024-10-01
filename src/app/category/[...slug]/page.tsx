@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { ProductsCategory } from "@/components/ProductsCategory/ProductsCategory";
 import { InitialData, FilterOptions } from "@/types";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 interface CategoryPageProps {
   params: { slug: string[] };
@@ -9,7 +10,7 @@ interface CategoryPageProps {
 }
 
 async function getProductsByCategory(category_code: string, page: number = 1, minPrice?: string, maxPrice?: string, colors?: string[]): Promise<InitialData> {
-  let url = `http://localhost:8080/api/categories/${category_code}?page=${page}&limit=20`;
+  let url = `${apiUrl}/categories/${category_code}?page=${page}&limit=20`;
 
   if (minPrice) url += `&minPrice=${minPrice}`;
   if (maxPrice) url += `&maxPrice=${maxPrice}`;
@@ -31,7 +32,7 @@ async function getProductsByCategory(category_code: string, page: number = 1, mi
 }
 
 async function getFilterOptions(category_code: string): Promise<FilterOptions> {
-  const response = await fetch(`http://localhost:8080/api/categories/${category_code}/filters`);
+  const response = await fetch(`${apiUrl}/categories/${category_code}/filters`);
   if (!response.ok) {
     console.warn(`No filters found for category: ${category_code}`);
   }
