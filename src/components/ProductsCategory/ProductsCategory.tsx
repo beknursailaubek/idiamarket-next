@@ -26,7 +26,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
   const [data, setData] = useState<InitialData>(initialData);
   const [initialProducts, setInitialProducts] = useState<Product[]>(initialData.products);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(initialData.products);
-  const [sortOption, setSortOption] = useState<string>("");
+  const [sortOption, setSortOption] = useState<string>("popular");
 
   const [tempFilters, setTempFilters] = useState<Filters>({
     priceRange: [0, Infinity],
@@ -46,23 +46,21 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
   // Fetch product data based on filters
   useEffect(() => {
     fetchFilteredData();
-  }, [filters, searchParams.get("page")]);
+  }, [filters, searchParams.get("page"), sortOption]);
 
   const fetchFilteredData = async () => {
     const page = searchParams.get("page") || "1";
     const minPrice = filters.priceRange[0];
     const maxPrice = filters.priceRange[1];
+    const sortParam = sortOption ? `&sorting=${encodeURIComponent(sortOption)}` : "";
 
-    // Concatenate color filters properly
-    const colorParams = filters.colors.length > 0 ? `colors=${filters.colors.join(",")}` : "";
+    const colorParams = filters.colors.length > 0 ? `&colors=${filters.colors.join(",")}` : "";
 
-    // Concatenate attribute filters properly
     const attributeParams = Object.entries(filters.attributes)
       .map(([key, values]) => values.map((value) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join("&"))
       .join("&");
 
-    // Build URL with all parameters
-    const url = `${apiUrl}/categories/${category.category_code}?page=${page}&limit=20&minPrice=${minPrice}&maxPrice=${maxPrice}${colorParams ? `&${colorParams}` : ""}${attributeParams ? `&${attributeParams}` : ""}`;
+    const url = `${apiUrl}/categories/${category.category_code}?page=${page}&limit=20&minPrice=${minPrice}&maxPrice=${maxPrice}${colorParams}${attributeParams ? `&${attributeParams}` : ""}${sortParam}`;
 
     try {
       const res = await fetch(url);
@@ -102,37 +100,8 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
 
   const handleSortChange = (selectedSortOption: string) => {
     setSortOption(selectedSortOption);
-    sortProducts(filteredProducts, selectedSortOption);
+    goToFirstPage();
   };
-
-  const sortProducts = (productsList: Product[], sortOption: string) => {
-    let sortedProducts = [...productsList];
-    switch (sortOption) {
-      case "По популярности":
-        sortedProducts.sort((a, b) => (b.view_count || 0) - (a.view_count || 0));
-        break;
-      case "По скидке":
-        sortedProducts.sort((a, b) => {
-          const discountA = a.old_price ? parseFloat(a.old_price) - parseFloat(a.price) : 0;
-          const discountB = b.old_price ? parseFloat(b.old_price) - parseFloat(b.price) : 0;
-          return discountB - discountA;
-        });
-        break;
-      case "По новизне":
-        sortedProducts.sort((a, b) => new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime());
-        break;
-      case "По возрастанию цены":
-        sortedProducts.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-        break;
-      case "По убыванию цены":
-        sortedProducts.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
-        break;
-      default:
-        break;
-    }
-    setFilteredProducts(sortedProducts);
-  };
-
   return (
     <div className={styles.categoryPage}>
       <Filter filterOptions={filterOptions} onFilterChange={handleFilterChange} />

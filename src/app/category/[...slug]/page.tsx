@@ -9,7 +9,7 @@ interface CategoryPageProps {
   searchParams: { [key: string]: string };
 }
 
-async function getProductsByCategory(category_code: string, page: number = 1, minPrice?: string, maxPrice?: string, colors?: string[]): Promise<InitialData> {
+async function getProductsByCategory(category_code: string, page: number = 1, minPrice?: string, maxPrice?: string, colors?: string[], sort: string = "popular"): Promise<InitialData> {
   let url = `${apiUrl}/categories/${category_code}?page=${page}&limit=20`;
 
   if (minPrice) url += `&minPrice=${minPrice}`;
@@ -18,6 +18,10 @@ async function getProductsByCategory(category_code: string, page: number = 1, mi
   if (colors && colors.length > 0) {
     const colorParams = colors.map((color) => `colors=${encodeURIComponent(color)}`).join("&");
     url += `&${colorParams}`;
+  }
+
+  if (sort) {
+    url += `&sorting=${encodeURIComponent(sort)}`;
   }
 
   console.log(url);
@@ -46,7 +50,6 @@ export async function generateMetadata({ params, searchParams }: CategoryPagePro
   const data = await getProductsByCategory(category_code, 1);
 
   if (!data.category || !data.category.meta_data) {
-    console.warn("Category data or meta_data is missing:", data);
     return {
       title: "IDIA Market – купить торговое оборудование",
       description: "Качественные товары по доступным ценам на idiamarket.kz",
@@ -71,7 +74,9 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
   const colors = searchParams.colors ? searchParams.colors.split(",") : [];
 
-  const data = await getProductsByCategory(category_code, page, minPrice, maxPrice, colors);
+  const sort = searchParams.sort || "popular";
+
+  const data = await getProductsByCategory(category_code, page, minPrice, maxPrice, colors, sort);
 
   const filterOptions = await getFilterOptions(category_code);
 
