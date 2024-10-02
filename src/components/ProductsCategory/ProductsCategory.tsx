@@ -102,6 +102,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
     setSortOption(selectedSortOption);
     goToFirstPage();
   };
+  
   return (
     <div className={styles.categoryPage}>
       <Filter filterOptions={filterOptions} onFilterChange={handleFilterChange} />
