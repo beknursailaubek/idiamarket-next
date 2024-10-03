@@ -1,0 +1,57 @@
+.description {
+  width: 100%;
+  position: relative;
+  padding: 50px 80px 60px;
+  background: var(--white);
+  border-radius: 8px;
+  overflow-x: hidden;
+}
+
+.descriptionTitle {
+  margin-bottom: 30px;
+}
+
+.descriptionHide {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.descriptionHidden {
+  height: 500px;
+  overflow-y: hidden;
+}
+
+.descriptionHidden::before {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 200px;
+  content: "";
+  background: linear-gradient(180deg, hsla(0, 0%, 100%, 0), #fff 66.15%);
+  border-radius: 8px;
+}
+
+.descriptionBtn {
+  height: 40px;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.descriptionBtnText {
+  color: var(--blue-light);
+  font-size: 14px;
+}
+
+.descriptionBtnImg {
+  filter: invert(43%) sepia(97%) saturate(2347%) hue-rotate(189deg) brightness(105%) contrast(91%);
+}

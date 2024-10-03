@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 import styles from "./Attributes.module.css";
 
@@ -25,7 +25,7 @@ const Attributes: React.FC<AttributesProps> = ({ attributes }) => {
   };
 
   return (
-    <div className={styles.attributes}>
+    <div className={`${styles.attributes} ${isAttributesHidden ? styles.attributesHidden : null}`}>
       <h2 className="title">Характеристики</h2>
 
       <div className={styles.attributesList}>
