@@ -43,12 +43,7 @@
   }
 
   .popularProducts {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 425px) {
-  .popularProducts {
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    overflow-x: scroll;
   }
 }

@@ -21,36 +21,10 @@ interface SliderProps {
 }
 
 const Slider: React.FC<SliderProps> = ({ dayProducts }) => {
-  const [slidesPerView, setSlidesPerView] = useState(1);
-
-  useEffect(() => {
-    // Define the resize handler to adjust the number of slides
-    const handleResize = () => {
-      if (window.innerWidth > 769 && window.innerWidth < 1025) {
-        setSlidesPerView(3);
-      } else if (window.innerWidth < 769 && window.innerWidth > 426) {
-        setSlidesPerView(2);
-      } else if (window.innerWidth < 426) {
-        setSlidesPerView(1);
-      } else {
-        setSlidesPerView(1);
-      }
-    };
-
-    // Set the initial value based on current window size
-    handleResize();
-
-    // Add event listener for window resize
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup on component unmount
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   return (
     <div className={"day-product__slider"}>
       <p className={"px-[20px] mb-[10px] text-base font-bold "}>Товар дня</p>
-      <Swiper slidesPerView={slidesPerView} loop={true} navigation={{ nextEl: ".product-card__arrow_next", prevEl: ".product-card__arrow_prev" }} modules={[Navigation]} className="product-card__swiper">
+      <Swiper loop={true} navigation={{ nextEl: ".product-card__arrow_next", prevEl: ".product-card__arrow_prev" }} modules={[Navigation]} className="product-card__swiper">
         {dayProducts.map((product: Product, index: number) => (
           <SwiperSlide key={index}>
             <ProductCard type={"day"} key={index} product={product} />

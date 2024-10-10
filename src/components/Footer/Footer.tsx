@@ -91,67 +91,67 @@ const Footer = () => {
 
               <ul className={styles.footerMenu}>
                 <li className={styles.footerItem}>
-                  <Link href={`/category/stellazhi/torgovye-stellazhi`} className={styles.footerLink}>
+                  <Link href={`/category/metallicheskie-stellazhi/torgovye-stellazhi`} className={styles.footerLink}>
                     Торговые стеллажи
                   </Link>
                 </li>
                 <li className={styles.footerItem}>
-                  <Link href={`/category/torgovoe-oborudovanie`} className={styles.footerLink}>
+                  <Link href="" className={styles.footerLink}>
                     Торговое оборудование
                   </Link>
                 </li>
                 <li className="footerItem">
-                  <Link href={`/category/holodilnoe-oborudovanie`} className={styles.footerLink}>
+                  <Link href="" className={styles.footerLink}>
                     Холодильное оборудование
                   </Link>
                 </li>
                 <li className="footerItem">
-                  <Link href={`/category/oborudovanie-dlya-obshepita`} className={styles.footerLink}>
+                  <Link href="" className={styles.footerLink}>
                     Оборудование для общепита
                   </Link>
                 </li>
                 <li className="footerItem">
-                  <Link href={`/category/pos-oborudovanie`} className={styles.footerLink}>
+                  <Link href="" className={styles.footerLink}>
                     POS оборудование
                   </Link>
                 </li>
                 <li className="footerItem">
-                  <Link href={`/category/kommercheskaya-mebel`} className={styles.footerLink}>
+                  <Link href="" className={styles.footerLink}>
                     Коммерческая мебель
                   </Link>
                 </li>
                 <li className="footerItem">
-                  <Link href={`/category/skladskie-stellazhi`} className={styles.footerLink}>
+                  <Link href="" className={styles.footerLink}>
                     Складские стеллажи
                   </Link>
                 </li>
                 <li className="footerItem">
-                  <Link href={`/category/nejtralnoe-oborudovanie`} className={styles.footerLink}>
+                  <Link href="" className={styles.footerLink}>
                     Нейтральное оборудование
                   </Link>
                 </li>
                 <li className="footerItem">
-                  <Link href={`/category/metallicheskie-shkafy`} className={styles.footerLink}>
+                  <Link href="" className={styles.footerLink}>
                     Металлические шкафы
                   </Link>
                 </li>
                 <li className="footerItem">
-                  <Link href={`/category/oborudovanie-dlya-aptek`} className={styles.footerLink}>
+                  <Link href="" className={styles.footerLink}>
                     Оборудование для аптек
                   </Link>
                 </li>
                 <li className="footerItem">
-                  <Link href={`/category/palletnye-stellazhi`} className={styles.footerLink}>
+                  <Link href="" className={styles.footerLink}>
                     Паллетные стеллажи
                   </Link>
                 </li>
                 <li className="footerItem">
-                  <Link href={`/category/kassovye-boksy`} className={styles.footerLink}>
+                  <Link href="" className={styles.footerLink}>
                     Кассовые боксы
                   </Link>
                 </li>
                 <li className="footerItem">
-                  <Link href={`/category/vitriny`} className={styles.footerLink}>
+                  <Link href="" className={styles.footerLink}>
                     Витрины
                   </Link>
                 </li>

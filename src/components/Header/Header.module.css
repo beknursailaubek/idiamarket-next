@@ -1,16 +1,16 @@
-.headerTop {
-  background: var(--white);
-  border-bottom: 1px solid #f4f4f4;
-  position: relative;
-  z-index: 9999;
-}
-
-.headerBottom {
+.header {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 9999;
   background: var(--white);
+}
+
+.headerTop {
+  border-bottom: 1px solid #f4f4f4;
+}
+
+.headerBottom {
 }
 
 .headerInner {

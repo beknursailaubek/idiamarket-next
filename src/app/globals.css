@@ -124,4 +124,8 @@ body::-webkit-scrollbar-track {
   .container {
     padding: 0 12px;
   }
+
+  .main {
+    gap: 30px;
+  }
 }

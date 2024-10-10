@@ -29,7 +29,7 @@ export default async function Categories() {
   return (
     <section>
       <div className="container">
-        <p className={"title"}>Категории</p>
+        <p className={`title ${styles.title}`}>Категории</p>
 
         <div className={styles.categoriesBox}>
           <div className={`${styles.categoriesGroup} ${styles.categoriesGroup3}`}>

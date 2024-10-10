@@ -96,7 +96,7 @@ const Header: React.FC = () => {
   }, [searchQuery]);
 
   return (
-    <>
+    <header className={styles.header}>
       <div className={styles.headerTop}>
         <div className={`${styles.headerInner} container`}>
           <Link href="/" className={styles.headerLogo}>
@@ -132,7 +132,7 @@ const Header: React.FC = () => {
         </div>
       </div>
 
-      <header className={styles.headerBottom}>
+      <div className={styles.headerBottom}>
         <div className={`${styles.headerInner} container`}>
           <button className={styles.categoryBtn}>
             <Image src="/images/icons/category.svg" alt="Category" className={styles.categoryBtnIcon} width={20} height={20} />
@@ -166,14 +166,14 @@ const Header: React.FC = () => {
         </div>
 
         <Search searchQuery={searchQuery} searchProducts={searchProducts} isOpen={isSearchOpen} onClose={closeSearch} />
-      </header>
+      </div>
 
       <Menu isOpen={isMenuOpen} />
 
       <Modal isOpen={isLocationModalOpen} onClose={closeLocationModal}>
         <Location closeModal={closeLocationModal} />
       </Modal>
-    </>
+    </header>
   );
 };
 
