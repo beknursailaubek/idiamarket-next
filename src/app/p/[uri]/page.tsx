@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import styles from "./Product.module.css";
 import Attributes from "@/components/Attributes/Attributes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
-import Desciption from "@/components/Description/Description";
+import Description from "@/components/Description/Description";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 import { Product, AttributeItem } from "@/types";
 import ProductInfo from "@/components/ProductInfo/ProductInfo";
@@ -66,7 +66,7 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
         <div className={styles.productPageBody}>
           <ProductInfo product={product} />
 
-          {productDescription && <Desciption content={productDescription.html_content} />}
+          {productDescription && <Description content={productDescription.html_content} />}
 
           <Attributes attributes={attributeGroups} />
         </div>
