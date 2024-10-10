@@ -50,7 +50,7 @@
   gap: 10px;
 }
 
-.footerLink {   
+.footerLink {
   color: var(--grey-90);
 }
 
@@ -166,4 +166,20 @@
 .copyright {
   font-size: 12px;
   font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .footerColumns {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 425px) {
+  .subscribe {
+    max-width: 100%;
+  }
+
+  .socials {
+    justify-content: center;
+  }
 }

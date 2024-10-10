@@ -28,8 +28,10 @@ const Slider: React.FC<SliderProps> = ({ dayProducts }) => {
     const handleResize = () => {
       if (window.innerWidth > 769 && window.innerWidth < 1025) {
         setSlidesPerView(3);
-      } else if (window.innerWidth < 769) {
+      } else if (window.innerWidth < 769 && window.innerWidth > 426) {
         setSlidesPerView(2);
+      } else if (window.innerWidth < 426) {
+        setSlidesPerView(1);
       } else {
         setSlidesPerView(1);
       }

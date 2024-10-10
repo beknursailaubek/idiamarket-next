@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import styles from "./Search.module.css";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
@@ -127,7 +128,7 @@ const Search: React.FC<SearchProps> = ({ isOpen, onClose, searchProducts, search
             <div className={styles.searchResults}>
               {searchProducts.map((product) => (
                 <Link href={`/p/${product.uri}`} key={product.uri} className={styles.searchCard} onClick={onClose}>
-                  <img className={styles.searchCardImage} src={product.images && product.images[0] ? product.images[0] : "/default-image.png"} alt={product.title} width={60} height={60} />
+                  <Image className={styles.searchCardImage} src={product.images && product.images[0] ? product.images[0] : "/default-image.png"} alt={product.title} width={60} height={60} />
                   <div className={styles.searchCardInfo}>
                     <p className={styles.searchCardTitle}>{product.title}</p>
                     {product.price_from ? <span className={styles.productCardPriceActual}>от {formatPrice(product.price)} ₸</span> : <span className={styles.productCardPriceActual}>{formatPrice(product.price)} ₸</span>}
@@ -140,7 +141,7 @@ const Search: React.FC<SearchProps> = ({ isOpen, onClose, searchProducts, search
             <div className={styles.searchResults}>
               {suitableProducts.map((product) => (
                 <Link href={`/p/${product.uri}`} key={product.uri} className={styles.searchCard} onClick={onClose}>
-                  <img className={styles.searchCardImage} src={product.images && product.images[0] ? product.images[0] : "/default-image.png"} alt={product.title} width={60} height={60} />
+                  <Image className={styles.searchCardImage} src={product.images && product.images[0] ? product.images[0] : "/default-image.png"} alt={product.title} width={60} height={60} />
                   <div className={styles.searchCardInfo}>
                     <p className={styles.searchCardTitle}>{product.title}</p>
                     {product.price_from ? <span className={styles.productCardPriceActual}>от {formatPrice(product.price)} ₸</span> : <span className={styles.productCardPriceActual}>{formatPrice(product.price)} ₸</span>}

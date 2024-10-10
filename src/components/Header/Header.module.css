@@ -195,6 +195,7 @@
 
 .burger {
   display: none;
+  cursor: pointer;
 }
 
 @media (max-width: 1352px) {
@@ -215,6 +216,10 @@
 }
 
 @media (max-width: 1024px) {
+  .headerInner {
+    height: 56px;
+  }
+
   .headerInfo {
     order: -1;
   }

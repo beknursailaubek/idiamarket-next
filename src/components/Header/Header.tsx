@@ -3,13 +3,14 @@ import React, { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { FavoritesContext } from "../../context/FavoritesContext";
+import { FavoritesContext } from "@/context/FavoritesContext";
 import { CityContext } from "@/context/CityContext";
-import Modal from "../Modal/Modal";
-import Location from "../Location/Location";
-import Search from "../Search/Search";
+import Modal from "@/components/Modal/Modal";
+import Location from "@/components/Location/Location";
+import Search from "@/components/Search/Search";
 
 import styles from "./Header.module.css";
+import Menu from "@/components/Menu/Menu";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
 const Header: React.FC = () => {
@@ -39,6 +40,10 @@ const Header: React.FC = () => {
   const closeLocationModal = () => setLocationModalOpen(false);
   const openSearch = () => setSearchOpen(true);
   const closeSearch = () => setSearchOpen(false);
+
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  const openMenu = () => setMenuOpen(true);
+  const closeMenu = () => setMenuOpen(false);
 
   const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
 
@@ -123,7 +128,7 @@ const Header: React.FC = () => {
             </ul>
           </nav>
 
-          <Image className={styles.burger} src="/images/icons/burger.svg" alt="" width={24} height={24} />
+          {isMenuOpen ? <Image className={styles.burger} src="/images/icons/close.svg" alt="" width={24} height={24} onClick={closeMenu} /> : <Image className={styles.burger} src="/images/icons/burger.svg" alt="" width={24} height={24} onClick={openMenu} />}
         </div>
       </div>
 
@@ -162,6 +167,8 @@ const Header: React.FC = () => {
 
         <Search searchQuery={searchQuery} searchProducts={searchProducts} isOpen={isSearchOpen} onClose={closeSearch} />
       </header>
+
+      <Menu isOpen={isMenuOpen} />
 
       <Modal isOpen={isLocationModalOpen} onClose={closeLocationModal}>
         <Location closeModal={closeLocationModal} />

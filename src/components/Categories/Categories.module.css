@@ -1,0 +1,149 @@
+/* CATEGORIES */
+.categoriesBox {
+  display: flex;
+  gap: 20px;
+}
+
+.categoriesGroup {
+  display: grid;
+  gap: 20px;
+}
+
+.categoriesGroup3 {
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.categoriesGroup4 {
+  grid-template-rows: repeat(4, 1fr);
+}
+
+.category {
+  min-width: 200px;
+  min-height: 135px;
+  position: relative;
+  display: flex;
+  padding: 30px 20px 20px 20px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  text-align: center;
+  background: var(--white);
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.categoryImage {
+  margin: auto;
+  height: 80%;
+  object-fit: contain;
+}
+
+.category:hover {
+  transform: scale(1.02);
+}
+
+.categoryMd {
+  padding: 25px 15px 20px 15px;
+}
+
+.categorySm {
+  padding: 20px 10px 10px 10px;
+  font-size: 12px;
+}
+
+.categoryTitle {
+  color: var(--grey);
+  font-weight: 300;
+}
+
+.categoryCount {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: var(--grey-light);
+  font-size: 12px;
+  font-weight: 300;
+}
+
+/* Specific category classes */
+.categoryTorgovyeStellazhi {
+  grid-row: span 2;
+}
+
+.categoryKassovye {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.categoryPalletnyeStellazhi {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.categorySkladskieStellazhi {
+  grid-column: 2;
+  grid-row: span 2;
+}
+
+.categoryTorgovoeOborudovanie {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.categoryHolodilnoe {
+  grid-column: span 2;
+  grid-row: 1;
+}
+
+.categoryPosOborudovanie {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.categoryVitriny {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+.categoryMetallicheskieShkafy {
+  grid-column: 2;
+  grid-row: 2 / span 2;
+}
+
+.categoryOborudovanieDlyaAptek {
+  grid-row: 1;
+}
+
+.categoryNejtralnoeOborudovanie {
+  grid-row: 2 / span 2;
+}
+
+.categoryOborudovanieDlyaObshepita {
+  grid-row: 4;
+}
+
+@media (max-width: 1352px) {
+  .category {
+    min-width: auto;
+    width: auto;
+  }
+}
+
+@media (max-width: 425px) {
+  .categoriesBox {
+    display: block;
+  }
+  .categoriesGroup {
+    display: block;
+  }
+
+  .category {
+    margin-bottom: 20px;
+  }
+
+  .categoryImage {
+    height: 200px;
+    object-fit: contain;
+  }
+}
