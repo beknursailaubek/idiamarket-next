@@ -127,6 +127,7 @@ body::-webkit-scrollbar-track {
 
   .main {
     gap: 16px;
+    padding: 10px 0 20px;
   }
 
   .title {
