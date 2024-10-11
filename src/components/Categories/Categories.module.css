@@ -1,5 +1,6 @@
 /* CATEGORIES */
 .categoriesBox {
+  height: 600px;
   display: flex;
   gap: 20px;
 }
@@ -141,6 +142,7 @@
     gap: 0;
     overflow-x: scroll;
     overflow-y: hidden;
+    height: auto;
   }
 
   .categoriesBox::-webkit-scrollbar {
@@ -172,6 +174,9 @@
   }
 
   .categorySm {
+  }
+
+  .categoryTitle {
     font-size: 14px;
   }
 
@@ -184,5 +189,11 @@
   .category {
     width: 120px;
     height: 120px;
+  }
+  .categoryImage {
+    margin: auto;
+    height: 60px;
+    width: 80px;
+    object-fit: contain;
   }
 }

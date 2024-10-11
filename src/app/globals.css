@@ -126,6 +126,6 @@ body::-webkit-scrollbar-track {
   }
 
   .main {
-    gap: 30px;
+    gap: 16px;
   }
 }
