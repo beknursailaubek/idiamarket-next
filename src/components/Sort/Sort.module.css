@@ -49,3 +49,17 @@
 
 .sortOptionSelected {
 }
+
+@media (max-width: 768px) {
+  .sortIconArrow {
+    display: none;
+  }
+  .sortWrapper {
+    width: max-content;
+    text-wrap: nowrap;
+  }
+ 
+  .sort {
+    order: 1;
+  }
+}

@@ -102,7 +102,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
     setSortOption(selectedSortOption);
     goToFirstPage();
   };
-  
+
   return (
     <div className={styles.categoryPage}>
       <Filter filterOptions={filterOptions} onFilterChange={handleFilterChange} />
@@ -127,9 +127,14 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
               <span className={styles.categoryPageCount}>
                 {totalProducts === 1 ? "Найден" : "Найдено"} {totalProducts} {getProductWord(totalProducts)}
               </span>
-              <div className="flex gap-[20px]">
-                <Sort onSortChange={handleSortChange} />
-                <CardViews />
+              <div className={styles.actions}>
+                <div className={styles.view}>
+                  <Sort onSortChange={handleSortChange} />
+                  <CardViews />
+                </div>
+                <div className={styles.filter}>
+                  <Image src="/images/icons/filter.svg" alt="" width={20} height={20} /> Фильтры
+                </div>
               </div>
             </div>
           </>

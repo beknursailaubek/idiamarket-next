@@ -121,10 +121,6 @@ body::-webkit-scrollbar-track {
 }
 
 @media (max-width: 768px) {
-  div:hover {
-    transform: none;
-  }
-
   .container {
     padding: 0 12px;
   }

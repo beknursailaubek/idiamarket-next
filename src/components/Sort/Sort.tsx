@@ -58,7 +58,7 @@ const Sort: FC<SortProps> = ({ onSortChange }) => {
   return (
     <div className={styles.sort} ref={sortRef}>
       <div className={styles.sortWrapper} onClick={toggleDropdown}>
-        <Image className={styles.sortIcon} src="/images/icons/sort.svg" width={16} height={16} alt="" />
+        <Image className={styles.sortIcon} src="/images/icons/sort.svg" width={20} height={20} alt="" />
         {getSelectedLabel()}
         <Image className={styles.sortIconArrow} src={isOpen ? "/images/icons/arrow-up.svg" : "/images/icons/arrow-down.svg"} alt="" width={16} height={16} />
       </div>

@@ -83,6 +83,15 @@
   margin-bottom: 10px;
 }
 
+.filter {
+  display: none;
+}
+
+.view {
+  display: flex;
+  gap: 20px;
+}
+
 @media (max-width: 1024px) {
   .categoryPageProducts {
     grid-template-columns: repeat(3, 1fr);
@@ -113,5 +122,40 @@
 @media (max-width: 768px) {
   .categoryPageProducts {
     grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .categoryPageRedirect:hover {
+    transform: none;
+  }
+
+  .filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    height: 32px;
+    background: var(--white);
+    border-radius: 8px;
+  }
+
+  .actions {
+    width: 100%;
+    display: flex;
+    align-self: center;
+    justify-content: space-between;
+  }
+
+  .view {
+    gap: 8px;
+  }
+
+  .categoryPageHeader {
+    flex-direction: column;
+  }
+
+  .categoryPageCount {
+    margin-top: 15px;
+    order: 1;
   }
 }

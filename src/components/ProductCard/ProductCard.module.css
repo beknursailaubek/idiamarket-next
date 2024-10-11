@@ -220,4 +220,8 @@
   .productCardButtonCart {
     font-size: 14px;
   }
+
+  .productCard:hover {
+    box-shadow: none;
+  }
 }

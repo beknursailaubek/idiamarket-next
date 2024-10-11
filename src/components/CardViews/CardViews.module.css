@@ -26,3 +26,21 @@
   height: 18px;
   width: 18px;
 }
+
+@media (max-width: 768px) {
+  .viewCard.viewActive {
+    display: none;
+  }
+
+  .viewList.viewActive {
+    display: none;
+  }
+
+  .viewCard:not(.viewActive) {
+    display: flex;
+  }
+
+  .viewList:not(.viewActive) {
+    display: flex;
+  }
+}
