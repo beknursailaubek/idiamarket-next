@@ -1,21 +1,111 @@
 /* CATEGORIES */
+.container {
+  max-width: calc(1300px + 40px);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 .categoriesBox {
-  height: 600px;
   display: flex;
   gap: 20px;
+  height: 600px;
 }
 
-.categoriesGroup {
+.categoryGroupLeft {
   display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-areas:
+    "torgovyeStellazhi kassovyeBoksy skladskieStellazhi"
+    "torgovyeStellazhi kassovyeBoksy skladskieStellazhi"
+    "torgovyeStellazhi kassovyeBoksy skladskieStellazhi "
+    "torgovyeStellazhi palletnyeStellazhi skladskieStellazhi "
+    "torgovyeStellazhi palletnyeStellazhi skladskieStellazhi "
+    "torgovyeStellazhi palletnyeStellazhi skladskieStellazhi "
+    "torgovyeStellazhi torgovoeOborudovanie torgovoeOborudovanie "
+    "torgovyeStellazhi torgovoeOborudovanie torgovoeOborudovanie "
+    "torgovyeStellazhi torgovoeOborudovanie torgovoeOborudovanie "
+    "kommercheskayaMebel torgovoeOborudovanie torgovoeOborudovanie "
+    "kommercheskayaMebel torgovoeOborudovanie torgovoeOborudovanie "
+    "kommercheskayaMebel torgovoeOborudovanie torgovoeOborudovanie "
+    "kommercheskayaMebel torgovoeOborudovanie torgovoeOborudovanie ";
   gap: 20px;
+  grid-auto-flow: row;
 }
 
-.categoriesGroup3 {
-  grid-template-rows: repeat(3, 1fr);
+.categoryGroupRight {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-areas:
+    " holodilnoeOborudovanie holodilnoeOborudovanie oborudovanieDlyaAptek"
+    " holodilnoeOborudovanie holodilnoeOborudovanie oborudovanieDlyaAptek"
+    " holodilnoeOborudovanie holodilnoeOborudovanie oborudovanieDlyaAptek"
+    " holodilnoeOborudovanie holodilnoeOborudovanie nejtralnoeOborudovanie"
+    " holodilnoeOborudovanie holodilnoeOborudovanie nejtralnoeOborudovanie"
+    " posOborudovanie metallicheskieShkafy nejtralnoeOborudovanie"
+    " posOborudovanie metallicheskieShkafy nejtralnoeOborudovanie"
+    "  posOborudovanie metallicheskieShkafy nejtralnoeOborudovanie"
+    " posOborudovanie metallicheskieShkafy nejtralnoeOborudovanie"
+    " vitriny metallicheskieShkafy nejtralnoeOborudovanie"
+    " vitriny metallicheskieShkafy oborudovanieDlyaObshepita"
+    " vitriny metallicheskieShkafy oborudovanieDlyaObshepita"
+    " vitriny metallicheskieShkafy oborudovanieDlyaObshepita";
+  gap: 20px;
+  grid-auto-flow: row;
 }
 
-.categoriesGroup4 {
-  grid-template-rows: repeat(4, 1fr);
+.holodilnoeOborudovanie {
+  grid-area: holodilnoeOborudovanie;
+}
+
+.posOborudovanie {
+  grid-area: posOborudovanie;
+}
+
+.vitriny {
+  grid-area: vitriny;
+}
+
+.metallicheskieShkafy {
+  grid-area: metallicheskieShkafy;
+}
+
+.oborudovanieDlyaAptek {
+  grid-area: oborudovanieDlyaAptek;
+}
+
+.nejtralnoeOborudovanie {
+  grid-area: nejtralnoeOborudovanie;
+}
+
+.oborudovanieDlyaObshepita {
+  grid-area: oborudovanieDlyaObshepita;
+}
+
+.kassovyeBoksy {
+  grid-area: kassovyeBoksy;
+}
+
+.palletnyeStellazhi {
+  grid-area: palletnyeStellazhi;
+}
+
+.torgovoeOborudovanie {
+  grid-area: torgovoeOborudovanie;
+}
+
+.skladskieStellazhi {
+  grid-area: skladskieStellazhi;
+}
+
+.kommercheskayaMebel {
+  grid-area: kommercheskayaMebel;
+}
+
+.torgovyeStellazhi {
+  grid-area: torgovyeStellazhi;
 }
 
 .category {
@@ -132,6 +222,11 @@
 }
 
 @media (max-width: 768px) {
+  .container {
+    padding: 0;
+    width: 100%;
+  }
+
   .title {
     display: none;
   }
@@ -139,10 +234,21 @@
   .categoriesBox {
     border-radius: 8px;
     background: var(--white);
+    display: block;
     gap: 0;
     overflow-x: scroll;
     overflow-y: hidden;
     height: auto;
+  }
+
+  .categoryGroupLeft {
+    display: flex;
+    gap: 0;
+  }
+
+  .categoryGroupRight {
+    display: flex;
+    gap: 0;
   }
 
   .categoriesBox::-webkit-scrollbar {
@@ -159,21 +265,21 @@
     background: var(--white);
   }
 
-  .categoriesGroup {
-    display: flex;
-    gap: 0px;
-  }
-
   .category {
-    width: 160px;
-    height: 160px;
+    min-width: 120px;
+    height: 120px;
+    padding: 10px;
   }
 
-  .categoryMd {
-    padding: 20px 10px 10px 10px;
+  .categoryImage {
+    margin: auto;
+    height: 60px;
+    width: 80px;
+    object-fit: contain;
   }
 
-  .categorySm {
+  .categoryCount {
+    display: none;
   }
 
   .categoryTitle {
@@ -187,13 +293,7 @@
 
 @media (max-width: 425px) {
   .category {
-    width: 120px;
+    min-width: 110px;
     height: 120px;
-  }
-  .categoryImage {
-    margin: auto;
-    height: 60px;
-    width: 80px;
-    object-fit: contain;
   }
 }
