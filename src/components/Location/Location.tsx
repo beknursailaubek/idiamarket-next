@@ -54,6 +54,7 @@ const Location: React.FC<LocationProps> = ({ closeModal }) => {
           ))}
         </div>
       </div>
+      <div className={styles.locationModalSwipe}></div>
     </div>
   );
 };

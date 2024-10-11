@@ -193,9 +193,16 @@
   filter: invert(24%) sepia(100%) saturate(7486%) hue-rotate(5deg) brightness(91%) contrast(97%);
 }
 
-.burger {
+.mobileActions {
   display: none;
   cursor: pointer;
+  gap: 10px;
+  align-items: center;
+  margin-left: 16.88px;
+}
+
+.mobileCallImage {
+  filter: invert(13%) sepia(69%) saturate(7490%) hue-rotate(5deg) brightness(91%) contrast(97%);
 }
 
 @media (max-width: 1352px) {
@@ -239,9 +246,8 @@
     display: none;
   }
 
-  .burger {
-    display: block;
-    margin-left: 46px;
+  .mobileActions {
+    display: flex;
   }
 
   .headerMenu {
@@ -251,7 +257,7 @@
 
 @media (max-width: 768px) {
   .actions {
-  display: none;
+    display: none;
   }
 
   .categoryBtn {
