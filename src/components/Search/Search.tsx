@@ -37,6 +37,28 @@ const Search: React.FC<SearchProps> = ({ isOpen, onClose, searchProducts, search
   };
 
   useEffect(() => {
+    const handleResize = () => {
+      if (isOpen && window.innerWidth < 768) {
+        document.body.classList.add("no-scroll");
+      } else {
+        document.body.classList.remove("no-scroll");
+      }
+    };
+
+    if (isOpen && window.innerWidth < 768) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      document.body.classList.remove("no-scroll");
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
     if (isOpen) {
       const fetchSuitableProducts = async () => {
         try {
