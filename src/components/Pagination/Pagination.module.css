@@ -28,3 +28,9 @@
   color: #ccc;
   cursor: not-allowed;
 }
+
+@media (max-width: 768px) {
+  .pagination {
+    margin-top: 16px;
+  }
+}

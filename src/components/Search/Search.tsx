@@ -95,10 +95,10 @@ const Search: React.FC<SearchProps> = ({ isOpen, onClose, searchProducts, search
                   холодильники
                 </Link>
                 <Link href={""} onClick={onClose} className={styles.searchOftenRedirect}>
-                  морозильники
+                  архивные стеллажи
                 </Link>
                 <Link href={""} onClick={onClose} className={styles.searchOftenRedirect}>
-                  pos
+                  хлебные стеллажи
                 </Link>
               </div>
             </div>
@@ -124,20 +124,24 @@ const Search: React.FC<SearchProps> = ({ isOpen, onClose, searchProducts, search
 
         <div className={styles.searchModalResults}>
           <p className={styles.searchModalTitle}>Подходящие товары</p>
-          {searchProducts && searchProducts.length > 0 ? (
-            <div className={styles.searchResults}>
-              {searchProducts.map((product) => (
-                <Link href={`/p/${product.uri}`} key={product.uri} className={styles.searchCard} onClick={onClose}>
-                  <Image className={styles.searchCardImage} src={product.images && product.images[0] ? product.images[0] : "/default-image.png"} alt={product.title} width={60} height={60} />
-                  <div className={styles.searchCardInfo}>
-                    <p className={styles.searchCardTitle}>{product.title}</p>
-                    {product.price_from ? <span className={styles.productCardPriceActual}>от {formatPrice(product.price)} ₸</span> : <span className={styles.productCardPriceActual}>{formatPrice(product.price)} ₸</span>}
-                    {product.old_price && <span className={styles.productCardPriceDiscount}>{formatPrice(product.old_price)} ₸</span>}
-                  </div>
-                </Link>
-              ))}
-            </div>
-          ) : (
+          {searchQuery.length > 2 ? (
+            searchProducts && searchProducts.length > 0 ? (
+              <div className={styles.searchResults}>
+                {searchProducts.map((product) => (
+                  <Link href={`/p/${product.uri}`} key={product.uri} className={styles.searchCard} onClick={onClose}>
+                    <Image className={styles.searchCardImage} src={product.images && product.images[0] ? product.images[0] : "/default-image.png"} alt={product.title} width={60} height={60} />
+                    <div className={styles.searchCardInfo}>
+                      <p className={styles.searchCardTitle}>{product.title}</p>
+                      {product.price_from ? <span className={styles.productCardPriceActual}>от {formatPrice(product.price)} ₸</span> : <span className={styles.productCardPriceActual}>{formatPrice(product.price)} ₸</span>}
+                      {product.old_price && <span className={styles.productCardPriceDiscount}>{formatPrice(product.old_price)} ₸</span>}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <p className={styles.noResults}>Ничего не найдено</p>
+            )
+          ) : suitableProducts.length > 0 ? (
             <div className={styles.searchResults}>
               {suitableProducts.map((product) => (
                 <Link href={`/p/${product.uri}`} key={product.uri} className={styles.searchCard} onClick={onClose}>
@@ -150,7 +154,7 @@ const Search: React.FC<SearchProps> = ({ isOpen, onClose, searchProducts, search
                 </Link>
               ))}
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     </div>

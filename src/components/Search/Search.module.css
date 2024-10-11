@@ -5,6 +5,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
+  z-index: 9999;
 }
 
 .searchModalContent {
@@ -134,4 +135,44 @@
 
 .searchHistoryRedirect {
   color: var(--grey-90);
+}
+
+@media (max-width: 768px) {
+  .searchModal {
+    top: 112px;
+  }
+
+  .searchModalContent {
+    max-width: 100%;
+    height: 100vh;
+    gap: 16px;
+    padding: 0px 12px 12px;
+    flex-direction: column;
+  }
+
+  .searchModalTitle {
+    font-size: 16px;
+  }
+
+  .searchModalInfo {
+    width: 100%;
+  }
+
+  .searchModalResults {
+    width: 100%;
+  }
+
+  .searchOften {
+    height: auto;
+    margin-bottom: 16px;
+  }
+
+  .searchSuggestions {
+    height: auto;
+    display: none;
+  }
+
+  .searchHistory {
+    display: none;
+  }
 }

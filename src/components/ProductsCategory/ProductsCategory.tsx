@@ -9,6 +9,7 @@ import Filter from "@/components/Filter/Filter";
 import Sort from "@/components/Sort/Sort";
 import CardViews from "@/components/CardViews/CardViews";
 import Pagination from "@/components/Pagination/Pagination";
+import Modal from "@/components/Modal/Modal";
 import { getProductWord } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { InitialData, Product, Filters, FilterOptions, SeoData, FilterValues } from "@/types";
@@ -27,6 +28,10 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
   const [initialProducts, setInitialProducts] = useState<Product[]>(initialData.products);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(initialData.products);
   const [sortOption, setSortOption] = useState<string>("popular");
+
+  const [isFilterOpen, setFilterOpen] = useState(false);
+  const openFilter = () => setFilterOpen(true);
+  const closeFilter = () => setFilterOpen(false);
 
   const [tempFilters, setTempFilters] = useState<Filters>({
     priceRange: [0, Infinity],
@@ -132,7 +137,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
                   <Sort onSortChange={handleSortChange} />
                   <CardViews />
                 </div>
-                <div className={styles.filter}>
+                <div className={styles.filter} onClick={openFilter}>
                   <Image src="/images/icons/filter.svg" alt="" width={20} height={20} /> Фильтры
                 </div>
               </div>

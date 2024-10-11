@@ -128,7 +128,21 @@ const Header: React.FC = () => {
             </ul>
           </nav>
 
-          {isMenuOpen ? <Image className={styles.burger} src="/images/icons/close.svg" alt="" width={24} height={24} onClick={closeMenu} /> : <Image className={styles.burger} src="/images/icons/burger.svg" alt="" width={24} height={24} onClick={openMenu} />}
+          {isMenuOpen || isSearchOpen ? (
+            <Image
+              className={styles.burger}
+              src="/images/icons/close.svg"
+              alt=""
+              width={24}
+              height={24}
+              onClick={() => {
+                closeMenu();
+                closeSearch();
+              }}
+            />
+          ) : (
+            <Image className={styles.burger} src="/images/icons/burger.svg" alt="" width={24} height={24} onClick={openMenu} />
+          )}
         </div>
       </div>
 

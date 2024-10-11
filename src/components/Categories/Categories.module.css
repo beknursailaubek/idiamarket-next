@@ -318,6 +318,10 @@
   .categoryGroupLeft > .torgovoeOborudovanie {
     display: none;
   }
+
+  .category:hover {
+    transform: none;
+  }
 }
 
 @media (max-width: 425px) {

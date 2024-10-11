@@ -47,9 +47,6 @@
   border-radius: 8px;
 }
 
-.sortOptionSelected {
-}
-
 @media (max-width: 768px) {
   .sortIconArrow {
     display: none;
@@ -58,7 +55,7 @@
     width: max-content;
     text-wrap: nowrap;
   }
- 
+
   .sort {
     order: 1;
   }

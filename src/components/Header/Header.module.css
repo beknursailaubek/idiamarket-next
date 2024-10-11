@@ -251,10 +251,14 @@
 
 @media (max-width: 768px) {
   .actions {
-    display: none;
+  display: none;
   }
 
   .categoryBtn {
     display: none;
+  }
+
+  .search {
+    max-width: 100%;
   }
 }

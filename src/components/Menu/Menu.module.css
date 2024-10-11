@@ -7,7 +7,7 @@
   width: 100%;
   padding-top: 10px;
   background: white;
-  z-index: 9999;
+  z-index: 999;
   transition: all 0.3s ease-in-out;
 }
 
