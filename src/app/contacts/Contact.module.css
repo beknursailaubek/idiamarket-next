@@ -1,0 +1,27 @@
+.body {
+  padding: 50px 80px;
+  background: var(--white);
+  border-radius: 8px;
+}
+
+.about {
+  margin-bottom: 20px;
+}
+
+.city {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.link {
+  font-size: 14px;
+}
+
+.link:hover {
+  color: var(--red);
+}
+
+.email {
+  text-decoration: underline;
+}

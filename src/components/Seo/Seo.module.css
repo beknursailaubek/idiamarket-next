@@ -110,3 +110,33 @@
 .seoText > ol > li {
   margin-left: 30px;
 }
+
+@media (max-width: 768px) {
+  .seo {
+    padding: 20px 20px 60px;
+  }
+
+  .seoHeader {
+    font-size: 16px;
+  }
+
+  .seoText > p {
+    font-size: 14px;
+  }
+
+  .seoText > h3 {
+    font-size: 14px;
+  }
+
+  .seoText > ul {
+    font-size: 14px;
+  }
+
+  .seoText > ul > li {
+    font-size: 14px;
+  }
+
+  .seoText > ol {
+    font-size: 14px;
+  }
+}

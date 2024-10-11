@@ -119,10 +119,18 @@ const Header: React.FC = () => {
 
             <nav className={styles.headerMenu}>
               <ul className={styles.menuList}>
-                {["Главная", "Проекты", "3D Дизайн", "Доставка", "О нас", "Отзывы", "Контакты"].map((item, index) => (
+                {[
+                  { name: "Главная", path: "" },
+                  { name: "Проекты", path: "" },
+                  { name: "3D Дизайн", path: "" },
+                  { name: "Доставка", path: "" },
+                  { name: "О нас", path: "" },
+                  { name: "Отзывы", path: "" },
+                  { name: "Контакты", path: "contacts" },
+                ].map((item, index) => (
                   <li className={styles.menuItem} key={index}>
-                    <Link href={cityPrefix} className={styles.menuLink}>
-                      {item}
+                    <Link href={`${cityPrefix}/${item.path}`} className={styles.menuLink}>
+                      {item.name}
                     </Link>
                   </li>
                 ))}
