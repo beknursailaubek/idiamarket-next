@@ -45,5 +45,6 @@
   .popularProducts {
     display: flex;
     overflow-x: scroll;
+    gap: 8px;
   }
 }

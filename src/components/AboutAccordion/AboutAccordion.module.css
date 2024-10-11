@@ -64,3 +64,9 @@
 .aboutText:not(:last-child) {
   margin-bottom: 20px;
 }
+
+@media (max-width: 768px) {
+  .aboutInner {
+    padding: 20px 20px 60px;
+  }
+}

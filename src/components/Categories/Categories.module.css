@@ -261,6 +261,10 @@
     border-radius: 8px;
   }
 
+  .oborudovanieDlyaAptek {
+    display: none;
+  }
+
   .categoriesBox::-webkit-scrollbar-track {
     background: var(--white);
   }

@@ -185,3 +185,39 @@
   align-items: center;
   gap: 5px;
 }
+
+@media (max-width: 768px) {
+  .productCardTitle {
+    -webkit-line-clamp: 2;
+    height: 2em;
+    margin-bottom: 4px;
+  }
+  .productCard {
+    position: relative;
+    padding: 16px 10px 10px;
+    margin-bottom: 4px;
+  }
+
+  .productCardActionCompare {
+    display: none;
+  }
+
+  .productCardView {
+    margin-bottom: 10px;
+  }
+
+  .productCardHeader {
+    position: absolute;
+    padding: 8px;
+    top: 0;
+    left: 0;
+  }
+
+  .reviews {
+    margin-bottom: 4px;
+  }
+
+  .productCardButtonCart {
+    font-size: 14px;
+  }
+}

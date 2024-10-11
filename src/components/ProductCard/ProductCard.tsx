@@ -71,7 +71,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
             ))}
         </div>
         <div className={styles.productCardActions}>
-          <Image className={styles.productCardAction} src="/images/icons/compare.svg" width={24} height={24} alt="" />
+          <Image className={`${styles.productCardAction} ${styles.productCardActionCompare}`} src="/images/icons/compare.svg" width={24} height={24} alt="" />
           <Image className={`${styles.productCardAction} ${isFavorite ? styles.productCardActionActive : ""}`} width={24} height={24} src="/images/icons/heart.svg" alt="" onClick={toggleFavorite} />
         </div>
       </div>
