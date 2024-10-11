@@ -19,3 +19,11 @@
 .breadcrumb:not(:last-child):hover {
   text-decoration: underline;
 }
+
+@media (max-width: 768px) {
+  .breadcrumbs {
+    visibility: hidden;
+    margin-bottom: 0;
+    height: 0px;
+  }
+}
