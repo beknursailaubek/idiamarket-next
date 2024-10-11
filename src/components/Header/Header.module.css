@@ -196,9 +196,9 @@
 .mobileActions {
   display: none;
   cursor: pointer;
-  gap: 10px;
+  gap: 15px;
   align-items: center;
-  margin-left: 16.88px;
+  margin-left: 11.88px;
 }
 
 .mobileCallImage {
