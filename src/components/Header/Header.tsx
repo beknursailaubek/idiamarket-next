@@ -109,12 +109,35 @@ const Header: React.FC = () => {
                 <Image src="/images/icons/location.svg" className={styles.locationIcon} alt="Location" width={16} height={16} />
                 <span className={styles.locationCity}>{selectedCity?.title}</span>
               </button>
-              <button className={styles.contacts}>
-                <Image className={styles.contactsIconPhone} src="/images/icons/phone.svg" alt="Phone" width={16} height={16} />
-                <div className={styles.contactsPhone}>8 (727) 344-99-00</div>
-                <Image className={styles.contactsIcon} src="/images/icons/arrow-down.svg" alt="Arrow Down" width={16} height={16} />
-              </button>
-              <span className={styles.headerSchedule}>с 09:00 до 18:00 ежедневно</span>
+              <div className={styles.contacts}>
+                <div className={styles.contactsInfo}>
+                  <Image className={styles.contactsIconPhone} src="/images/icons/phone.svg" alt="Phone" width={16} height={16} />
+                  <Link href="tel:87012667700" className={styles.contactsPhone}>
+                    8 (701) 266-77-00
+                  </Link>
+                  <Image className={styles.contactsIcon} src="/images/icons/arrow-down.svg" alt="Arrow Down" width={16} height={16} />
+                </div>
+                <div className={styles.contactsDropdown}>
+                  <div className={styles.contactsCity}>
+                    <span>Алматы</span>
+                    <span>+7 (701) 266-77-00</span>
+                  </div>
+
+                  <div className={styles.contactsCity}>
+                    <span>Астана </span>
+                    <span>+7 (701) 511-22-00</span>
+                  </div>
+
+                  <div className={styles.contactsCity}>
+                    <span>Шымкент</span>
+                    <span>+7 (701) 266-77-00</span>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.headerSchedules}>
+                <span className={styles.headerSchedule}>пн-пт с 9:00 до 18:00</span>
+                <span className={styles.headerSchedule}>сб с 9:00 до 16:00</span>
+              </div>
             </div>
 
             <nav className={styles.headerMenu}>
