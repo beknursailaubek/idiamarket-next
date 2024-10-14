@@ -347,7 +347,7 @@
     z-index: 9999;
     max-width: 100%;
     bottom: -300%;
-    transition: all 0.3s linear;
+    transition: all 0.4s linear;
     background: var(--white);
   }
 
@@ -362,7 +362,7 @@
     opacity: 1;
     visibility: visible;
     bottom: 0;
-    transition: all 0.3s linear;
+    transition: all 0.4s linear;
   }
 
   .filterMobileHeader {

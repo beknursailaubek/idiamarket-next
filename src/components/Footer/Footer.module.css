@@ -208,15 +208,15 @@
   }
 
   .columnContent {
-    padding: 10px 0;
-    display: none;
+    display: flex;
     max-height: 0px;
-    transition: max-height 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
   }
 
   .columnContentActive {
-    display: flex;
-    max-height: 100%;
+    padding: 10px 0;
+    max-height: 1000px;
     transition: all 0.3s ease-in-out;
   }
 

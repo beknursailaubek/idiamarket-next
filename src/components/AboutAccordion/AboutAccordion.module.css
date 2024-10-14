@@ -5,11 +5,14 @@
   background: var(--white);
   border-radius: 8px;
   padding: 50px 50px 60px;
+  max-height: 5000px;
+  transition: all 0.7s ease-in-out;
 }
 
 .aboutInnerHidden {
-  height: 300px;
+  max-height: 300px;
   overflow-y: hidden;
+  transition: all 0.7s ease-in-out;
 }
 
 .aboutInnerHidden::before {

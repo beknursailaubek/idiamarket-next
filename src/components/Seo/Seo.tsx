@@ -12,9 +12,9 @@ const Seo = ({ data }: { data: SeoData }) => {
   };
 
   return (
-    <div className={styles.seo}>
+    <div className={`${styles.seo}  ${isAboutHidden ? styles.seoInnerHidden : null}`}>
       <h2 className={styles.seoHeader}>{data.meta_header}</h2>
-      <div className={`${styles.seoText} ${isAboutHidden ? styles.seoInnerHidden : null}`} dangerouslySetInnerHTML={{ __html: data.seo_text }}></div>
+      <div className={`${styles.seoText}`} dangerouslySetInnerHTML={{ __html: data.seo_text }}></div>
       <div className={styles.seoHide}>
         <div className={styles.seoBtn} onClick={toggleAboutHidden}>
           <p className={styles.seoBtnText}>{isAboutHidden ? "Читать далее" : "Скрыть"}</p>
