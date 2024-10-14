@@ -348,13 +348,7 @@
     max-width: 100%;
     bottom: -300%;
     transition: all 0.3s linear;
-  }
-
-  .filterBody {
-    padding-top: 76px;
     overflow-y: scroll;
-    height: 100%;
-    transform: translateY(-56px);
   }
 
   .filterMobileActive {
@@ -365,8 +359,6 @@
   }
 
   .filterMobileHeader {
-    position: relative;
-    z-index: 9999;
     height: 56px;
     background: var(--white);
     display: flex;
