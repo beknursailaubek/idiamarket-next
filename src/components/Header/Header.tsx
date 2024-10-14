@@ -119,18 +119,24 @@ const Header: React.FC = () => {
                 </div>
                 <div className={styles.contactsDropdown}>
                   <div className={styles.contactsCity}>
-                    <span>Алматы</span>
-                    <span>+7 (701) 266-77-00</span>
+                    <span className={styles.contactsCityName}>Алматы</span>
+                    <Link href="tel:87013667700" className={styles.contactsCityPhone}>
+                      +7 (701) 266-77-00
+                    </Link>
                   </div>
 
                   <div className={styles.contactsCity}>
-                    <span>Астана </span>
-                    <span>+7 (701) 511-22-00</span>
+                    <span className={styles.contactsCityName}>Астана </span>
+                    <Link href="tel:87015112200" className={styles.contactsCityPhone}>
+                      +7 (701) 511-22-00
+                    </Link>
                   </div>
 
                   <div className={styles.contactsCity}>
-                    <span>Шымкент</span>
-                    <span>+7 (701) 266-77-00</span>
+                    <span className={styles.contactsCityName}>Шымкент</span>
+                    <Link href="tel:87012667700" className={styles.contactsCityPhone}>
+                      +7 (701) 266-77-00
+                    </Link>
                   </div>
                 </div>
               </div>

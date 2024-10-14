@@ -219,32 +219,49 @@
 }
 
 .contactsDropdown {
-  display: none;
+  visibility: hidden;
   opacity: 0;
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%);
   z-index: 999;
-  padding: 10px;
-  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   width: max-content;
+  transform: translateX(-50%);
+  padding: 20px;
+  background: var(--white);
+  border-radius: 8px;
   transition: all 0.3s ease-in-out;
 }
 
 .contactsCity {
   display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.contactsCityName {
+  font-weight: 700;
+}
+
+.contactsCityPhone {
 }
 
 .contacts:hover .contactsDropdown {
+  visibility: visible;
   opacity: 1;
-  display: block;
   transition: all 0.3s ease-in-out;
 }
 
+.contacts:hover .contactsIcon {
+  transform: rotate(180deg);
+}
+
 .contactsDropdown:hover {
+  visibility: visible;
   opacity: 1;
-  display: block;
   transition: all 0.3s ease-in-out;
 }
 

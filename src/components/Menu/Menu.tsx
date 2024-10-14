@@ -22,7 +22,7 @@ const Menu = ({ isOpen }: MenuProps) => {
 
   return (
     <div className={isOpen ? `${styles.menu} ${styles.menuActive}` : `${styles.menu}`}>
-      <div className="container">
+      <div className={`container ${styles.menuInner}`}>
         <div className={styles.row}>
           <div className={styles.rowItem}>
             <Image className={styles.contactsIconMail} src="/images/icons/mail.svg" alt="Phone" width={16} height={16} />
@@ -53,6 +53,11 @@ const Menu = ({ isOpen }: MenuProps) => {
             <p className={styles.actionTitle}>Корзина</p>
           </div>
         </div>
+
+        {/* <div className={styles.schedules}> 
+          <span className={styles.schedule}>пн-пт с 9:00 до 18:00</span>
+          <span className={styles.schedule}>сб с 9:00 до 16:00</span>
+        </div> */}
       </div>
     </div>
   );
