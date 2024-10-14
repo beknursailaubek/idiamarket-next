@@ -353,12 +353,9 @@
 
   .filterInner {
     margin-top: 56px;
-    height: 100%;
+    height: 100vh;
     overflow-y: scroll;
-  }
-
-  .filterBody > div:last-child {
-    padding-bottom: 40px;
+    padding-bottom: 56px;
   }
 
   .filterMobileActive {
