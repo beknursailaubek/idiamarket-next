@@ -353,7 +353,7 @@
 
   .filterInner {
     margin-top: 56px;
-    height: 100vh;
+    height: 100dvh;
     overflow-y: scroll;
     padding-bottom: 56px;
   }
