@@ -348,7 +348,11 @@
     max-width: 100%;
     bottom: -300%;
     transition: all 0.3s linear;
+  }
+
+  .filterInner {
     overflow-y: scroll;
+    height: 100%;
   }
 
   .filterMobileActive {
