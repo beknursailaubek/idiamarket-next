@@ -21,7 +21,6 @@
   padding: 24px;
   border-radius: 8px;
   position: relative;
-  animation: openModal 0.5s;
   transition: all 0.3s ease-in-out;
 }
 
