@@ -353,10 +353,7 @@
   .filterBody {
     overflow-y: scroll;
     height: 100%;
-  }
-
-  .filterBody > div:last-child {
-    margin-bottom: 75px;
+    padding-top: calc(56px + 20px);
   }
 
   .filterMobileActive {
@@ -367,7 +364,12 @@
   }
 
   .filterMobileHeader {
-    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 56px;
+    z-index: 9999;
     background: var(--white);
     display: flex;
     align-items: center;

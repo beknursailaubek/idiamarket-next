@@ -260,7 +260,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
     <div className={`${styles.filter} ${isFilterOpen ? styles.filterMobileActive : null}`}>
       <div className={styles.filterMobileHeader}>
         <span className={styles.filterMobileTitle}>Фильтры</span>
-        <Image onClick={closeFilter} className={styles.filterMobileClose} src="/images/icons/close.svg" width={24} height={24} alt="" />
+        <Image onClick={closeFilter} className={styles.filterMobileClose} src="/images/icons/close.svg" width={20} height={20} alt="" />
       </div>
 
       {/* Selected Filters Section */}
