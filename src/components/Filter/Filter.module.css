@@ -356,6 +356,10 @@
     overflow-y: scroll;
   }
 
+  .filterBody > div:last-child {
+    margin-bottom: calc(56px + 40px);
+  }
+
   .filterMobileActive {
     opacity: 1;
     visibility: visible;
