@@ -355,7 +355,10 @@
     margin-top: 56px;
     height: 100%;
     overflow-y: scroll;
-    padding-bottom: 116px;
+  }
+
+  .filterBody > div:last-child {
+    padding-bottom: 40px;
   }
 
   .filterMobileActive {
