@@ -262,97 +262,100 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
         <span className={styles.filterMobileTitle}>Фильтры</span>
         <Image onClick={closeFilter} className={styles.filterMobileClose} src="/images/icons/close.svg" width={20} height={20} alt="" />
       </div>
-      {/* Selected Filters Section */}
-      {selectedFilters.length > 0 && (
-        <div className={styles.selectedFilters}>
-          <p className={styles.selectedFiltersTitle}>Вы выбрали:</p>
-          <div className={styles.selectedFiltersItems}>
-            {selectedFilters.map((filter, index) => (
-              <button key={index} className={styles.selectedFiltersRemove} onClick={() => removeFilter(filter)}>
-                {filter.label} <Image className={styles.selectedFiltersRemoveImage} src="/images/icons/close.svg" width={20} height={20} alt="" />
-              </button>
-            ))}
-          </div>
-          <button className={styles.selectedFiltersReset} onClick={clearAllFilters}>
-            Очистить все
-          </button>
-        </div>
-      )}
-      <div className={styles.filterBody}>
-        <div className={styles.filterSection}>
-          <div className={styles.filterSectionHeader}>
-            <label htmlFor="price" className={styles.filterTitle}>
-              Цена (₸)
-            </label>
-          </div>
-          <div className={styles.filterBars}>
-            <div className={styles.filterBar}>
-              <label className={styles.filterBarLabel} htmlFor="minPrice">
-                От
-              </label>
-              <input className={styles.filterBarInput} type="text" id="minPrice" value={formatPrice(tempMinPrice)} onBlur={handleBlur} onKeyDown={handleKeyDown} onChange={handleMinPriceChange} />
+
+      <div className={styles.filterInner}>
+        {/* Selected Filters Section */}
+        {selectedFilters.length > 0 && (
+          <div className={styles.selectedFilters}>
+            <p className={styles.selectedFiltersTitle}>Вы выбрали:</p>
+            <div className={styles.selectedFiltersItems}>
+              {selectedFilters.map((filter, index) => (
+                <button key={index} className={styles.selectedFiltersRemove} onClick={() => removeFilter(filter)}>
+                  {filter.label} <Image className={styles.selectedFiltersRemoveImage} src="/images/icons/close.svg" width={20} height={20} alt="" />
+                </button>
+              ))}
             </div>
-            <span className={styles.filterBarDivider}>-</span>
-            <div className={styles.filterBar}>
-              <label className={styles.filterBarLabel} htmlFor="maxPrice">
-                До
-              </label>
-              <input className={styles.filterBarInput} type="text" id="maxPrice" value={formatPrice(tempMaxPrice)} onBlur={handleBlur} onKeyDown={handleKeyDown} onChange={handleMaxPriceChange} />
-            </div>
-          </div>
-        </div>
-        {colors && colors.length > 0 && (
-          <div className={styles.filterSection}>
-            <div className={styles.filterSectionHeader} onClick={toggleColors}>
-              <label className={styles.filterTitle}>Цвет</label>
-              <Image className={styles.filterToggleButton} src={showColors ? "/images/icons/arrow-up.svg" : "/images/icons/arrow-down.svg"} width={20} height={20} alt="" />
-            </div>
-            <div className={`${styles.filterColors} ${styles.filterValues} ${colors.length > 4 && !expandedSections["color"] ? styles.filterValuesHidden : ""}`}>
-              {showColors && (
-                <div className={`${styles.filterColors} ${styles.filterValues} ${colors.length > 4 && !expandedSections["color"] ? styles.filterValuesHidden : ""}`}>
-                  {colors.slice(0, expandedSections["color"] ? colors.length : 4).map((color) => (
-                    <label key={color.code} className={`${styles.filterColor} ${selectedColors.includes(color.code) ? styles.filterColorActive : ""}`}>
-                      <input type="checkbox" value={color.code} onChange={() => handleColorChange(color)} checked={selectedColors.includes(color.code)} />
-                      <span className={styles.filterColorPalette} style={{ backgroundColor: color.hex }}></span>
-                      <span className={styles.filterColorLabel}>{color.title}</span>
-                    </label>
-                  ))}
-                </div>
-              )}
-            </div>
-            {colors.length > 4 && (
-              <button className={styles.toggleButton} onClick={() => toggleSection("color")}>
-                {expandedSections["color"] ? "Скрыть" : "Показать все"}
-              </button>
-            )}
+            <button className={styles.selectedFiltersReset} onClick={clearAllFilters}>
+              Очистить все
+            </button>
           </div>
         )}
-        {attributes?.map((attribute, index) => (
-          <div key={`${attribute.title}-${index}`} className={styles.filterSection}>
-            <div className={styles.filterSectionHeader} onClick={() => toggleAttribute(attribute.code)}>
-              <label className={styles.filterTitle}>{attribute.title}</label>
-              <Image className={styles.filterToggleButton} src={visibleAttributes[attribute.code] ? "/images/icons/arrow-up.svg" : "/images/icons/arrow-down.svg"} width={20} height={20} alt="" />
+        <div className={styles.filterBody}>
+          <div className={styles.filterSection}>
+            <div className={styles.filterSectionHeader}>
+              <label htmlFor="price" className={styles.filterTitle}>
+                Цена (₸)
+              </label>
             </div>
-            <div className={`${styles.filterAttributes} ${styles.filterValues} ${attribute.values.length > 4 && !expandedSections[attribute.code] ? styles.filterValuesHidden : ""}`}>
-              {visibleAttributes[attribute.code] && (
-                <div className={`${styles.filterAttributes} ${styles.filterValues} ${attribute.values.length > 4 && !expandedSections[attribute.code] ? styles.filterValuesHidden : ""}`}>
-                  {attribute.values.slice(0, expandedSections[attribute.code] ? attribute.values.length : 4).map((value) => (
-                    <label key={value} className={`${styles.filterAttribute} ${selectedAttributes[attribute.code]?.includes(value) ? styles.filterAttributeActive : ""}`}>
-                      <input type="checkbox" value={value} onChange={() => handleAttributeChange(attribute.code, value)} checked={selectedAttributes[attribute.code]?.includes(value)} />
-                      <span className={styles.filterAttributeCustomCheckbox}></span>
-                      <span className={styles.filterAttributeLabel}>{value}</span>
-                    </label>
-                  ))}
-                </div>
+            <div className={styles.filterBars}>
+              <div className={styles.filterBar}>
+                <label className={styles.filterBarLabel} htmlFor="minPrice">
+                  От
+                </label>
+                <input className={styles.filterBarInput} type="text" id="minPrice" value={formatPrice(tempMinPrice)} onBlur={handleBlur} onKeyDown={handleKeyDown} onChange={handleMinPriceChange} />
+              </div>
+              <span className={styles.filterBarDivider}>-</span>
+              <div className={styles.filterBar}>
+                <label className={styles.filterBarLabel} htmlFor="maxPrice">
+                  До
+                </label>
+                <input className={styles.filterBarInput} type="text" id="maxPrice" value={formatPrice(tempMaxPrice)} onBlur={handleBlur} onKeyDown={handleKeyDown} onChange={handleMaxPriceChange} />
+              </div>
+            </div>
+          </div>
+          {colors && colors.length > 0 && (
+            <div className={styles.filterSection}>
+              <div className={styles.filterSectionHeader} onClick={toggleColors}>
+                <label className={styles.filterTitle}>Цвет</label>
+                <Image className={styles.filterToggleButton} src={showColors ? "/images/icons/arrow-up.svg" : "/images/icons/arrow-down.svg"} width={20} height={20} alt="" />
+              </div>
+              <div className={`${styles.filterColors} ${styles.filterValues} ${colors.length > 4 && !expandedSections["color"] ? styles.filterValuesHidden : ""}`}>
+                {showColors && (
+                  <div className={`${styles.filterColors} ${styles.filterValues} ${colors.length > 4 && !expandedSections["color"] ? styles.filterValuesHidden : ""}`}>
+                    {colors.slice(0, expandedSections["color"] ? colors.length : 4).map((color) => (
+                      <label key={color.code} className={`${styles.filterColor} ${selectedColors.includes(color.code) ? styles.filterColorActive : ""}`}>
+                        <input type="checkbox" value={color.code} onChange={() => handleColorChange(color)} checked={selectedColors.includes(color.code)} />
+                        <span className={styles.filterColorPalette} style={{ backgroundColor: color.hex }}></span>
+                        <span className={styles.filterColorLabel}>{color.title}</span>
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
+              {colors.length > 4 && (
+                <button className={styles.toggleButton} onClick={() => toggleSection("color")}>
+                  {expandedSections["color"] ? "Скрыть" : "Показать все"}
+                </button>
               )}
             </div>
-            {attribute.values.length > 4 && (
-              <button className={styles.toggleButton} onClick={() => toggleSection(attribute.code)}>
-                {expandedSections[attribute.code] ? "Скрыть" : "Показать все"}
-              </button>
-            )}
-          </div>
-        ))}
+          )}
+          {attributes?.map((attribute, index) => (
+            <div key={`${attribute.title}-${index}`} className={styles.filterSection}>
+              <div className={styles.filterSectionHeader} onClick={() => toggleAttribute(attribute.code)}>
+                <label className={styles.filterTitle}>{attribute.title}</label>
+                <Image className={styles.filterToggleButton} src={visibleAttributes[attribute.code] ? "/images/icons/arrow-up.svg" : "/images/icons/arrow-down.svg"} width={20} height={20} alt="" />
+              </div>
+              <div className={`${styles.filterAttributes} ${styles.filterValues} ${attribute.values.length > 4 && !expandedSections[attribute.code] ? styles.filterValuesHidden : ""}`}>
+                {visibleAttributes[attribute.code] && (
+                  <div className={`${styles.filterAttributes} ${styles.filterValues} ${attribute.values.length > 4 && !expandedSections[attribute.code] ? styles.filterValuesHidden : ""}`}>
+                    {attribute.values.slice(0, expandedSections[attribute.code] ? attribute.values.length : 4).map((value) => (
+                      <label key={value} className={`${styles.filterAttribute} ${selectedAttributes[attribute.code]?.includes(value) ? styles.filterAttributeActive : ""}`}>
+                        <input type="checkbox" value={value} onChange={() => handleAttributeChange(attribute.code, value)} checked={selectedAttributes[attribute.code]?.includes(value)} />
+                        <span className={styles.filterAttributeCustomCheckbox}></span>
+                        <span className={styles.filterAttributeLabel}>{value}</span>
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
+              {attribute.values.length > 4 && (
+                <button className={styles.toggleButton} onClick={() => toggleSection(attribute.code)}>
+                  {expandedSections[attribute.code] ? "Скрыть" : "Показать все"}
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
