@@ -352,12 +352,10 @@
   }
 
   .filterInner {
+    margin-top: 56px;
     height: 100%;
     overflow-y: scroll;
-  }
-
-  .filterBody > div:last-child {
-    margin-bottom: calc(56px + 40px);
+    padding-bottom: 56px;
   }
 
   .filterMobileActive {
@@ -368,6 +366,10 @@
   }
 
   .filterMobileHeader {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
     height: 56px;
     background: var(--white);
     display: flex;
