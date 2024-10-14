@@ -21,12 +21,16 @@ interface ProductsSearchProps {
 }
 
 export const ProductsSearch: React.FC<ProductsSearchProps> = ({ initialData, filterOptions, title, searchQuery }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [data, setData] = useState<InitialData>(initialData);
   const [initialProducts, setInitialProducts] = useState<Product[]>(initialData.products);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(initialData.products);
   const [sortOption, setSortOption] = useState<string>("popular");
-  const router = useRouter();
-  const searchParams = useSearchParams();
+
+  const [isFilterOpen, setFilterOpen] = useState(false);
+  const openFilter = () => setFilterOpen(true);
+  const closeFilter = () => setFilterOpen(false);
 
   const [tempFilters, setTempFilters] = useState<Filters>({
     priceRange: [0, Infinity],
@@ -107,7 +111,7 @@ export const ProductsSearch: React.FC<ProductsSearchProps> = ({ initialData, fil
 
   return (
     <div className={styles.searchPage}>
-      <Filter filterOptions={filterOptions} onFilterChange={handleFilterChange} />
+      <Filter filterOptions={filterOptions} onFilterChange={handleFilterChange} isFilterOpen={isFilterOpen} closeFilter={closeFilter} />
 
       <div className={styles.searchPageBody}>
         <div className={styles.searchPageHeader}>
@@ -117,9 +121,14 @@ export const ProductsSearch: React.FC<ProductsSearchProps> = ({ initialData, fil
               {totalProducts === 1 ? "Найден" : "Найдено"} {totalProducts} {getProductWord(totalProducts)}
             </span>
           </div>
-          <div className="flex gap-[20px]">
-            <Sort onSortChange={handleSortChange} />
-            <CardViews />
+          <div className={styles.actions}>
+            <div className={styles.view}>
+              <Sort onSortChange={handleSortChange} />
+              <CardViews />
+            </div>
+            <div className={styles.filter} onClick={openFilter}>
+              <Image src="/images/icons/filter.svg" alt="" width={20} height={20} /> Фильтры
+            </div>
           </div>
         </div>
 

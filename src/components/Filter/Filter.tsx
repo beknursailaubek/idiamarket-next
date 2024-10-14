@@ -8,6 +8,8 @@ import { FilterOptions, FilterValues, Color } from "@/types";
 interface FilterProps {
   onFilterChange: (filters: FilterValues) => void;
   filterOptions: FilterOptions;
+  isFilterOpen: boolean;
+  closeFilter: () => void;
 }
 
 interface SelectedFilter {
@@ -15,7 +17,7 @@ interface SelectedFilter {
   type: "color" | "price" | "attribute";
 }
 
-const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions }) => {
+const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilterOpen, closeFilter }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -34,6 +36,18 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions }) => {
   const [visibleAttributes, setVisibleAttributes] = useState<{ [key: string]: boolean }>(attributes?.reduce((acc, attr) => ({ ...acc, [attr.code]: true }), {}));
 
   const [expandedSections, setExpandedSections] = useState<{ [key: string]: boolean }>({});
+
+  useEffect(() => {
+    if (isFilterOpen) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, [isFilterOpen]);
 
   const toggleColors = () => setShowColors((prev) => !prev);
 
@@ -243,7 +257,12 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions }) => {
   };
 
   return (
-    <div className={styles.filter}>
+    <div className={`${styles.filter} ${isFilterOpen ? styles.filterMobileActive : null}`}>
+      <div className={styles.filterMobileHeader}>
+        <span className={styles.filterMobileTitle}>Фильтры</span>
+        <Image onClick={closeFilter} className={styles.filterMobileClose} src="/images/icons/close.svg" width={24} height={24} alt="" />
+      </div>
+
       {/* Selected Filters Section */}
       {selectedFilters.length > 0 && (
         <div className={styles.selectedFilters}>

@@ -117,9 +117,7 @@
     width: 80px;
     object-fit: contain;
   }
-}
 
-@media (max-width: 768px) {
   .categoryPageProducts {
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
@@ -157,5 +155,13 @@
   .categoryPageCount {
     margin-top: 15px;
     order: 1;
+  }
+
+  .pageHeader {
+    display: block;
+  }
+
+  .categoryPageInfo {
+    margin-bottom: 15px;
   }
 }

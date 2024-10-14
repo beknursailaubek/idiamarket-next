@@ -34,3 +34,57 @@
   object-fit: contain;
   margin-bottom: 10px;
 }
+
+.filter {
+  display: none;
+}
+
+.view {
+  display: flex;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .searchPageProducts {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    height: 32px;
+    background: var(--white);
+    border-radius: 8px;
+  }
+
+  .actions {
+    width: 100%;
+    display: flex;
+    align-self: center;
+    justify-content: space-between;
+  }
+
+  .view {
+    gap: 8px;
+  }
+
+  .searchPageHeader {
+    flex-direction: column;
+  }
+
+  .searchPageCount {
+    margin-top: 15px;
+    order: 1;
+  }
+
+  .pageHeader {
+    display: block;
+  }
+
+  .searchPageInfo {
+    margin-bottom: 15px;
+  }
+}

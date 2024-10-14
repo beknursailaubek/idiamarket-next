@@ -110,7 +110,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
 
   return (
     <div className={styles.categoryPage}>
-      <Filter filterOptions={filterOptions} onFilterChange={handleFilterChange} />
+      <Filter filterOptions={filterOptions} onFilterChange={handleFilterChange} isFilterOpen={isFilterOpen} closeFilter={closeFilter} />
 
       <div className={styles.categoryPageBody}>
         {category.children && category.children.length > 0 ? (
@@ -153,9 +153,14 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
                 </span>
               </div>
 
-              <div className="flex gap-[20px]">
-                <Sort onSortChange={handleSortChange} />
-                <CardViews />
+              <div className={styles.actions}>
+                <div className={styles.view}>
+                  <Sort onSortChange={handleSortChange} />
+                  <CardViews />
+                </div>
+                <div className={styles.filter} onClick={openFilter}>
+                  <Image src="/images/icons/filter.svg" alt="" width={20} height={20} /> Фильтры
+                </div>
               </div>
             </div>
           </>

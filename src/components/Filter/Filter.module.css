@@ -320,6 +320,10 @@
   height: 2px;
 }
 
+.filterMobileHeader {
+  display: none;
+}
+
 @media (max-width: 1024px) {
   .filterBarInput {
     padding: 10px 10px 10px 10px;
@@ -336,6 +340,52 @@
 
 @media (max-width: 768px) {
   .filter {
-    display: none;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    left: 0;
+    z-index: 9999;
+    max-width: 100%;
+    bottom: -300%;
+    transition: all 0.3s linear;
+  }
+
+  .filterMobileActive {
+    opacity: 1;
+    visibility: visible;
+    overflow-y: scroll;
+    bottom: 0;
+    transition: all 0.3s linear;
+  }
+
+  .filterMobileHeader {
+    display: block;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid #f4f4f4;
+  }
+
+  .filterMobileTitle {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .selectedFilters {
+    margin-bottom: 0px;
+    border-bottom: 1px solid #f4f4f4;
+  }
+  .filterBars {
+    gap: 5px;
+  }
+
+  .filterBar {
+    max-width: 100%;
+  }
+
+  .filterBarInput {
+    max-width: 100%;
   }
 }
