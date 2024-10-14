@@ -83,7 +83,6 @@
 
 .filterValuesHidden {
   position: relative;
-  height: 100%;
   max-height: 150px;
   overflow: hidden;
 }
@@ -340,6 +339,7 @@
 
 @media (max-width: 768px) {
   .filter {
+    height: 100%;
     position: absolute;
     visibility: hidden;
     opacity: 0;
@@ -350,10 +350,18 @@
     transition: all 0.3s linear;
   }
 
+  .filterBody {
+    overflow-y: scroll;
+    height: 100%;
+  }
+
+  .filterBody > div:last-child {
+    margin-bottom: 64px;
+  }
+
   .filterMobileActive {
     opacity: 1;
     visibility: visible;
-    overflow-y: scroll;
     bottom: 0;
     transition: all 0.3s linear;
   }
