@@ -30,6 +30,9 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
   return (
     <div className={styles.productPageMain}>
       <div className={styles.productPageCard}>
+        <h1 className={`title ${styles.mobile} ${styles.titleMob}`}>{product?.title}</h1>
+        <span className={`${styles.mobile} ${styles.productPageCodeMob}`}>Код товара: {product?.sku}</span>
+
         <div className={styles.productPageLeft}>
           {product?.stickers && product?.stickers?.length > 0 && (
             <div className={styles.productPageStickers}>
@@ -69,10 +72,11 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
             </div>
           </div>
         </div>
+
         <div className={styles.productPageRight}>
           <span className={styles.productPageCode}>Код товара: {product?.sku}</span>
 
-          <h1 className="title">{product?.title}</h1>
+          <h1 className={`title ${styles.title}`}>{product?.title}</h1>
 
           {product?.variants && product?.variants?.colors && product?.variants?.colors?.length > 0 ? (
             <div className={styles.productPageColors}>

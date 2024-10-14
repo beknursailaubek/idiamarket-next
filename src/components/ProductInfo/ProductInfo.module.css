@@ -402,3 +402,59 @@
 .productPageVariantsValueActive {
   background: #e8e8ed;
 }
+
+.mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .productPageMain {
+    padding: 20px 12px;
+  }
+
+  .productPageCard {
+    flex-direction: column;
+    gap: 0px;
+  }
+
+  .productPageLeft {
+    width: 100%;
+    margin-bottom: 20px;
+    padding-top: 20px;
+  }
+
+  .productPageRight {
+    width: 100%;
+  }
+
+  .titleMob {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .productPageCodeMob {
+    font-size: 12px;
+    display: block;
+  }
+
+  .title {
+    display: none;
+  }
+
+  .productPageCode {
+    display: none;
+  }
+
+  .productPageStickers {
+    top: 15px;
+  }
+
+  .productPageActions {
+    top: 15px;
+    flex-direction: column-reverse;
+  }
+
+  .productPageAdvantage {
+    
+  }
+}

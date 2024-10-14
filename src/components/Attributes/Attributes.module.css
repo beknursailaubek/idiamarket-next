@@ -4,6 +4,8 @@
   padding: 50px 80px 60px;
   background: var(--white);
   border-radius: 8px;
+  max-height: 5000px;
+  transition: all 0.7s ease-in-out;
 }
 .attributesTitle {
   margin-bottom: 30px;
@@ -67,8 +69,9 @@
 }
 
 .attributesHidden {
-  height: 300px;
+  max-height: 300px;
   overflow-y: hidden;
+  transition: all 0.7s ease-in-out;
 }
 
 .attributesHidden::before {
@@ -98,4 +101,15 @@
 
 .attributesBtnImg {
   filter: invert(43%) sepia(97%) saturate(2347%) hue-rotate(189deg) brightness(105%) contrast(91%);
+}
+
+@media (max-width: 768px) {
+  .attributes {
+    padding: 20px 12px 60px;
+  }
+
+  .attributesGroup {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
