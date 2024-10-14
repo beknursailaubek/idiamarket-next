@@ -182,7 +182,7 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className={`${styles.footerColumn} ${isLinksOpen ? styles.columnContentActive : ""}`}>
+            <div className={styles.footerColumn}>
               <div className={styles.columnHeader} onClick={() => toggleSection(setIsLinksOpen)}>
                 <div className={styles.columnTitle}>О компании</div>
                 <Image src="/images/icons/arrow-down.svg" width={16} height={16} alt="" />

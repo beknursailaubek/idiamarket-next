@@ -19,12 +19,6 @@
   gap: 20px;
 }
 
-.footerColumn {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
 .footerContacts {
   display: flex;
   flex-direction: column;
@@ -42,6 +36,8 @@
 .footerTitle {
   font-size: 16px;
   font-weight: 400;
+  margin-bottom: 20px !important;
+  display: block;
 }
 
 .footerMenu {
@@ -63,6 +59,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-top: 20px;
 }
 
 .subscribeInput {
@@ -107,6 +104,7 @@
 }
 
 .socials {
+  margin-top: 10px;
   display: flex;
   gap: 20px;
 }
@@ -185,6 +183,11 @@
 @media (max-width: 768px) {
   .footerColumns {
     flex-direction: column;
+    gap: 0;
+  }
+
+  .footerColumn:not(:last-child) {
+    border-bottom: 1px solid #f4f4f4;
   }
 
   .logo {
@@ -198,19 +201,22 @@
   .socials {
     justify-content: center;
   }
-
   .columnHeader {
+    padding: 10px 0;
     display: flex;
     justify-content: space-between;
   }
 
   .columnContent {
+    padding: 10px 0;
     display: none;
-    transition: all 0.3s ease-in-out;
+    max-height: 0px;
+    transition: max-height 0.3s ease-in-out;
   }
 
   .columnContentActive {
     display: flex;
+    max-height: 100%;
     transition: all 0.3s ease-in-out;
   }
 
@@ -228,6 +234,6 @@
   }
 
   .footerContent {
-    padding-bottom: 20px;
+    padding-bottom: 10px;
   }
 }
