@@ -87,4 +87,8 @@
     border-radius: 8px;
     content: "";
   }
+
+  .modalClose {
+    right: 12px;
+  }
 }

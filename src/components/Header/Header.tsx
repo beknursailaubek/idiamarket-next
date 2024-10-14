@@ -8,6 +8,7 @@ import { CityContext } from "@/context/CityContext";
 import Modal from "@/components/Modal/Modal";
 import Location from "@/components/Location/Location";
 import Search from "@/components/Search/Search";
+import Contacts from "@/components/Contacts/Contacts";
 
 import styles from "./Header.module.css";
 import Menu from "@/components/Menu/Menu";
@@ -30,6 +31,8 @@ const Header: React.FC = () => {
 
   const [isLocationModalOpen, setLocationModalOpen] = useState(false);
   const [isSearchOpen, setSearchOpen] = useState(false);
+  const [isContactsModalOpen, setContactsModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchProducts, setSearchProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,6 +43,8 @@ const Header: React.FC = () => {
   const closeLocationModal = () => setLocationModalOpen(false);
   const openSearch = () => setSearchOpen(true);
   const closeSearch = () => setSearchOpen(false);
+  const openContactsModal = () => setContactsModalOpen(true);
+  const closeContactsModal = () => setContactsModalOpen(false);
 
   const [isMenuOpen, setMenuOpen] = useState(false);
   const openMenu = () => setMenuOpen(true);
@@ -94,6 +99,20 @@ const Header: React.FC = () => {
 
     if (searchQuery.length === 0 || searchQuery.length > 2) fetchSearchProducts();
   }, [searchQuery]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <>
@@ -168,7 +187,7 @@ const Header: React.FC = () => {
 
             <div className={styles.mobileActions}>
               <div className={styles.mobileCall}>
-                <Image className={styles.mobileCallImage} src="/images/icons/phone.gif" width={20} height={20} alt="" />
+                <Image onClick={openContactsModal} className={styles.mobileCallImage} src="/images/icons/phone.gif" width={20} height={20} alt="" />
               </div>
               {isMenuOpen || isSearchOpen ? (
                 <Image
@@ -231,6 +250,12 @@ const Header: React.FC = () => {
       <Modal isOpen={isLocationModalOpen} onClose={closeLocationModal}>
         <Location closeModal={closeLocationModal} />
       </Modal>
+
+      {isMobile && (
+        <Modal isOpen={isContactsModalOpen} onClose={closeContactsModal}>
+          <Contacts closeModal={closeContactsModal} />
+        </Modal>
+      )}
     </>
   );
 };
