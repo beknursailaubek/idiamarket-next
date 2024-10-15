@@ -6,10 +6,9 @@ const Message = () => {
   return (
     <div className={styles.message}>
       <p className={styles.title}>Товары скоро появятся!</p>
-
-      <Image className={styles.image} src="/images/coming-soon.webp" width={300} height={300} alt="" />
-
       <p className={styles.text}>Эта категория пока пуста. Но товары скоро появятся. Следите за обновлениями!</p>
+
+      <Image className={styles.image} src="/images/coming-soon.gif" width={200} height={200} alt="" />
 
       <Link href="tel:87012667700" className={styles.call}>
         Получить консультацию
