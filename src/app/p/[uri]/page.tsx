@@ -60,7 +60,9 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
 
   return (
     <div className={`container ${styles.productPage}`}>
-      <Breadcrumbs code={category_code} productName={product?.title} />
+      <div className={styles.breadcrumbs}>
+        <Breadcrumbs code={category_code} productName={product?.title} />
+      </div>
 
       <div className={styles.productPageBody}>
         <ProductInfo product={product} />

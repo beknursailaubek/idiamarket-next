@@ -13,4 +13,7 @@
   .productPageBody {
     gap: 16px;
   }
+  .breadcrumbs {
+    padding: 0 12px;
+  }
 }
