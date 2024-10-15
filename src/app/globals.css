@@ -114,7 +114,6 @@ body::-webkit-scrollbar-track {
 .no-scroll {
   overflow: hidden;
   width: 100%;
-  height: 100vh;
   left: 0;
   top: 0px;
   position: fixed;

@@ -1,0 +1,46 @@
+.message {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title {
+  font-size: 24px;
+  text-align: center;
+}
+
+.text {
+  text-align: center;
+}
+
+.image {
+  display: block;
+  margin: 0 auto;
+}
+
+.call {
+  color: var(--white);
+  padding: 8px 16px;
+  margin: 0 auto;
+  width: max-content;
+  background: var(--red);
+  border-radius: 8px;
+  transition: background 0.2s ease-in-out;
+}
+
+.call:hover {
+  background: var(--red-dark);
+}
+
+.redirects {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.redirect {
+  display: block;
+  font-size: 12px;
+  color: var(--blue-light);
+}

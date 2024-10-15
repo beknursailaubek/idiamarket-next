@@ -15,13 +15,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
 
   useEffect(() => {
     if (isOpen) {
-      document.body.classList.add("no-scroll");
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.classList.remove("no-scroll");
+      document.body.style.overflow = "";
     }
 
     return () => {
-      document.body.classList.remove("no-scroll");
+      document.body.style.overflow = "";
     };
   }, [isOpen]);
 

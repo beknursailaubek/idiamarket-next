@@ -67,7 +67,7 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
 
         {productDescription && <Description content={productDescription.html_content} />}
 
-        <Attributes attributes={attributeGroups} />
+        {product.attributes && <Attributes attributes={attributeGroups} />}
       </div>
     </div>
   );
