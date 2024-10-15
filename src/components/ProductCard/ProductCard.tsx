@@ -84,7 +84,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
       <div className={styles.reviews}>
         {product.reviews ? (
           <>
-            <Image className={styles.reviewsIcon} src="/images/icons/star.svg" alt="" width={20} height={20} />
+            <Image className={styles.reviewsIcon} src="/images/icons/star.svg" alt="" width={12} height={12} />
             {product.rating ? <span className={styles.reviewsRating}>{(product.rating * 0.05).toFixed(2)}</span> : <span className={styles.reviewsRating}>5.00</span>}
 
             <span className={styles.reviewsText}>

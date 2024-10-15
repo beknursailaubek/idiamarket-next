@@ -27,6 +27,17 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
       return acc;
     }, {} as Record<string, typeof product.variants.attributes>) || {};
 
+  const getReviewWord = (count: number) => {
+    switch (true) {
+      case count % 10 === 1 && count % 100 !== 11:
+        return "отзыв";
+      case [2, 3, 4].includes(count % 10) && ![12, 13, 14].includes(count % 100):
+        return "отзыва";
+      default:
+        return "отзывов";
+    }
+  };
+
   return (
     <div className={styles.productPageMain}>
       <div className={styles.productPageCard}>
@@ -121,6 +132,34 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
               </div>
             </div>
           )}
+
+          <div className={`${styles.mobile} ${styles.productPageBuyMob}`}>
+            <div>
+              <div className={styles.reviews}>
+                {product.reviews ? (
+                  <>
+                    <Image className={styles.reviewsIcon} src="/images/icons/star.svg" alt="" width={20} height={20} />
+                    {product.rating ? <span className={styles.reviewsRating}>{(product.rating * 0.05).toFixed(2)}</span> : <span className={styles.reviewsRating}>5.00</span>}
+
+                    <span className={styles.reviewsText}>
+                      ({product.reviews} {getReviewWord(product.reviews)})
+                    </span>
+                  </>
+                ) : (
+                  <span className={styles.reviewsText}>Нет отзывов</span>
+                )}
+              </div>
+
+              <div className="product-page__price">
+                <span className={styles.productPagePriceActual}>
+                  {product?.price_from ? "от" : null} {formatPrice(product.price)} ₸
+                </span>
+                {product?.old_price && <span className={styles.productPagePriceDiscount}>{formatPrice(product.old_price)} ₸</span>}
+              </div>
+            </div>
+
+            {isTorgovyeStellazhi ? <button className={styles.productPageButtonCart}>Рассчитать</button> : <button className={styles.productPageButtonCart}>Купить</button>}
+          </div>
 
           {product?.short_description && product.short_description?.length > 0 && (
             <div className={styles.shortDescriptionsList}>

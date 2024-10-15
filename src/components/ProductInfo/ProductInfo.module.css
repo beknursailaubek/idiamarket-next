@@ -404,6 +404,10 @@
 }
 
 @media (max-width: 768px) {
+  .mobile {
+    display: flex;
+  }
+
   .productPageMain {
     padding: 0;
     background: none;
@@ -417,7 +421,7 @@
   .productPageLeft {
     width: 100%;
     margin-bottom: 8px;
-    padding: 20px 12px;
+    padding: 16px 12px;
     background: var(--white);
   }
 
@@ -426,7 +430,7 @@
   }
 
   .headerMob {
-    padding: 20px 12px 0px;
+    padding: 16px 12px 0px;
     background: var(--white);
   }
 
@@ -438,6 +442,7 @@
   .productPageCodeMob {
     font-size: 12px;
     display: block;
+    color: var(--grey);
   }
 
   .title {
@@ -499,12 +504,8 @@
     padding: 4px 16px;
   }
 
-  .productPageBuy {
-    display: none;
-  }
-
   .shortDescriptionsList {
-    padding: 20px 12px;
+    padding: 16px 12px;
     background: var(--white);
   }
 
@@ -524,14 +525,46 @@
     font-size: 14px;
   }
 
-  /* .productPageBuy {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 999;
-    width: 100%;
-    padding: 10px 12px;
+  .productPageBuy {
+    display: none;
+  }
+
+  .productPageBuyMob {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 12px;
     background: var(--white);
-    margin-bottom: 0;
-  } */
+    margin-bottom: 8px;
+  }
+
+  .productPagePriceActual {
+    font-size: 14px;
+  }
+
+  .productPagePriceDiscount {
+    font-size: 14px;
+  }
+
+  .reviews {
+    display: flex;
+    align-items: center;
+  }
+
+  .reviewsIcon {
+    width: 12px;
+    height: 12px;
+    margin-right: 3px;
+  }
+
+  .reviewsRating {
+    font-size: 12px;
+    margin-right: 5px;
+  }
+
+  .reviewsText {
+    line-height: 20px;
+    font-size: 12px;
+    color: var(--grey);
+  }
 }
