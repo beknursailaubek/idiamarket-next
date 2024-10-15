@@ -44,3 +44,9 @@
   font-size: 12px;
   color: var(--blue-light);
 }
+
+@media (max-width: 768px) {
+  .message {
+    margin-top: 40px;
+  }
+}
