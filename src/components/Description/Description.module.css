@@ -61,7 +61,15 @@
 }
 
 @media (max-width: 768px) {
+  .descriptionTitle {
+    font-size: 20px !important;
+  }
+
   .description {
     padding: 20px 12px 60px;
+  }
+
+  .descriptionTitle {
+    margin-bottom: 16px;
   }
 }

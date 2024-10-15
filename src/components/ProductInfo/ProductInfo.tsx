@@ -30,8 +30,10 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
   return (
     <div className={styles.productPageMain}>
       <div className={styles.productPageCard}>
-        <h1 className={`title ${styles.mobile} ${styles.titleMob}`}>{product?.title}</h1>
-        <span className={`${styles.mobile} ${styles.productPageCodeMob}`}>Код товара: {product?.sku}</span>
+        <div className={styles.headerMob}>
+          <h1 className={`title ${styles.mobile} ${styles.titleMob}`}>{product?.title}</h1>
+          <span className={`${styles.mobile} ${styles.productPageCodeMob}`}>Код товара: {product?.sku}</span>
+        </div>
 
         <div className={styles.productPageLeft}>
           {product?.stickers && product?.stickers?.length > 0 && (
@@ -135,7 +137,6 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
               ))}
             </div>
           )}
-          <button className={styles.characteristicsBtn}>Все характеристики</button>
         </div>
       </div>
     </div>

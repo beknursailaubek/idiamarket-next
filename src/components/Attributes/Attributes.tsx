@@ -26,7 +26,7 @@ const Attributes: React.FC<AttributesProps> = ({ attributes }) => {
 
   return (
     <div className={`${styles.attributes} ${isAttributesHidden ? styles.attributesHidden : null}`}>
-      <h2 className="title">Характеристики</h2>
+      <h2 className={`title ${styles.title}`}>Характеристики</h2>
 
       <div className={styles.attributesList}>
         {attributes && attributes.length > 0

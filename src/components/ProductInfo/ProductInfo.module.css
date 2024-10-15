@@ -224,10 +224,6 @@
   width: 50%;
 }
 
-.shortDescriptionsList {
-  margin-bottom: 20px;
-}
-
 .shortDescription {
   display: flex;
   align-items: center;
@@ -409,7 +405,8 @@
 
 @media (max-width: 768px) {
   .productPageMain {
-    padding: 20px 12px;
+    padding: 0;
+    background: none;
   }
 
   .productPageCard {
@@ -419,12 +416,18 @@
 
   .productPageLeft {
     width: 100%;
-    margin-bottom: 20px;
-    padding-top: 20px;
+    margin-bottom: 8px;
+    padding: 20px 12px;
+    background: var(--white);
   }
 
   .productPageRight {
     width: 100%;
+  }
+
+  .headerMob {
+    padding: 20px 12px 0px;
+    background: var(--white);
   }
 
   .titleMob {
@@ -447,14 +450,88 @@
 
   .productPageStickers {
     top: 15px;
+    left: 12px;
   }
 
   .productPageActions {
     top: 15px;
+    right: 12px;
     flex-direction: column-reverse;
   }
 
   .productPageAdvantage {
-    
+    width: 33.333%;
   }
+
+  .productPageAdvantageText {
+    text-wrap: wrap;
+  }
+
+  .productPageColors {
+    display: block;
+    padding: 12px 12px 16px;
+    margin-bottom: 0;
+    background: var(--white);
+  }
+
+  .productPageColorsTitle {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .productPageColorsList {
+    margin-left: 3px;
+  }
+
+  .productPageVariantsTitle {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .productPageVariants {
+    padding: 0 12px 12px;
+    background: var(--white);
+  }
+
+  .productPageVariantsValue {
+    padding: 4px 16px;
+  }
+
+  .productPageBuy {
+    display: none;
+  }
+
+  .shortDescriptionsList {
+    padding: 20px 12px;
+    background: var(--white);
+  }
+
+  .shortDescription:first-child {
+    padding-top: 0;
+  }
+
+  .shortDescription:last-child {
+    padding-bottom: 0;
+  }
+
+  .shortDescriptionTitle {
+    font-size: 14px;
+  }
+
+  .shortDescriptionText {
+    font-size: 14px;
+  }
+
+  /* .productPageBuy {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    width: 100%;
+    padding: 10px 12px;
+    background: var(--white);
+    margin-bottom: 0;
+  } */
 }

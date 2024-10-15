@@ -59,17 +59,15 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
   }));
 
   return (
-    <div className="container">
-      <div className={styles.productPage}>
-        <Breadcrumbs code={category_code} productName={product?.title} />
+    <div className={`container ${styles.productPage}`}>
+      <Breadcrumbs code={category_code} productName={product?.title} />
 
-        <div className={styles.productPageBody}>
-          <ProductInfo product={product} />
+      <div className={styles.productPageBody}>
+        <ProductInfo product={product} />
 
-          {productDescription && <Description content={productDescription.html_content} />}
+        {productDescription && <Description content={productDescription.html_content} />}
 
-          <Attributes attributes={attributeGroups} />
-        </div>
+        <Attributes attributes={attributeGroups} />
       </div>
     </div>
   );

@@ -108,8 +108,25 @@
     padding: 20px 12px 60px;
   }
 
+  .attributesList {
+    gap: 16px;
+  }
+
   .attributesGroup {
     flex-direction: column;
-    gap: 10px;
+  }
+
+  .title {
+    font-size: 20px;
+    margin-bottom: 16px !important;
+  }
+
+  .attributeTitle {
+    font-size: 14px;
+    color: #8e979f;
+  }
+
+  .attributeValue {
+    font-size: 14px;
   }
 }
