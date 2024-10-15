@@ -192,10 +192,16 @@
     height: 2em;
     margin-bottom: 4px;
   }
+
   .productCard {
     position: relative;
     padding: 16px 10px 10px;
     margin-bottom: 4px;
+  }
+
+  .productCardImage {
+    height: 120px;
+    width: 120px;
   }
 
   .productCardActionCompare {

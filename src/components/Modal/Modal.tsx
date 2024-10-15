@@ -53,10 +53,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
 
   return (
     <div className={`${styles.modalOverlay} ${isOpen ? styles.modalOverlayActive : ""}`} onClick={handleClickOutside}>
-      <div className={`${styles.modalContent} ${isOpen ? styles.modalContentActive : ""}`} ref={modalRef} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
+      <div className={`${styles.modalContent} ${isOpen ? styles.modalContentActive : ""}`} ref={modalRef}>
         <Image className={styles.modalClose} src="/images/icons/close.svg" alt="" onClick={onClose} width={24} height={24} />
         {children}
-        <div className={styles.modalSwipeDown}></div>
+        <div className={styles.modalSwipeDown} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}></div>
       </div>
     </div>
   );
