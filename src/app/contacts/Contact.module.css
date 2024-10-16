@@ -107,4 +107,12 @@
   .about {
     font-size: 14px;
   }
+
+  .about {
+    display: none;
+  }
+
+  .slider {
+    display: none;
+  }
 }

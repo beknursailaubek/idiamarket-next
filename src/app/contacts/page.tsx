@@ -11,11 +11,11 @@ const ContactPage = () => {
     <div className="container">
       <div className={styles.body}>
         <h1 className={`title ${styles.title}`}>Контакты</h1>
-        <p className={styles.about}>IDIA Market — лидер на рынке складского, архивного и торгово-выставочного оборудования, а также поставщик холодильного и торгового оборудования в Казахстане. Компания предлагает современное торговое и POS-оборудование, внедряет комплексные решения по автоматизации бизнеса и работает на рынке уже {yearsInMarket} лет.</p>
+        {/* <p className={styles.about}>IDIA Market — лидер на рынке складского, архивного и торгово-выставочного оборудования, а также поставщик холодильного и торгового оборудования в Казахстане. Компания предлагает современное торговое и POS-оборудование, внедряет комплексные решения по автоматизации бизнеса и работает на рынке уже {yearsInMarket} лет.</p>
 
         <div className={styles.slider}>
           <ContactsSlider />
-        </div>
+        </div> */}
 
         <div className={styles.cities}>
           <div className={styles.city}>

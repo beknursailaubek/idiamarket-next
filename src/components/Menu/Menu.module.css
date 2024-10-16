@@ -32,7 +32,7 @@
 .rowItem {
   flex: 1 0 auto;
   background: var(--white);
-  padding: 16px 8px;
+  padding: 8px 8px;
   border-radius: 8px;
   display: flex;
   justify-content: center;
@@ -79,7 +79,7 @@
   align-items: center;
   flex-direction: column;
   background: var(--white);
-  padding: 16px 8px;
+  padding: 8px 8px;
   border-radius: 8px;
 }
 

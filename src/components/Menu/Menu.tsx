@@ -25,19 +25,14 @@ const Menu = ({ isOpen, onClose }: MenuProps) => {
     <div className={isOpen ? `${styles.menu} ${styles.menuActive}` : `${styles.menu}`}>
       <div className={`container ${styles.menuInner}`}>
         <div className={styles.row}>
-          <div className={styles.rowItem}>
+          <Link href="mailto:zakaz@idiamarket.kz" className={`${styles.rowItem} ${styles.contactsMail}`}>
             <Image className={styles.contactsIconMail} src="/images/icons/mail.svg" alt="Phone" width={16} height={16} />
-            <Link href="mailto:zakaz@idiamarket.kz" className={styles.contactsMail}>
-              zakaz@idiamarket.kz
-            </Link>
-          </div>
+            zakaz@idiamarket.kz
+          </Link>
 
-          <div className={styles.rowItem}>
-            <Image className={styles.contactsIconPhone} src="/images/icons/phone.svg" alt="Phone" width={16} height={16} />
-            <Link href="tel:87273449900" className={styles.contactsPhone}>
-              8 (727) 344-99-00
-            </Link>
-          </div>
+          <Link href="tel:87273449900" className={`${styles.rowItem} ${styles.contactsPhone}`}>
+            <Image className={styles.contactsIconPhone} src="/images/icons/phone.svg" alt="Phone" width={16} height={16} />8 (727) 344-99-00
+          </Link>
         </div>
 
         <div className={styles.actions}>
@@ -74,6 +69,7 @@ const Menu = ({ isOpen, onClose }: MenuProps) => {
         </ul>
 
         <div className={styles.schedules}>
+          <Image src="/images/icons/clock.svg" width={16} height={16} alt="" />
           <span className={styles.schedule}>пн-пт с 9:00 до 18:00</span>
           <span className={styles.schedule}>сб с 9:00 до 16:00</span>
         </div>
