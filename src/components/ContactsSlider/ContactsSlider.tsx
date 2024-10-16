@@ -10,12 +10,24 @@ import "swiper/css";
 import "swiper/css/navigation";
 
 // import required modules
-import { Navigation } from "swiper/modules";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
 
 const ContactsSlider = () => {
   return (
     <div className="contact-page__slide_container">
-      <Swiper className="contact-page__slider" loop={true} modules={[Navigation]} navigation={{ nextEl: ".contact-page__arrow_next", prevEl: ".contact-page__arrow_prev" }}>
+      <Swiper
+        autoplay={{
+          delay: 7000,
+          disableOnInteraction: false,
+        }}
+        className="contact-page__slider"
+        loop={true}
+        modules={[Autoplay, Navigation, Pagination]}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={{ nextEl: ".contact-page__arrow_next", prevEl: ".contact-page__arrow_prev" }}
+      >
         <SwiperSlide className="contact-page__slide">
           <Image className="contact-page__slide-image" loading="lazy" width={1140} height={500} src="/images/contacts/banner-1.png" alt="" />
         </SwiperSlide>

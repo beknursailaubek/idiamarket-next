@@ -11,18 +11,22 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 // import required modules
-import { Navigation, Pagination } from "swiper/modules";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
 
 const Banner = () => {
   return (
     <div className={`banner`}>
       <Swiper
+        autoplay={{
+          delay: 7000,
+          disableOnInteraction: false,
+        }}
         loop={true}
         pagination={{
           clickable: true,
         }}
         navigation={{ nextEl: ".banner__arrow_next", prevEl: ".banner__arrow_prev " }}
-        modules={[Navigation, Pagination]}
+        modules={[Autoplay, Navigation, Pagination]}
         className={`banner__swiper rounded-[8px]`}
       >
         <SwiperSlide>

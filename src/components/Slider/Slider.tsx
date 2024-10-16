@@ -14,7 +14,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 // import required modules
-import { Navigation, Pagination } from "swiper/modules";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
 
 interface SliderProps {
   dayProducts: Product[];
@@ -24,7 +24,16 @@ const Slider: React.FC<SliderProps> = ({ dayProducts }) => {
   return (
     <div className={"day-product__slider"}>
       <p className={"px-[20px] mb-[10px] text-base font-bold "}>Товар дня</p>
-      <Swiper loop={true} navigation={{ nextEl: ".product-card__arrow_next", prevEl: ".product-card__arrow_prev" }} modules={[Navigation]} className="product-card__swiper">
+      <Swiper
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
+        loop={true}
+        navigation={{ nextEl: ".product-card__arrow_next", prevEl: ".product-card__arrow_prev" }}
+        modules={[Autoplay, Navigation]}
+        className="product-card__swiper"
+      >
         {dayProducts.map((product: Product, index: number) => (
           <SwiperSlide key={index}>
             <ProductCard type={"day"} key={index} product={product} />

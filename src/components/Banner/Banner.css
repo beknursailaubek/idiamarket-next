@@ -66,4 +66,8 @@
   .banner__nav {
     display: none;
   }
+
+  .swiper-pagination {
+     opacity: 1;
+  }
 }
