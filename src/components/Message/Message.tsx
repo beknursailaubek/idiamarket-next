@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./Message.module.css";
-import Lottie from "../Lottie/Lottie";
 
 const Message = () => {
   return (
@@ -9,7 +8,7 @@ const Message = () => {
       <p className={styles.title}>Товары скоро появятся!</p>
       <p className={styles.text}>Эта категория пока пуста. Но товары скоро появятся. Следите за обновлениями!</p>
 
-      <Lottie />
+      <object className={styles.image} type="image/svg+xml" data="/images/anim.svg" width={300} height={300}></object>
 
       <Link href="tel:87012667700" className={styles.call}>
         Получить консультацию

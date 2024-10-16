@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@lottiefiles/dotlottie-react": "^0.9.1",
     "next": "14.2.2",
     "next-nprogress-bar": "^2.3.13",
     "react": "^18",
