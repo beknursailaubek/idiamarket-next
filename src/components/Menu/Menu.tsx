@@ -73,10 +73,10 @@ const Menu = ({ isOpen, onClose }: MenuProps) => {
           ))}
         </ul>
 
-        {/* <div className={styles.schedules}> 
+        <div className={styles.schedules}>
           <span className={styles.schedule}>пн-пт с 9:00 до 18:00</span>
           <span className={styles.schedule}>сб с 9:00 до 16:00</span>
-        </div> */}
+        </div>
       </div>
     </div>
   );
