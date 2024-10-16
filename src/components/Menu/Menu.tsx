@@ -5,9 +5,10 @@ import Link from "next/link";
 
 interface MenuProps {
   isOpen: boolean;
+  onClose: () => void;
 }
 
-const Menu = ({ isOpen }: MenuProps) => {
+const Menu = ({ isOpen, onClose }: MenuProps) => {
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add("no-scroll");
@@ -54,7 +55,7 @@ const Menu = ({ isOpen }: MenuProps) => {
           </div>
         </div>
 
-        <ul className={styles.menuList}>
+        <ul className={styles.menuList} onClick={onClose}>
           {[
             { name: "Главная", path: "" },
             { name: "Проекты", path: "" },

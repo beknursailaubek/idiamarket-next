@@ -244,7 +244,7 @@ const Header: React.FC = () => {
           <Search searchQuery={searchQuery} searchProducts={searchProducts} isOpen={isSearchOpen} onClose={closeSearch} />
         </div>
 
-        <Menu isOpen={isMenuOpen} />
+        <Menu isOpen={isMenuOpen} onClose={closeMenu} />
       </header>
 
       <Modal isOpen={isLocationModalOpen} onClose={closeLocationModal}>
