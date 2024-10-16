@@ -6,7 +6,7 @@ const Message = () => {
   return (
     <div className={styles.message}>
       <p className={styles.title}>Товары скоро появятся!</p>
-      <p className={styles.text}>Эта категория пока пуста. Но товары скоро появятся. Следите за обновлениями!</p>
+      <p className={styles.text}>Эта категория пока пуста. Но товары в наличии. Следите за обновлениями!</p>
 
       <div className={styles.image}>
         <object className={styles.animated} type="image/svg+xml" data="/images/anim.svg" width={200} height={200}></object>
