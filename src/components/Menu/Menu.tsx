@@ -54,6 +54,24 @@ const Menu = ({ isOpen }: MenuProps) => {
           </div>
         </div>
 
+        <ul className={styles.menuList}>
+          {[
+            { name: "Главная", path: "" },
+            { name: "Проекты", path: "" },
+            { name: "3D Дизайн", path: "" },
+            { name: "Доставка", path: "" },
+            { name: "О нас", path: "" },
+            { name: "Отзывы", path: "" },
+            { name: "Контакты", path: "contacts" },
+          ].map((item, index) => (
+            <li className={styles.menuItem} key={index}>
+              <Link href={`/${item.path}`} className={styles.menuLink}>
+                {item.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
         {/* <div className={styles.schedules}> 
           <span className={styles.schedule}>пн-пт с 9:00 до 18:00</span>
           <span className={styles.schedule}>сб с 9:00 до 16:00</span>
