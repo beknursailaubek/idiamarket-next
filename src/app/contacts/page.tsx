@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./Contact.module.css";
+import ContactsSlider from "@/components/ContactsSlider/ContactsSlider";
 
 const ContactPage = () => {
   const currentYear = new Date().getFullYear();
@@ -9,13 +10,19 @@ const ContactPage = () => {
   return (
     <div className="container">
       <div className={styles.body}>
-        <h1 className="title">Контакты</h1>
+        <h1 className={`title ${styles.title}`}>Контакты</h1>
         <p className={styles.about}>IDIA Market — лидер на рынке складского, архивного и торгово-выставочного оборудования, а также поставщик холодильного и торгового оборудования в Казахстане. Компания предлагает современное торговое и POS-оборудование, внедряет комплексные решения по автоматизации бизнеса и работает на рынке уже {yearsInMarket} лет.</p>
+
+        <div className={styles.slider}>
+          <ContactsSlider />
+        </div>
 
         <div className={styles.cities}>
           <div className={styles.city}>
             <div className={styles.info}>
-              <p className={styles.cityName}>Алматы</p>
+              <p className={styles.cityName}>
+                <Image src="/images/icons/locationDark.svg" alt="" width={20} height={20} /> Алматы
+              </p>
 
               <div className={styles.address}>
                 <p className={styles.label}>Адрес</p>
@@ -53,12 +60,16 @@ const ContactPage = () => {
               </div>
             </div>
 
-            <div className={styles.map}></div>
+            <div className={styles.map}>
+              <iframe src="https://yandex.com/map-widget/v1/?um=constructor%3A4b3016aeb82e4dbae2a544e904e16e428bbb200515e71b87fe077fe6aaec2376&amp;source=constructor" width="100%" height="240" frameBorder="0"></iframe>
+            </div>
           </div>
 
           <div className={styles.city}>
             <div className={styles.info}>
-              <p className={styles.cityName}>Астана</p>
+              <p className={styles.cityName}>
+                <Image src="/images/icons/locationDark.svg" alt="" width={20} height={20} /> Астана
+              </p>
 
               <div className={styles.address}>
                 <p className={styles.label}>Адрес</p>
@@ -96,12 +107,16 @@ const ContactPage = () => {
               </div>
             </div>
 
-            <div className={styles.map}></div>
+            <div className={styles.map}>
+              <iframe src="https://yandex.com/map-widget/v1/?um=constructor%3A24be15d402965a4d0db16dfe2de040ef8b7f02410bc63286b93469a2b2ae7317&amp;source=constructor" width="100%" height="240 " frameBorder="0"></iframe>
+            </div>
           </div>
 
           <div className={styles.city}>
             <div className={styles.info}>
-              <p className={styles.cityName}>Шымкент</p>
+              <p className={styles.cityName}>
+                <Image src="/images/icons/locationDark.svg" alt="" width={20} height={20} /> Шымкент
+              </p>
 
               <div className={styles.address}>
                 <p className={styles.label}>Адрес</p>
@@ -139,7 +154,9 @@ const ContactPage = () => {
               </div>
             </div>
 
-            <div className={styles.map}></div>
+            <div className={styles.map}>
+              <iframe src="https://yandex.com/map-widget/v1/?um=constructor%3Afc80f0eebb4cf3fbfb16c46c9086f09a7143b53daee64dff300c13f8059b120e&amp;source=constructor" width="100%" height="240" frameBorder="0"></iframe>
+            </div>
           </div>
         </div>
       </div>
