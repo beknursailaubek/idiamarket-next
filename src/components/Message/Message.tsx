@@ -8,7 +8,10 @@ const Message = () => {
       <p className={styles.title}>Товары скоро появятся!</p>
       <p className={styles.text}>Эта категория пока пуста. Но товары скоро появятся. Следите за обновлениями!</p>
 
-      <object className={styles.image} type="image/svg+xml" data="/images/anim.svg" width={300} height={300}></object>
+      <div className={styles.image}>
+        <object className={styles.animated} type="image/svg+xml" data="/images/anim.svg" width={200} height={200}></object>
+        <Image className={styles.logo} src="/images/logo.svg" width={50} height={17} alt="" />
+      </div>
 
       <Link href="tel:87012667700" className={styles.call}>
         Получить консультацию

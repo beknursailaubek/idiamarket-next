@@ -14,8 +14,14 @@
 }
 
 .image {
-  display: block;
   margin: 0 auto;
+  position: relative;
+}
+
+.logo {
+  position: absolute;
+  top: 130px;
+  left: 75px;
 }
 
 .call {
