@@ -87,7 +87,8 @@
   background: var(--white);
 }
 
-.menuItem {
+.menuLink {
+  display: block;
   padding: 16px 15px;
 }
 

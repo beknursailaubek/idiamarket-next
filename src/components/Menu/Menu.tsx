@@ -55,7 +55,7 @@ const Menu = ({ isOpen, onClose }: MenuProps) => {
           </div>
         </div>
 
-        <ul className={styles.menuList} onClick={onClose}>
+        <ul className={styles.menuList}>
           {[
             { name: "Главная", path: "" },
             { name: "Проекты", path: "" },
@@ -66,7 +66,7 @@ const Menu = ({ isOpen, onClose }: MenuProps) => {
             { name: "Контакты", path: "contacts" },
           ].map((item, index) => (
             <li className={styles.menuItem} key={index}>
-              <Link href={`/${item.path}`} className={styles.menuLink}>
+              <Link href={`/${item.path}`} className={styles.menuLink} onClick={onClose}>
                 {item.name}
               </Link>
             </li>
