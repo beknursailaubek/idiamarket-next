@@ -50,9 +50,6 @@
 
 .addressInfo {
   font-size: 14px;
-  display: flex;
-  gap: 5px;
-  align-items: center;
 }
 
 .phoneInfos {
