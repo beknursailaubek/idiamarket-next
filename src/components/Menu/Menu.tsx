@@ -71,6 +71,10 @@ const Menu = ({ isOpen, onClose }: MenuProps) => {
         <div className={styles.schedules}>
           <Image src="/images/icons/clock.svg" width={16} height={16} alt="" />
           <span className={styles.schedule}>пн-пт с 9:00 до 18:00</span>
+        </div>
+
+        <div className={styles.schedules}>
+          <Image src="/images/icons/clock.svg" width={16} height={16} alt="" />
           <span className={styles.schedule}>сб с 9:00 до 16:00</span>
         </div>
       </div>

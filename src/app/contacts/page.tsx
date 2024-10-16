@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./Contact.module.css";
-import ContactsSlider from "@/components/ContactsSlider/ContactsSlider";
 
 const ContactPage = () => {
   const currentYear = new Date().getFullYear();
@@ -11,11 +10,18 @@ const ContactPage = () => {
     <div className="container">
       <div className={styles.body}>
         <h1 className={`title ${styles.title}`}>Контакты</h1>
-        {/* <p className={styles.about}>IDIA Market — лидер на рынке складского, архивного и торгово-выставочного оборудования, а также поставщик холодильного и торгового оборудования в Казахстане. Компания предлагает современное торговое и POS-оборудование, внедряет комплексные решения по автоматизации бизнеса и работает на рынке уже {yearsInMarket} лет.</p>
 
-        <div className={styles.slider}>
-          <ContactsSlider />
-        </div> */}
+        <div className={styles.socials}>
+          <Link aria-label="whatsapp" href="#" className={`${styles.socialsItem} ${styles.socialsItemWhatsapp}`}>
+            <Image className={`${styles.socialsIcon} ${styles.socialsIconWhatsapp}`} src="/images/icons/whatsapp.svg" alt="" width={24} height={24} />
+          </Link>
+          <Link aria-label="instagram" href="#" className={`${styles.socialsItem} ${styles.socialsItemInstagram}`}>
+            <Image className={`${styles.socialsIcon} ${styles.socialsIconInstagram}`} src="/images/icons/instagram.svg" alt="" width={24} height={24} />
+          </Link>
+          <Link aria-label="youtube" href="#" className={`${styles.socialsItem} ${styles.socialsItemYoutube}`}>
+            <Image className={`${styles.socialsIcon} ${styles.socialsIconYoutube}`} src="/images/icons/youtube.svg" alt="" width={24} height={24} />
+          </Link>
+        </div>
 
         <div className={styles.cities}>
           <div className={styles.city}>

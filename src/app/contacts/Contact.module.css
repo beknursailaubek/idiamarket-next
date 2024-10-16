@@ -8,7 +8,8 @@
   margin-bottom: 20px;
 }
 
-.cities {
+.title {
+  margin-bottom: 10px;
 }
 
 .city {
@@ -76,6 +77,57 @@
 .emailInfo {
   font-size: 14px;
   text-decoration: underline;
+}
+
+.socials {
+  display: flex;
+  gap: 20px;
+}
+
+.socialsItem {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 2px solid var(--grey-90);
+  transition: all 0.2s ease-in-out;
+}
+
+.socialsIcon {
+  height: 24px;
+  width: 24px;
+  filter: invert(81%) sepia(76%) saturate(185%) hue-rotate(98deg) brightness(13%) contrast(71%);
+}
+
+.socialsItemWhatsapp:hover {
+  border-color: #25d366;
+  background: #25d366;
+}
+
+.socialsItemWhatsapp:hover .socialsIconWhatsapp {
+  filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(322deg) brightness(103%) contrast(101%);
+}
+
+.socialsItemInstagram:hover {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+}
+
+.socialsItemInstagram:hover .socialsIconInstagram {
+  filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(322deg) brightness(103%) contrast(101%);
+}
+
+.socialsItemYoutube:hover {
+  border-color: #ff0000;
+  background: #ff0000;
+}
+
+.socialsItemYoutube:hover .socialsIconYoutube {
+  filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(322deg) brightness(103%) contrast(101%);
 }
 
 @media (max-width: 768px) {
