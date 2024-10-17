@@ -200,7 +200,7 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li className={styles.footerItem}>
-                    <Link href="#" className={styles.footerLink}>
+                    <Link href="" className={styles.footerLink}>
                       Проекты
                     </Link>
                   </li>
@@ -215,7 +215,7 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li className={styles.footerItem}>
-                    <Link href="" className={styles.footerLink}>
+                    <Link href="/about" className={styles.footerLink}>
                       О нас
                     </Link>
                   </li>
@@ -225,7 +225,7 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li className={styles.footerItem}>
-                    <Link href="" className={styles.footerLink}>
+                    <Link href="/contacts" className={styles.footerLink}>
                       Контакты
                     </Link>
                   </li>

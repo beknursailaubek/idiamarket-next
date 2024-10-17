@@ -56,7 +56,7 @@ const Menu = ({ isOpen, onClose }: MenuProps) => {
             { name: "Проекты", path: "" },
             { name: "3D Дизайн", path: "" },
             { name: "Доставка", path: "" },
-            { name: "О нас", path: "" },
+            { name: "О нас", path: "about" },
             { name: "Отзывы", path: "" },
             { name: "Контакты", path: "contacts" },
           ].map((item, index) => (

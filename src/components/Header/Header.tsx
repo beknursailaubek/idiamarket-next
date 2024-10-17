@@ -172,7 +172,7 @@ const Header: React.FC = () => {
                   { name: "Проекты", path: "" },
                   { name: "3D Дизайн", path: "" },
                   { name: "Доставка", path: "" },
-                  { name: "О нас", path: "" },
+                  { name: "О нас", path: "about" },
                   { name: "Отзывы", path: "" },
                   { name: "Контакты", path: "contacts" },
                 ].map((item, index) => (
@@ -252,7 +252,7 @@ const Header: React.FC = () => {
       </Modal>
 
       {isMobile && (
-        <Modal isOpen={isContactsModalOpen} onClose={closeContactsModal}>
+        <Modal isOpen={isContactsModalOpen} onClose={closeContactsModal} type="dialog">
           <Contacts closeModal={closeContactsModal} />
         </Modal>
       )}

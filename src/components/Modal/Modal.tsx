@@ -7,9 +7,10 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
+  type?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, type }) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [startY, setStartY] = useState<number | null>(null);
 
@@ -52,7 +53,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   };
 
   return (
-    <div className={`${styles.modalOverlay} ${isOpen ? styles.modalOverlayActive : ""}`} onClick={handleClickOutside}>
+    <div className={`${styles.modalOverlay} ${isOpen ? styles.modalOverlayActive : ""} ${type === "dialog" ? styles.modalOverlayDialog : ""} `} onClick={handleClickOutside}>
       <div className={`${styles.modalContent} ${isOpen ? styles.modalContentActive : ""}`} ref={modalRef}>
         <Image className={styles.modalClose} src="/images/icons/close.svg" alt="" onClick={onClose} width={24} height={24} />
         {children}

@@ -33,6 +33,7 @@
   background: var(--red);
   border-radius: 8px;
   transition: background 0.2s ease-in-out;
+  animation: animate 0.5s linear infinite;
 }
 
 .call:hover {
@@ -56,5 +57,17 @@
   .message {
     height: 100%;
     justify-content: center;
+  }
+}
+
+@keyframes animate {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
   }
 }

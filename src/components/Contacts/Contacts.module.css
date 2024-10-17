@@ -1,11 +1,22 @@
 .contacts {
-  margin-top: 10px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: center;
 }
- 
+
+.contactsCity {
+  width: 250px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
 
 .contactsCityName {
   font-weight: 700;
+}
+
+.contactsCityPhone {
+  padding: 10px 0;
+  color: var(--blue-light);
 }
