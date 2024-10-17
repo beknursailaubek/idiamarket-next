@@ -9,6 +9,7 @@ interface ContactsProps {
 const Contacts = ({ closeModal }: ContactsProps) => {
   return (
     <div className={styles.contactsModal}>
+      <p className={styles.title}>Наши контакты</p>
       <div className={styles.contacts}>
         <div className={styles.contactsCity}>
           <span className={styles.contactsCityName}>Алматы</span>

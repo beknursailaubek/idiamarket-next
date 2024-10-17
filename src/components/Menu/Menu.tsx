@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Menu.module.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,6 +9,8 @@ interface MenuProps {
 }
 
 const Menu = ({ isOpen, onClose }: MenuProps) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add("no-scroll");
@@ -20,6 +22,10 @@ const Menu = ({ isOpen, onClose }: MenuProps) => {
       document.body.classList.remove("no-scroll");
     };
   }, [isOpen]);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
 
   return (
     <div className={isOpen ? `${styles.menu} ${styles.menuActive}` : `${styles.menu}`}>
@@ -35,7 +41,7 @@ const Menu = ({ isOpen, onClose }: MenuProps) => {
           </Link>
         </div>
 
-        <div className={styles.actions}>
+        {/* <div className={styles.actions}>
           <div className={styles.action}>
             <Image className={styles.actionIcon} src="/images/icons/heart.svg" alt="Favorite" width={30} height={30} />
             <p className={styles.actionTitle}>Избранное</p>
@@ -48,24 +54,62 @@ const Menu = ({ isOpen, onClose }: MenuProps) => {
             <Image className={styles.actionIcon} src="/images/icons/cart.svg" alt="Cart" width={30} height={30} />
             <p className={styles.actionTitle}>Корзина</p>
           </div>
-        </div>
+        </div> */}
 
         <ul className={styles.menuList}>
-          {[
-            { name: "Главная", path: "" },
-            { name: "Проекты", path: "" },
-            { name: "3D Дизайн", path: "" },
-            { name: "Доставка", path: "" },
-            { name: "О нас", path: "about" },
-            { name: "Отзывы", path: "" },
-            { name: "Контакты", path: "contacts" },
-          ].map((item, index) => (
-            <li className={styles.menuItem} key={index}>
-              <Link href={`/${item.path}`} className={styles.menuLink} onClick={onClose}>
-                {item.name}
-              </Link>
-            </li>
-          ))}
+          <li className={styles.menuItem}>
+            <Link href={`/`} className={styles.menuLink} onClick={onClose}>
+              Главная
+            </Link>
+          </li>
+          <li className={styles.menuItem}>
+            <Link href={`/about`} className={styles.menuLink} onClick={onClose}>
+              О нас
+            </Link>
+          </li>
+          <li className={styles.menuItem}>
+            <Link href={`/contacts`} className={styles.menuLink} onClick={onClose}>
+              Контакты
+            </Link>
+          </li>
+          <li className={`${styles.dropdown} ${isDropdownOpen ? styles.dropdownActive : ""}`} onClick={toggleDropdown}>
+            <div className={styles.dropdownBtn}>
+              Категории <Image src="/images/icons/arrow-down.svg" alt="" width={16} height={16} />
+            </div>
+
+            <ul className={styles.dropdownList}>
+              <li className={styles.dropdownItem}>
+                <Link className={styles.dropdownLink} href="/category/metallicheskie-stellazhi" onClick={onClose}>
+                  Металлические стеллажи
+                </Link>
+              </li>
+              <li className={styles.dropdownItem}>
+                <Link className={styles.dropdownLink} href="/category/stellazhi/skladskie-stellazhi/arhivnye-stellazhi" onClick={onClose}>
+                  Архивные стеллажи
+                </Link>
+              </li>
+              <li className={styles.dropdownItem}>
+                <Link className={styles.dropdownLink} href="/category/metallicheskie-stellazhi/torgovye-stellazhi" onClick={onClose}>
+                  Торговые стеллажи
+                </Link>
+              </li>
+              <li className={styles.dropdownItem}>
+                <Link className={styles.dropdownLink} href="/category/stellazhi/torgovye-stellazhi/pristennye-stellazhi" onClick={onClose}>
+                  Пристенные стеллажи
+                </Link>
+              </li>
+              <li className={styles.dropdownItem}>
+                <Link className={styles.dropdownLink} href="/category/stellazhi/torgovye-stellazhi/ostrovnye-stellazhi" onClick={onClose}>
+                  Островные стеллажи
+                </Link>
+              </li>
+              <li className={styles.dropdownItem}>
+                <Link className={styles.dropdownLink} href="/category/stellazhi/torgovye-stellazhi/uglovye-stellazhi" onClick={onClose}>
+                  Угловные стеллажи
+                </Link>
+              </li>
+            </ul>
+          </li>
         </ul>
 
         <div className={styles.schedules}>

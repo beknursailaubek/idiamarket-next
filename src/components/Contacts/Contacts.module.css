@@ -4,6 +4,13 @@
   align-items: center;
 }
 
+.title {
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
 .contactsCity {
   width: 250px;
   display: flex;

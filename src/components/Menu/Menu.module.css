@@ -9,6 +9,7 @@
   background: var(--background);
   z-index: 999;
   transition: all 0.3s ease-in-out;
+  overflow-y: scroll;
 }
 
 .menuInner {
@@ -96,4 +97,28 @@
 
 .menuItem:not(:last-child) {
   border-bottom: 1px solid #f1f1f1;
+}
+
+.dropdownBtn {
+  padding: 16px 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dropdownLink {
+  padding: 16px 15px 16px 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dropdown > .dropdownList {
+  opacity: 0;
+  max-height: 0px;
+  transition: all 0.3s ease;
+}
+
+.dropdownActive > .dropdownList {
+  opacity: 1;
+  max-height: 1000px;
+  transition: all 0.3s ease;
 }
