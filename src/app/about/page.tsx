@@ -3,7 +3,7 @@ import styles from "./About.module.css";
 const AboutPage = () => {
   return (
     <div className={styles.body}>
-      <div className={`container`}>
+      <div className={styles.container}>
         <div className={styles.contentBox}>
           {/* Баннер */}
           <div className={styles.banner}>

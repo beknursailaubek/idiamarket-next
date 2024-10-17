@@ -7,7 +7,7 @@ const ContactPage = () => {
   const yearsInMarket = currentYear - 2010;
 
   return (
-    <div className="container">
+    <div className={styles.container}>
       <div className={styles.body}>
         <h1 className={`title ${styles.title}`}>Контакты</h1>
 
