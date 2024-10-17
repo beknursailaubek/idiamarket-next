@@ -7,7 +7,9 @@ const AboutPage = () => {
         <div className={styles.contentBox}>
           {/* Баннер */}
           <div className={styles.banner}>
-            <h1 className={styles.bannerTitle}>Интернет-магазин IDIA Market</h1>
+            <h1 className={styles.bannerTitle}>
+              <span>Интернет-магазин</span> <span>IDIA Market</span>
+            </h1>
           </div>
 
           {/* Описание компании */}
@@ -26,7 +28,7 @@ const AboutPage = () => {
               <h2 className={styles.cardTitle}>27000+</h2>
               <p className={styles.cardText}>Успешных проектов</p>
             </div>
-            <div className={styles.card}> 
+            <div className={styles.card}>
               <h2 className={styles.cardTitle}>100%</h2>
               <p className={styles.cardText}>Качество и надежность</p>
             </div>
