@@ -9,7 +9,7 @@ import Modal from "@/components/Modal/Modal";
 import Location from "@/components/Location/Location";
 import Search from "@/components/Search/Search";
 import Contacts from "@/components/Contacts/Contacts";
-
+import { Tooltip } from "react-tooltip";
 import styles from "./Header.module.css";
 import Menu from "@/components/Menu/Menu";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
@@ -168,7 +168,7 @@ const Header: React.FC = () => {
             <nav className={styles.headerMenu}>
               <ul className={styles.menuList}>
                 {[
-                  { name: "Главная", path: "" },
+                  { name: "Главная", path: "/" },
                   { name: "Проекты", path: "" },
                   { name: "3D Дизайн", path: "" },
                   { name: "Доставка", path: "" },
@@ -177,8 +177,9 @@ const Header: React.FC = () => {
                   { name: "Контакты", path: "contacts" },
                 ].map((item, index) => (
                   <li className={styles.menuItem} key={index}>
-                    <Link href={`${cityPrefix}/${item.path}`} className={styles.menuLink}>
+                    <Link href={`${cityPrefix}/${item.path}`} className={styles.menuLink} data-tooltip-id={item.path ? undefined : "link"} data-tooltip-content="В разработке" data-tooltip-place="top">
                       {item.name}
+                      {!item.path && <Tooltip id="link" />}
                     </Link>
                   </li>
                 ))}
@@ -221,22 +222,26 @@ const Header: React.FC = () => {
             </div>
 
             <div className={styles.actions}>
-              <div className={styles.action}>
+              <div className={styles.action} data-tooltip-id="action" data-tooltip-content="В разработке" data-tooltip-place="top">
                 <Image className={styles.actionIcon} src="/images/icons/heart.svg" alt="Favorite" width={30} height={30} />
                 <p className={styles.actionTitle}>Избранное</p>
                 {favorites && favorites.length > 0 && <span className={styles.actionCount}>{favorites.length}</span>}
+                <Tooltip id="action" />
               </div>
-              <div className={styles.action}>
+              <div className={styles.action} data-tooltip-id="action" data-tooltip-content="В разработке" data-tooltip-place="top">
                 <Image className={styles.actionIcon} src="/images/icons/compare.svg" alt="Compare" width={30} height={30} />
                 <p className={styles.actionTitle}>Сравнить</p>
+                <Tooltip id="action" />
               </div>
-              <div className={styles.action}>
+              <div className={styles.action} data-tooltip-id="action" data-tooltip-content="В разработке" data-tooltip-place="top">
                 <Image className={styles.actionIcon} src="/images/icons/cart.svg" alt="Cart" width={30} height={30} />
                 <p className={styles.actionTitle}>Корзина</p>
+                <Tooltip id="action" />
               </div>
-              <div className={styles.action}>
+              <div className={styles.action} data-tooltip-id="action" data-tooltip-content="В разработке" data-tooltip-place="top">
                 <Image className={styles.actionIcon} src="/images/icons/user.svg" alt="Sign In" width={30} height={30} />
                 <p className={styles.actionTitle}>Вход</p>
+                <Tooltip id="action" />
               </div>
             </div>
           </div>
