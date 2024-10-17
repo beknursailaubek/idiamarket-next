@@ -41,6 +41,22 @@
   .cardsGrid {
     grid-template-columns: 1fr;
   }
+  .contentBox {
+    padding: 20px 12px;
+  }
+
+  .banner {
+    padding: 20px;
+  }
+
+  .textSection {
+    padding: 20px 0;
+  }
+
+  .bannerTitle {
+    font-size: 24px;
+    text-align: center;
+  }
 }
 
 .card {
@@ -56,7 +72,7 @@
 }
 
 .cardText {
-  margin-top: 8px; 
+  margin-top: 8px;
 }
 
 .sectionTitle {
