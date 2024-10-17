@@ -3,7 +3,7 @@
   visibility: hidden;
   position: fixed;
   top: 112px;
-  height: calc(100vh - 112px);
+  height: calc(100dvh - 112px);
   width: 100%;
   padding-top: 10px;
   background: var(--background);
