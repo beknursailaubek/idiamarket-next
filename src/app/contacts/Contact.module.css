@@ -19,6 +19,10 @@
   margin-bottom: 10px;
 }
 
+.text {
+  display: none;
+}
+
 .city {
   padding: 25px 0;
   display: flex;
@@ -146,6 +150,11 @@
     padding: 20px 12px;
   }
 
+  .text {
+    display: block;
+    font-size: 14px;
+  }
+
   .city {
     flex-direction: column;
     gap: 20px;
@@ -156,6 +165,7 @@
   }
 
   .map {
+    display: none;
     width: 100%;
   }
 
