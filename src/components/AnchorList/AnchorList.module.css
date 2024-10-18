@@ -1,0 +1,25 @@
+.body {
+  width: 100%;
+  border-radius: 8px;
+  background: var(--white);
+  padding: 20px;
+  margin-top: 24px;
+}
+
+.title {
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.link {
+  padding: 8px 16px;
+  color: var(--blue-light);
+  border-radius: 8px;
+  border: 1px solid var(--blue-light);
+}

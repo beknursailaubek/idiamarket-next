@@ -10,6 +10,7 @@ import Sort from "@/components/Sort/Sort";
 import CardViews from "@/components/CardViews/CardViews";
 import Pagination from "@/components/Pagination/Pagination";
 import Modal from "@/components/Modal/Modal";
+import AnchorList from "@/components/AnchorList/AnchorList";
 import { getProductWord } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { InitialData, Product, Filters, FilterOptions, SeoData, FilterValues } from "@/types";
@@ -178,6 +179,8 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
           )}
         </div>
         {pagination && pagination.totalPages > 1 && <Pagination totalPages={totalPages} currentPage={currentPage} />}
+
+        {category.anchors?.length ? <AnchorList items={category.anchors} /> : null}
 
         {category.meta_data && <Seo data={category.meta_data as SeoData} />}
       </div>

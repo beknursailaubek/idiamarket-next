@@ -41,6 +41,7 @@ export interface Category {
   category_code: string;
   children?: Category[];
   image?: string;
+  anchors?: Anchor[];
   meta_data?: SeoMetadata;
 }
 
@@ -164,4 +165,9 @@ export interface City {
   title: string;
   uri: string;
   code: string;
+}
+
+export interface Anchor {
+  title: string;
+  uri: string;
 }

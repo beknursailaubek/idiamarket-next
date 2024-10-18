@@ -3,14 +3,14 @@
   font-size: 12px;
   background: var(--white);
   border-radius: 8px;
-  padding: 50px 50px 60px;
-  margin-top: 50px;
+  padding: 20px 20px 60px;
+  margin-top: 24px;
   max-height: 5000px;
   transition: all 0.7s ease-in-out;
 }
 
 .seoInnerHidden {
-  max-height: 300px;
+  max-height: 260px;
   overflow-y: hidden;
   transition: all 0.7s ease-in-out;
 }
