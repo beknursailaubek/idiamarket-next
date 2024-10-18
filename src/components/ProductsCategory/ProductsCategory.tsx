@@ -11,6 +11,7 @@ import CardViews from "@/components/CardViews/CardViews";
 import Pagination from "@/components/Pagination/Pagination";
 import Modal from "@/components/Modal/Modal";
 import AnchorList from "@/components/AnchorList/AnchorList";
+import RecentlyWatched from "@/components/RecentlyWatched/RecentlyWatched";
 import { getProductWord } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { InitialData, Product, Filters, FilterOptions, SeoData, FilterValues } from "@/types";
@@ -181,6 +182,8 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
         {pagination && pagination.totalPages > 1 && <Pagination totalPages={totalPages} currentPage={currentPage} />}
 
         {category.anchors?.length ? <AnchorList items={category.anchors} /> : null}
+
+        <RecentlyWatched page="" />
 
         {category.meta_data && <Seo data={category.meta_data as SeoData} />}
       </div>

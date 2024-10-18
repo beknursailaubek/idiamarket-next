@@ -11,6 +11,7 @@ import { Product } from "@/types";
 import styles from "./Home.module.css";
 import AboutAccordion from "@/components/AboutAccordion/AboutAccordion";
 import Categories from "@/components/Categories/Categories";
+import RecentlyWatched from "@/components/RecentlyWatched/RecentlyWatched";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
 interface HomePageProps {
@@ -43,6 +44,12 @@ export default async function HomePage({ params }: HomePageProps) {
       </section>
 
       <Categories />
+
+      <section className={styles.watched}>
+        <div className="container">
+          <RecentlyWatched page="home" />
+        </div>
+      </section>
 
       <section className={styles.popular}>
         <div className="container">

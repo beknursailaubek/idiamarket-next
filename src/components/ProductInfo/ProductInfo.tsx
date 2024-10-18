@@ -2,6 +2,7 @@
 import styles from "./ProductInfo.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
 import ProductSlider from "@/components/ProductSlider/ProductSlider";
 import { Product } from "@/types";
 
@@ -37,6 +38,17 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         return "отзывов";
     }
   };
+
+  useEffect(() => {
+    if (product.sku) {
+      let recentlyWatched = JSON.parse(localStorage.getItem("recentlyWatched") || "[]");
+
+      if (!recentlyWatched.includes(product.sku)) {
+        recentlyWatched = [product.sku, ...recentlyWatched].slice(0, 4);
+        localStorage.setItem("recentlyWatched", JSON.stringify(recentlyWatched));
+      }
+    }
+  }, [product.sku]);
 
   return (
     <div className={styles.productPageMain}>
