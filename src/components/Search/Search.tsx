@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./Search.module.css";
+import { useCityContext } from "@/hooks/useCityContext";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
 interface Product {
@@ -26,6 +27,8 @@ interface HistoryItem {
 }
 
 const Search: React.FC<SearchProps> = ({ isOpen, onClose, searchProducts, searchQuery }) => {
+  const { selectedCity } = useCityContext();
+  const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
   const [suitableProducts, setSuitableProducts] = useState<Product[]>([]);
   const [searchHistory, setSearchHistory] = useState<HistoryItem[]>([]);
   const searchRef = useRef<HTMLDivElement | null>(null);
@@ -135,7 +138,7 @@ const Search: React.FC<SearchProps> = ({ isOpen, onClose, searchProducts, search
               </div>
               <div className={styles.searchHistoryList}>
                 {searchHistory.map((item, index) => (
-                  <Link href={item.path} key={index} className={styles.searchHistoryRedirect} onClick={onClose}>
+                  <Link href={`${cityPrefix}/${item.path}`} key={index} className={styles.searchHistoryRedirect} onClick={onClose}>
                     {item.query}
                   </Link>
                 ))}
@@ -150,7 +153,7 @@ const Search: React.FC<SearchProps> = ({ isOpen, onClose, searchProducts, search
             searchProducts && searchProducts.length > 0 ? (
               <div className={styles.searchResults}>
                 {searchProducts.map((product) => (
-                  <Link href={`/p/${product.uri}`} key={product.uri} className={styles.searchCard} onClick={onClose}>
+                  <Link href={`${cityPrefix}/p/${product.uri}`} key={product.uri} className={styles.searchCard} onClick={onClose}>
                     <Image className={styles.searchCardImage} src={product.images && product.images[0] ? product.images[0] : "/default-image.png"} alt={product.title} width={60} height={60} />
                     <div className={styles.searchCardInfo}>
                       <p className={styles.searchCardTitle}>{product.title}</p>
@@ -166,7 +169,7 @@ const Search: React.FC<SearchProps> = ({ isOpen, onClose, searchProducts, search
           ) : suitableProducts.length > 0 ? (
             <div className={styles.searchResults}>
               {suitableProducts.map((product) => (
-                <Link href={`/p/${product.uri}`} key={product.uri} className={styles.searchCard} onClick={onClose}>
+                <Link href={`${cityPrefix}/p/${product.uri}`} key={product.uri} className={styles.searchCard} onClick={onClose}>
                   <Image className={styles.searchCardImage} src={product.images && product.images[0] ? product.images[0] : "/default-image.png"} alt={product.title} width={60} height={60} />
                   <div className={styles.searchCardInfo}>
                     <p className={styles.searchCardTitle}>{product.title}</p>
