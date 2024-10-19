@@ -1,14 +1,18 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./Categories.module.css";
 import Modal from "@/components/Modal/Modal";
 import Message from "@/components/Message/Message";
+import { useCityContext } from "@/hooks/useCityContext";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
-export default function Categories() {
+const Categories = () => {
+  const { selectedCity } = useCityContext();
+  const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
+
   const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
 
   const [isMessageModalOpen, setMessageModalOpen] = useState(false);
@@ -50,13 +54,13 @@ export default function Categories() {
 
           <div className={styles.categoriesBox}>
             <div className={styles.categoryGroupLeft}>
-              <Link href={`/category/metallicheskie-stellazhi/torgovye-stellazhi`} className={`${styles.category} ${styles.torgovyeStellazhi}`}>
+              <Link href={`${cityPrefix}/category/metallicheskie-stellazhi/torgovye-stellazhi`} className={`${styles.category} ${styles.torgovyeStellazhi}`}>
                 <span className={styles.categoryCount}>Товаров: {categoryCounts["torgovye-stellazhi"] || 79}</span>
                 <Image loading="lazy" className={styles.categoryImage} src="/images/categories/torgovye-stellazhi.png" alt="Торговые стеллажи" width={142} height={275} />
                 <p className={styles.categoryTitle}>Торговые стеллажи</p>
               </Link>
 
-              <Link href={`/category/skladskie-stellazhi`} className={`${styles.category} ${styles.skladskieStellazhi}`}>
+              <Link href={`${cityPrefix}/category/skladskie-stellazhi`} className={`${styles.category} ${styles.skladskieStellazhi}`}>
                 <span className={styles.categoryCount}>Товаров: {categoryCounts["skladskie-stellazhi"] || 9}</span>
                 <Image loading="lazy" className={styles.categoryImage} src="/images/categories/skladskie-stellazhi.png" alt="Складские стеллажи" width={170} height={133} />
                 <p className={styles.categoryTitle}>Складские стеллажи</p>
@@ -151,4 +155,6 @@ export default function Categories() {
       </Modal>
     </>
   );
-}
+};
+
+export default Categories;

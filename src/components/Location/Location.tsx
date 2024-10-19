@@ -30,13 +30,12 @@ const Location: React.FC<LocationProps> = ({ closeModal }) => {
       return;
     }
 
-    // Ensure `cities` is not `undefined` and safely handle it
-    const pathSegments = pathname.split("/").filter((segment) => (cities || []).some((c: City) => c.uri === segment));
+    // Получаем текущие сегменты пути, игнорируя старый город
+    const pathSegments = pathname.split("/").filter((segment) => !cities?.some((c: City) => c.uri === segment) && segment !== "");
 
     const newUri = city.uri ? `/${city.uri}/${pathSegments.join("/")}` : `/${pathSegments.join("/")}`;
 
     router.push(newUri);
-
     closeModal();
   };
 

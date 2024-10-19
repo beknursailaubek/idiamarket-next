@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { FavoritesContext } from "@/context/FavoritesContext";
-import { CityContext } from "@/context/CityContext";
+import { useCityContext } from "@/hooks/useCityContext";
 import Modal from "@/components/Modal/Modal";
 import Location from "@/components/Location/Location";
 import Search from "@/components/Search/Search";
@@ -12,22 +12,20 @@ import Contacts from "@/components/Contacts/Contacts";
 import { Tooltip } from "react-tooltip";
 import styles from "./Header.module.css";
 import Menu from "@/components/Menu/Menu";
+
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
-const Header: React.FC = () => {
+const Header = () => {
   const router = useRouter();
   const favoritesContext = useContext(FavoritesContext);
-  const cityContext = useContext(CityContext);
+  const { selectedCity } = useCityContext();
+  const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "/";
 
   if (!favoritesContext) {
     throw new Error("FavoritesContext must be used within its provider");
   }
-  if (!cityContext) {
-    throw new Error("CityContext must be used within its provider");
-  }
 
   const { favorites } = favoritesContext;
-  const { selectedCity } = cityContext;
 
   const [isLocationModalOpen, setLocationModalOpen] = useState(false);
   const [isSearchOpen, setSearchOpen] = useState(false);
@@ -49,8 +47,6 @@ const Header: React.FC = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const openMenu = () => setMenuOpen(true);
   const closeMenu = () => setMenuOpen(false);
-
-  const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
 
   const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -119,7 +115,7 @@ const Header: React.FC = () => {
       <header className={styles.header}>
         <div className={styles.headerTop}>
           <div className={`${styles.headerInner} container`}>
-            <Link href="/" className={styles.headerLogo}>
+            <Link href={cityPrefix} className={styles.headerLogo}>
               <Image className={styles.logoImage} src="/images/logo.svg" alt="Logo" width={110} height={37} />
             </Link>
 
@@ -167,8 +163,12 @@ const Header: React.FC = () => {
 
             <nav className={styles.headerMenu}>
               <ul className={styles.menuList}>
+                <li className={styles.menuItem}>
+                  <Link href={cityPrefix} className={styles.menuLink}>
+                    Главная
+                  </Link>
+                </li>
                 {[
-                  { name: "Главная", path: "/" },
                   { name: "Проекты", path: "" },
                   { name: "3D Дизайн", path: "" },
                   { name: "Доставка", path: "" },

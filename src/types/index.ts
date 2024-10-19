@@ -156,7 +156,7 @@ export interface FavoritesContextProps {
 }
 
 export interface CityContextProps {
-  selectedCity?: City;
+  selectedCity: City;
   setSelectedCity?: (city: City) => void;
   cities?: City[];
 }

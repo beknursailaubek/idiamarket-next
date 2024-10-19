@@ -3,7 +3,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CityContext } from "@/context/CityContext";
+import { useCityContext } from "@/hooks/useCityContext";
 import styles from "./Breadcrumbs.module.css";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
@@ -18,7 +18,7 @@ interface BreadcrumbsProps {
   productName?: string;
 }
 
-const fetchBreadcrumbsData = async (code: string, selectedCityUri: string, category_code: string): Promise<Breadcrumb[]> => {
+const fetchBreadcrumbsData = async (code: string, category_code: string): Promise<Breadcrumb[]> => {
   try {
     const response = await fetch(`${apiUrl}/breadcrumbs/${code || category_code}`);
     if (!response.ok) {
@@ -28,7 +28,7 @@ const fetchBreadcrumbsData = async (code: string, selectedCityUri: string, categ
 
     const homeBreadcrumb: Breadcrumb = {
       name: "Главная",
-      path: selectedCityUri ? `/${selectedCityUri}` : "/",
+      path: "/",
     };
 
     return [homeBreadcrumb, ...data];
@@ -39,22 +39,24 @@ const fetchBreadcrumbsData = async (code: string, selectedCityUri: string, categ
 };
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ onBreadcrumbClick, code, productName }) => {
+  const { selectedCity } = useCityContext();
   const pathname = usePathname();
   const [breadcrumbs, setBreadcrumbs] = useState<Breadcrumb[]>([]);
-  const { selectedCity } = useContext(CityContext) || {};
-  const [isClient, setIsClient] = useState(false);
+
+  // Ensure the cityPrefix is sanitized to avoid double slashes
+  const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
+
+  const buildUrl = (path: string) => {
+    // Ensure no double slashes appear by joining paths properly
+    return `${cityPrefix}${path.startsWith("/") ? path : `/${path}`}`.replace(/\/+/g, "/");
+  };
 
   useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    if (!isClient || !selectedCity) return;
     const pathnames = pathname.split("/").filter((x) => x);
     const categoryCode = code || pathnames[pathnames.length - 1];
 
     const fetchAndSetBreadcrumbs = async () => {
-      const data = await fetchBreadcrumbsData(categoryCode, selectedCity.uri, categoryCode);
+      const data = await fetchBreadcrumbsData(categoryCode, categoryCode);
 
       if (productName) {
         data.push({
@@ -67,7 +69,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ onBreadcrumbClick, code, prod
     };
 
     fetchAndSetBreadcrumbs();
-  }, [isClient, selectedCity?.uri, code, productName, pathname]);
+  }, [code, productName, pathname]);
 
   const handleBreadcrumbClick = (breadcrumb: Breadcrumb) => {
     if (onBreadcrumbClick) {
@@ -75,19 +77,19 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ onBreadcrumbClick, code, prod
     }
   };
 
-  if (!isClient) return null;
-
   return (
     <nav className={styles.breadcrumbs}>
       {breadcrumbs.map((breadcrumb, index) => {
         const isLast = index === breadcrumbs.length - 1;
+        const breadcrumbUrl = buildUrl(breadcrumb.path);
+
         return isLast ? (
-          <span key={breadcrumb.path} className={styles.breadcrumb}>
+          <span key={breadcrumbUrl} className={styles.breadcrumb}>
             {breadcrumb.name}
           </span>
         ) : (
-          <React.Fragment key={breadcrumb.path}>
-            <Link href={breadcrumb.path}>
+          <React.Fragment key={breadcrumbUrl}>
+            <Link href={breadcrumbUrl}>
               <span className={styles.breadcrumb} onClick={() => handleBreadcrumbClick(breadcrumb)}>
                 {breadcrumb.name}
               </span>

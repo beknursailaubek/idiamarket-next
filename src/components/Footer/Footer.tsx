@@ -2,10 +2,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { useCityContext } from "@/hooks/useCityContext";
 
 import styles from "./Footer.module.css";
 
 const Footer = () => {
+  const { selectedCity } = useCityContext();
+  const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
+
   const [isContactsOpen, setIsContactsOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isLinksOpen, setIsLinksOpen] = useState(false);
@@ -27,7 +31,7 @@ const Footer = () => {
 
               <div className={`${styles.columnContent} ${isContactsOpen ? styles.columnContentActive : ""}`}>
                 <div className={styles.logo}>
-                  <Link href="/">
+                  <Link href={cityPrefix}>
                     <Image src="/images/logo.svg" alt="Логотип" className={styles.logoImage} width={110} height={37} />
                   </Link>
                 </div>
@@ -114,7 +118,7 @@ const Footer = () => {
               <div className={`${styles.columnContent} ${isCategoriesOpen ? styles.columnContentActive : ""}`}>
                 <ul className={styles.footerMenu}>
                   <li className={styles.footerItem}>
-                    <Link href={`/category/metallicheskie-stellazhi/torgovye-stellazhi`} className={styles.footerLink}>
+                    <Link href={`${cityPrefix}/category/metallicheskie-stellazhi/torgovye-stellazhi`} className={styles.footerLink}>
                       Торговые стеллажи
                     </Link>
                   </li>
@@ -144,7 +148,7 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li className={styles.footerItem}>
-                    <Link href="" className={styles.footerLink}>
+                    <Link href={`${cityPrefix}/category/skladskie-stellazhi`} className={styles.footerLink}>
                       Складские стеллажи
                     </Link>
                   </li>
@@ -188,14 +192,14 @@ const Footer = () => {
                 <Image src="/images/icons/arrow-down.svg" width={16} height={16} alt="" />
               </div>
 
-              <Link href="/" className={`${styles.footerTitle} ${styles.footerLink}`}>
+              <Link href={cityPrefix} className={`${styles.footerTitle} ${styles.footerLink}`}>
                 Главная
               </Link>
 
               <div className={`${styles.columnContent} ${isLinksOpen ? styles.columnContentActive : ""}`}>
                 <ul className={styles.footerMenu}>
                   <li className={styles.footerItem}>
-                    <Link href="#" className={styles.footerLink}>
+                    <Link href={cityPrefix} className={styles.footerLink}>
                       Главная
                     </Link>
                   </li>
@@ -215,7 +219,7 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li className={styles.footerItem}>
-                    <Link href="/about" className={styles.footerLink}>
+                    <Link href={`${cityPrefix}/about`} className={styles.footerLink}>
                       О нас
                     </Link>
                   </li>
@@ -225,7 +229,7 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li className={styles.footerItem}>
-                    <Link href="/contacts" className={styles.footerLink}>
+                    <Link href={`${cityPrefix}/contacts`} className={styles.footerLink}>
                       Контакты
                     </Link>
                   </li>
