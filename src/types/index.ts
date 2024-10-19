@@ -121,27 +121,28 @@ export interface Pagination {
   totalProducts: number;
 }
 
-export interface InitialData {
-  products: Product[];
-  category: Category;
-  pagination: Pagination;
-}
-
 export interface Filters {
   priceRange: [number, number];
   colors: string[];
   attributes: { [key: string]: string[] };
 }
 
+export interface FilterValues {
+  priceRange?: [number, number];
+  colors?: string[];
+  attributes?: { [key: string]: string[] };
+}
+
 export interface FilterOptions {
   priceRange: [number, number];
-  colors: Color[];
-  attributes: { code: string; title: string; values: string[] }[];
+  colors: Array<{ code: string; title: string; hex: string }>;
+  attributes: Array<{ code: string; title: string; values: string[] }>;
 }
-export interface FilterValues {
-  priceRange: [number, number];
-  colors: string[];
-  attributes: { [key: string]: string[] };
+
+export interface InitialData {
+  products: Product[];
+  category: Category;
+  pagination: Pagination;
 }
 
 export interface SeoData {

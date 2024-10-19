@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ProductCard from "@/components/ProductCard/ProductCard";
@@ -17,7 +17,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { InitialData, Product, Filters, FilterOptions, SeoData, FilterValues } from "@/types";
 import Seo from "@/components/Seo/Seo";
 import { useCityContext } from "@/hooks/useCityContext";
-const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
 interface ProductsCategoryProps {
   initialData: InitialData;
@@ -25,18 +24,12 @@ interface ProductsCategoryProps {
 }
 
 export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData, filterOptions }) => {
-  const { selectedCity } = useCityContext();
-  const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [data, setData] = useState<InitialData>(initialData);
-  const [initialProducts, setInitialProducts] = useState<Product[]>(initialData.products);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(initialData.products);
-  const [sortOption, setSortOption] = useState<string>("popular");
+  const { selectedCity } = useCityContext();
+  const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
 
-  const [isFilterOpen, setFilterOpen] = useState(false);
-  const openFilter = () => setFilterOpen(true);
-  const closeFilter = () => setFilterOpen(false);
+  const { category, products, pagination } = initialData;
 
   const [tempFilters, setTempFilters] = useState<Filters>({
     priceRange: [0, Infinity],
@@ -44,61 +37,27 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
     attributes: {},
   });
 
-  const [filters, setFilters] = useState<Filters>({
-    priceRange: [0, Infinity],
-    colors: [],
-    attributes: {},
-  });
+  const applyFilters = useCallback(() => {
+    const filterPath = buildFilterPath(tempFilters);
+    router.push(`${cityPrefix}/category/${category?.uri}/f/${filterPath}`);
+  }, [tempFilters, category, cityPrefix]);
 
-  const { products, category, pagination } = data;
-  const { totalPages, currentPage, totalProducts } = pagination;
+  const buildFilterPath = (filters: Filters): string => {
+    const { colors, attributes } = filters;
 
-  // Fetch product data based on filters
-  useEffect(() => {
-    fetchFilteredData();
-  }, [filters, searchParams.get("page"), sortOption]);
+    let pathSegments = [];
 
-  const fetchFilteredData = async () => {
-    const page = searchParams.get("page") || "1";
-    const minPrice = filters.priceRange[0];
-    const maxPrice = filters.priceRange[1];
-    const sortParam = sortOption ? `&sorting=${encodeURIComponent(sortOption)}` : "";
-
-    const colorParams = filters.colors.length > 0 ? `&colors=${filters.colors.join(",")}` : "";
-
-    const attributeParams = Object.entries(filters.attributes)
-      .map(([key, values]) => values.map((value) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join("&"))
-      .join("&");
-
-    const url = `${apiUrl}/categories/${category.category_code}?page=${page}&limit=20&minPrice=${minPrice}&maxPrice=${maxPrice}${colorParams}${attributeParams ? `&${attributeParams}` : ""}${sortParam}`;
-
-    try {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error("Failed to fetch products");
-
-      const newData = await res.json();
-      setData(newData);
-      setFilteredProducts(newData.products);
-    } catch (error) {
-      console.error("Error fetching products:", error);
+    if (colors.length > 0) {
+      pathSegments.push(`color/${colors.join(",")}`);
     }
-  };
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      applyFilters();
-    }, 300);
+    for (const [attributeCode, values] of Object.entries(attributes)) {
+      if (values.length > 0) {
+        pathSegments.push(`${attributeCode}/${values.join(",")}`);
+      }
+    }
 
-    return () => clearTimeout(timeoutId);
-  }, [tempFilters]);
-
-  const applyFilters = () => {
-    setFilters(tempFilters);
-    goToFirstPage();
-  };
-
-  const goToFirstPage = () => {
-    router.push(`?page=1`);
+    return pathSegments.join("/");
   };
 
   const handleFilterChange = (newFilters: FilterValues) => {
@@ -108,21 +67,41 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
     }));
   };
 
-  const handleSortChange = (selectedSortOption: string) => {
-    setSortOption(selectedSortOption);
-    goToFirstPage();
+  const handleSortingAndPriceChange = (sortValue: string, priceRange: [number, number]) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (priceRange[0] > 0) params.set("priceMin", priceRange[0].toString());
+    if (priceRange[1] < Infinity) params.set("priceMax", priceRange[1].toString());
+
+    if (sortValue) params.set("sorting", sortValue);
+
+    router.push(`${cityPrefix}/category/${category?.uri}/f/${buildFilterPath(tempFilters)}?${params.toString()}`);
+  };
+
+  useEffect(() => {
+    if (hasActiveFilters(tempFilters)) {
+      const timeoutId = setTimeout(() => {
+        applyFilters();
+      }, 300);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [tempFilters, applyFilters]);
+
+  const hasActiveFilters = (filters: Filters): boolean => {
+    return filters.colors.length > 0 || Object.values(filters.attributes).some((values) => values.length > 0);
   };
 
   return (
     <div className={styles.categoryPage}>
-      <Filter filterOptions={filterOptions} onFilterChange={handleFilterChange} isFilterOpen={isFilterOpen} closeFilter={closeFilter} />
+      <Filter filterOptions={filterOptions} onFilterChange={handleFilterChange} />
 
       <div className={styles.categoryPageBody}>
-        {category.children && category.children.length > 0 ? (
+        {category?.children?.length > 0 ? (
           <>
             <div className={styles.categoryPageInfo}>
               <h1 className={`title ${styles.categoryPageTitle}`}>
-                {category.title} {`в ${selectedCity.title}`}
+                {category.title} в {selectedCity.title}
               </h1>
             </div>
 
@@ -137,58 +116,43 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
 
             <div className={styles.categoryPageHeader}>
               <span className={styles.categoryPageCount}>
-                {totalProducts === 1 ? "Найден" : "Найдено"} {totalProducts} {getProductWord(totalProducts)}
+                {pagination.totalProducts === 1 ? "Найден" : "Найдено"} {pagination.totalProducts} {getProductWord(pagination.totalProducts)}
               </span>
               <div className={styles.actions}>
-                <div className={styles.view}>
-                  <Sort onSortChange={handleSortChange} />
-                  <CardViews />
-                </div>
-                <div className={styles.filter} onClick={openFilter}>
-                  <Image src="/images/icons/filter.svg" alt="" width={20} height={20} /> Фильтры
+                <Sort onSortChange={handleFilterChange} />
+                <CardViews />
+                <div className={styles.filter} onClick={() => {}}>
+                  <Image src="/images/icons/filter.svg" alt="Filter" width={20} height={20} /> Фильтры
                 </div>
               </div>
             </div>
           </>
         ) : (
-          <>
-            <div className={styles.pageHeader}>
-              <div className={styles.categoryPageInfo}>
-                <h1 className={`title ${styles.pageTitle}`}>
-                  {category.title} {`в ${selectedCity.title}`}
-                </h1>
-                <span className={styles.categoryPageCount}>
-                  {totalProducts === 1 ? "Найден" : "Найдено"} {totalProducts} {getProductWord(totalProducts)}
-                </span>
-              </div>
-
-              <div className={styles.actions}>
-                <div className={styles.view}>
-                  <Sort onSortChange={handleSortChange} />
-                  <CardViews />
-                </div>
-                <div className={styles.filter} onClick={openFilter}>
-                  <Image src="/images/icons/filter.svg" alt="" width={20} height={20} /> Фильтры
-                </div>
-              </div>
-            </div>
-          </>
+          <div className={styles.pageHeader}>
+            <h1 className={`title ${styles.pageTitle}`}>
+              {category?.title} в {selectedCity.title}
+            </h1>
+            <span className={styles.categoryPageCount}>
+              {pagination.totalProducts === 1 ? "Найден" : "Найдено"} {pagination.totalProducts} {getProductWord(pagination.totalProducts)}
+            </span>
+          </div>
         )}
 
         <div>
-          {filteredProducts && filteredProducts.length > 0 ? (
+          {products.length > 0 ? (
             <div className={styles.categoryPageProducts}>
-              {filteredProducts.map((product) => (
-                <ProductCard type="" key={product.sku} product={product} />
+              {products.map((product) => (
+                <ProductCard key={product.sku} product={product} />
               ))}
             </div>
           ) : (
             <div>Не найдено</div>
           )}
         </div>
-        {pagination && pagination.totalPages > 1 && <Pagination totalPages={totalPages} currentPage={currentPage} />}
 
-        {category.anchors?.length ? <AnchorList items={category.anchors} /> : null}
+        {pagination.totalPages > 1 && <Pagination totalPages={pagination.totalPages} currentPage={pagination.currentPage} />}
+
+        {category.anchors?.length > 0 && <AnchorList items={category.anchors} />}
 
         <RecentlyWatched page="" />
 

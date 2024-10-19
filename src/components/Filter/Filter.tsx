@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import styles from "./Filter.module.css";
@@ -31,6 +31,8 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedAttributes, setSelectedAttributes] = useState<Record<string, string[]>>({});
   const [selectedFilters, setSelectedFilters] = useState<SelectedFilter[]>([]);
+
+  const [isInitialRender, setIsInitialRender] = useState(true);
 
   const [showColors, setShowColors] = useState<boolean>(true);
   const [visibleAttributes, setVisibleAttributes] = useState<{ [key: string]: boolean }>(attributes?.reduce((acc, attr) => ({ ...acc, [attr.code]: true }), {}));
@@ -76,22 +78,77 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
   }, [filterOptions]);
 
   // Handle attribute changes
-  const handleAttributeChange = (attributeCode: string, valueCode: string) => {
+  const handleAttributeChange = (attributeCode: string, value: string) => {
     setSelectedAttributes((prevAttributes) => {
-      const attributeValues = prevAttributes[attributeCode] || [];
+      const values = prevAttributes[attributeCode] || [];
+      const newValues = values.includes(value) ? values.filter((v) => v !== value) : [...values, value];
+      return { ...prevAttributes, [attributeCode]: newValues };
+    });
+  };
 
-      // Toggle the value in the array
-      const newValues = attributeValues.includes(valueCode) ? attributeValues.filter((val) => val !== valueCode) : [...attributeValues, valueCode];
+  const updateURLWithFilters = (filters: FilterValues) => {
+    const params = new URLSearchParams(searchParams.toString());
 
-      // Create a new attributes object with the updated value
-      return {
-        ...prevAttributes,
-        [attributeCode]: newValues,
-      };
+    // Update price range in the URL
+    if (filters.priceRange) {
+      params.set("minPrice", filters.priceRange[0].toString());
+      params.set("maxPrice", filters.priceRange[1].toString());
+    }
+
+    // Update colors in the URL
+    if (filters.colors.length > 0) {
+      params.set("colors", filters.colors.join(","));
+    } else {
+      params.delete("colors");
+    }
+
+    // Update attributes in the URL
+    Object.entries(filters.attributes).forEach(([key, values]) => {
+      if (values.length > 0) {
+        params.set(key, values.join(","));
+      } else {
+        params.delete(key);
+      }
     });
 
-    updateSelectedFilters();
+    router.push(`${pathname}?${params.toString()}`);
   };
+
+  const debounce = (func: () => void, delay: number) => {
+    let timeoutId: NodeJS.Timeout;
+    return () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(func, delay);
+    };
+  };
+
+  const updateFilters = useCallback(
+    debounce(() => {
+      if (!isInitialRender) {
+        const newFilters: FilterValues = {
+          priceRange: [minPrice, maxPrice],
+          colors: selectedColors,
+          attributes: selectedAttributes,
+        };
+        onFilterChange(newFilters);
+        updateURLWithFilters(newFilters);
+      }
+    }, 300),
+    [minPrice, maxPrice, selectedColors, selectedAttributes, isInitialRender]
+  );
+
+  useEffect(() => {
+    if (!isInitialRender) {
+      onFilterChange({
+        priceRange: [minPrice, maxPrice],
+        colors: selectedColors,
+        attributes: selectedAttributes,
+      });
+      updateSelectedFilters();
+    } else {
+      setIsInitialRender(false); // Устанавливаем флаг после первого рендера
+    }
+  }, [minPrice, maxPrice, selectedColors, selectedAttributes]);
 
   useEffect(() => {
     onFilterChange({
@@ -103,25 +160,13 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
   }, [minPrice, maxPrice, selectedColors, selectedAttributes]);
 
   const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = Number(e.target.value.replace(/\s+/g, ""));
-    if (!isNaN(value)) {
-      if (value > tempMaxPrice) {
-        value = tempMaxPrice;
-      }
-      setTempMinPrice(value);
-      setMinPrice(value);
-    }
+    const value = parseInt(e.target.value, 10);
+    setMinPrice(isNaN(value) ? 0 : value);
   };
 
   const handleMaxPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = Number(e.target.value.replace(/\s+/g, ""));
-    if (!isNaN(value)) {
-      if (value < tempMinPrice) {
-        value = tempMinPrice;
-      }
-      setTempMaxPrice(value);
-      setMaxPrice(value);
-    }
+    const value = parseInt(e.target.value, 10);
+    setMaxPrice(isNaN(value) ? Infinity : value);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -135,9 +180,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
   };
 
   const handleColorChange = (color: Color) => {
-    const newSelectedColors = selectedColors.includes(color.code) ? selectedColors.filter((c) => c !== color.code) : [...selectedColors, color.code];
-
-    setSelectedColors(newSelectedColors as string[]);
+    setSelectedColors((prevColors) => (prevColors.includes(color.code) ? prevColors.filter((c) => c !== color.code) : [...prevColors, color.code]));
   };
 
   const handlePriceChange = () => {
