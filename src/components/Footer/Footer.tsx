@@ -31,7 +31,7 @@ const Footer = () => {
 
               <div className={`${styles.columnContent} ${isContactsOpen ? styles.columnContentActive : ""}`}>
                 <div className={styles.logo}>
-                  <Link href={cityPrefix}>
+                  <Link href={cityPrefix || "/"}>
                     <Image src="/images/logo.svg" alt="Логотип" className={styles.logoImage} width={110} height={37} />
                   </Link>
                 </div>
@@ -192,14 +192,14 @@ const Footer = () => {
                 <Image src="/images/icons/arrow-down.svg" width={16} height={16} alt="" />
               </div>
 
-              <Link href={cityPrefix} className={`${styles.footerTitle} ${styles.footerLink}`}>
+              <Link href={cityPrefix || "/"} className={`${styles.footerTitle} ${styles.footerLink}`}>
                 Главная
               </Link>
 
               <div className={`${styles.columnContent} ${isLinksOpen ? styles.columnContentActive : ""}`}>
                 <ul className={styles.footerMenu}>
                   <li className={styles.footerItem}>
-                    <Link href={cityPrefix} className={styles.footerLink}>
+                    <Link href={cityPrefix || "/"} className={styles.footerLink}>
                       Главная
                     </Link>
                   </li>

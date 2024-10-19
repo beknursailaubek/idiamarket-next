@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./Menu.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { useCityContext } from "@/hooks/useCityContext";
 
 interface MenuProps {
   isOpen: boolean;
@@ -9,6 +10,8 @@ interface MenuProps {
 }
 
 const Menu = ({ isOpen, onClose }: MenuProps) => {
+  const { selectedCity } = useCityContext();
+  const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
@@ -58,17 +61,17 @@ const Menu = ({ isOpen, onClose }: MenuProps) => {
 
         <ul className={styles.menuList}>
           <li className={styles.menuItem}>
-            <Link href={`/`} className={styles.menuLink} onClick={onClose}>
+            <Link href={cityPrefix || "/"} className={styles.menuLink} onClick={onClose}>
               Главная
             </Link>
           </li>
           <li className={styles.menuItem}>
-            <Link href={`/about`} className={styles.menuLink} onClick={onClose}>
+            <Link href={`${cityPrefix}/about`} className={styles.menuLink} onClick={onClose}>
               О нас
             </Link>
           </li>
           <li className={styles.menuItem}>
-            <Link href={`/contacts`} className={styles.menuLink} onClick={onClose}>
+            <Link href={`${cityPrefix}/contacts`} className={styles.menuLink} onClick={onClose}>
               Контакты
             </Link>
           </li>
@@ -79,32 +82,32 @@ const Menu = ({ isOpen, onClose }: MenuProps) => {
 
             <ul className={styles.dropdownList}>
               <li className={styles.dropdownItem}>
-                <Link className={styles.dropdownLink} href="/category/metallicheskie-stellazhi" onClick={onClose}>
+                <Link className={styles.dropdownLink} href={`${cityPrefix}/category/metallicheskie-stellazhi`} onClick={onClose}>
                   Металлические стеллажи
                 </Link>
               </li>
               <li className={styles.dropdownItem}>
-                <Link className={styles.dropdownLink} href="/category/stellazhi/skladskie-stellazhi/arhivnye-stellazhi" onClick={onClose}>
+                <Link className={styles.dropdownLink} href={`${cityPrefix}/category/stellazhi/skladskie-stellazhi/arhivnye-stellazhi`} onClick={onClose}>
                   Архивные стеллажи
                 </Link>
               </li>
               <li className={styles.dropdownItem}>
-                <Link className={styles.dropdownLink} href="/category/metallicheskie-stellazhi/torgovye-stellazhi" onClick={onClose}>
+                <Link className={styles.dropdownLink} href={`${cityPrefix}/category/metallicheskie-stellazhi/torgovye-stellazhi`} onClick={onClose}>
                   Торговые стеллажи
                 </Link>
               </li>
               <li className={styles.dropdownItem}>
-                <Link className={styles.dropdownLink} href="/category/stellazhi/torgovye-stellazhi/pristennye-stellazhi" onClick={onClose}>
+                <Link className={styles.dropdownLink} href={`${cityPrefix}/category/stellazhi/torgovye-stellazhi/pristennye-stellazhi`} onClick={onClose}>
                   Пристенные стеллажи
                 </Link>
               </li>
               <li className={styles.dropdownItem}>
-                <Link className={styles.dropdownLink} href="/category/stellazhi/torgovye-stellazhi/ostrovnye-stellazhi" onClick={onClose}>
+                <Link className={styles.dropdownLink} href={`${cityPrefix}/category/stellazhi/torgovye-stellazhi/ostrovnye-stellazhi`} onClick={onClose}>
                   Островные стеллажи
                 </Link>
               </li>
               <li className={styles.dropdownItem}>
-                <Link className={styles.dropdownLink} href="/category/stellazhi/torgovye-stellazhi/uglovye-stellazhi" onClick={onClose}>
+                <Link className={styles.dropdownLink} href={`${cityPrefix}/category/stellazhi/torgovye-stellazhi/uglovye-stellazhi`} onClick={onClose}>
                   Угловные стеллажи
                 </Link>
               </li>

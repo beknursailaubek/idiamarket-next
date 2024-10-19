@@ -19,7 +19,7 @@ const Header = () => {
   const router = useRouter();
   const favoritesContext = useContext(FavoritesContext);
   const { selectedCity } = useCityContext();
-  const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "/";
+  const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
 
   if (!favoritesContext) {
     throw new Error("FavoritesContext must be used within its provider");
@@ -115,7 +115,7 @@ const Header = () => {
       <header className={styles.header}>
         <div className={styles.headerTop}>
           <div className={`${styles.headerInner} container`}>
-            <Link href={cityPrefix} className={styles.headerLogo}>
+            <Link href={cityPrefix || "/"} className={styles.headerLogo}>
               <Image className={styles.logoImage} src="/images/logo.svg" alt="Logo" width={110} height={37} />
             </Link>
 
@@ -164,7 +164,7 @@ const Header = () => {
             <nav className={styles.headerMenu}>
               <ul className={styles.menuList}>
                 <li className={styles.menuItem}>
-                  <Link href={cityPrefix} className={styles.menuLink}>
+                  <Link href={cityPrefix || "/"} className={styles.menuLink}>
                     Главная
                   </Link>
                 </li>

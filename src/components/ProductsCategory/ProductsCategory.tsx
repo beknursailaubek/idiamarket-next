@@ -16,6 +16,7 @@ import { getProductWord } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { InitialData, Product, Filters, FilterOptions, SeoData, FilterValues } from "@/types";
 import Seo from "@/components/Seo/Seo";
+import { useCityContext } from "@/hooks/useCityContext";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
 interface ProductsCategoryProps {
@@ -24,6 +25,8 @@ interface ProductsCategoryProps {
 }
 
 export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData, filterOptions }) => {
+  const { selectedCity } = useCityContext();
+  const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
   const router = useRouter();
   const searchParams = useSearchParams();
   const [data, setData] = useState<InitialData>(initialData);
@@ -123,7 +126,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
 
             <div className={styles.categoryPageRedirects}>
               {category.children.map((redirect) => (
-                <Link href={`/category/${redirect.uri}`} className={styles.categoryPageRedirect} key={redirect.uri}>
+                <Link href={`${cityPrefix}/category/${redirect.uri}`} className={styles.categoryPageRedirect} key={redirect.uri}>
                   {redirect.image ? <Image className={styles.redirectImage} src={redirect.image} alt={redirect.title} width={200} height={200} /> : null}
                   {redirect.title}
                 </Link>
