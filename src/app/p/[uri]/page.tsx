@@ -69,7 +69,7 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
 
         {productDescription && <Description content={productDescription.html_content} />}
 
-        {product.attributes && <Attributes attributes={attributeGroups} />}
+        {product.attributes?.length && product.attributes.length > 0 ? <Attributes attributes={attributeGroups} /> : null}
       </div>
     </div>
   );
