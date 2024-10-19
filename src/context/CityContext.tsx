@@ -15,20 +15,31 @@ export const CityProvider: React.FC<CityProviderProps> = ({ children }) => {
   const pathname = usePathname();
   const defaultCity = cities.find((city) => city.code === "almaty")!;
 
-  const [selectedCity, setSelectedCity] = useState<City>(defaultCity);
+  const getCityFromStorageOrUrl = (): City => {
+    const storedCity = localStorage.getItem("selectedCity");
+    if (storedCity) {
+      const parsedCity = JSON.parse(storedCity);
+      return cities.find((city) => city.code === parsedCity.code) || defaultCity;
+    }
 
-  // Определяем город из URL только при изменении маршрута
-  useEffect(() => {
     const pathSegments = pathname.split("/");
     const cityFromUrl = pathSegments[1];
-    const foundCity = cities.find((city) => city.uri === cityFromUrl);
+    return cities.find((city) => city.uri === cityFromUrl) || defaultCity;
+  };
 
-    if (foundCity) {
-      setSelectedCity(foundCity);
-    }
+  const [selectedCity, setSelectedCity] = useState<City>(defaultCity);
+
+  // Загружаем город из localStorage или URL при первой загрузке
+  useEffect(() => {
+    const initialCity = getCityFromStorageOrUrl();
+    setSelectedCity(initialCity);
   }, [pathname]);
 
-  // Мемоизируем значение контекста, чтобы избежать лишних рендеров
+  // Сохраняем выбранный город в localStorage при его изменении
+  useEffect(() => {
+    localStorage.setItem("selectedCity", JSON.stringify(selectedCity));
+  }, [selectedCity]);
+
   const value = useMemo(
     () => ({
       selectedCity,
