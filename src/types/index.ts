@@ -162,6 +162,7 @@ export interface CityContextProps {
 }
 
 export interface City {
+  name: string;
   title: string;
   uri: string;
   code: string;

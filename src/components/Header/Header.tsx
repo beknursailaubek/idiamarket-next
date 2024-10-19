@@ -122,7 +122,7 @@ const Header = () => {
             <div className={styles.headerInfo}>
               <button className={styles.location} onClick={openLocationModal}>
                 <Image src="/images/icons/location.svg" className={styles.locationIcon} alt="Location" width={16} height={16} />
-                <span className={styles.locationCity}>{selectedCity?.title}</span>
+                <span className={styles.locationCity}>{selectedCity?.name}</span>
               </button>
               <div className={styles.contacts}>
                 <div className={styles.contactsInfo}>

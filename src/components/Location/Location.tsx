@@ -47,7 +47,7 @@ const Location: React.FC<LocationProps> = ({ closeModal }) => {
         <div className={styles.locationModalCities}>
           {cities?.map((city: City) => (
             <button key={city.code} onClick={() => handleCitySelect(city)} className={`${styles.locationModalCity} ${city.code === selectedCity?.code ? styles.locationModalCityActive : ""}`}>
-              {city.title}
+              {city.name}
               {city.code === selectedCity?.code ? <Image className={styles.locationModalCityIcon} src="/images/icons/done.svg" alt="" width={24} height={24} /> : null}
             </button>
           ))}

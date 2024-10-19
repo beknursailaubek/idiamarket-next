@@ -121,7 +121,9 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
         {category.children && category.children.length > 0 ? (
           <>
             <div className={styles.categoryPageInfo}>
-              <h1 className={`title ${styles.categoryPageTitle}`}>{category.title}</h1>
+              <h1 className={`title ${styles.categoryPageTitle}`}>
+                {category.title} {`в ${selectedCity.title}`}
+              </h1>
             </div>
 
             <div className={styles.categoryPageRedirects}>
@@ -152,7 +154,9 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
           <>
             <div className={styles.pageHeader}>
               <div className={styles.categoryPageInfo}>
-                <h1 className={`title ${styles.pageTitle}`}>{category.title}</h1>
+                <h1 className={`title ${styles.pageTitle}`}>
+                  {category.title} {`в ${selectedCity.title}`}
+                </h1>
                 <span className={styles.categoryPageCount}>
                   {totalProducts === 1 ? "Найден" : "Найдено"} {totalProducts} {getProductWord(totalProducts)}
                 </span>
