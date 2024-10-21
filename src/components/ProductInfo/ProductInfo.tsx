@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
 import ProductSlider from "@/components/ProductSlider/ProductSlider";
+import { useCityContext } from "@/hooks/useCityContext";
 import { Product } from "@/types";
 
 interface ProductInfoProps {
@@ -11,6 +12,9 @@ interface ProductInfoProps {
 }
 
 const ProductInfo = ({ product }: ProductInfoProps) => {
+  const { selectedCity } = useCityContext();
+  const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
+
   const formatPrice = (price: string) => {
     return new Intl.NumberFormat("ru-RU").format(Number(price));
   };
@@ -106,7 +110,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
           {product?.variants && product?.variants?.colors && product?.variants?.colors?.length > 0 ? (
             <div className={styles.productPageColors}>
               <p className={styles.productPageColorsTitle}>{isTorgovyeStellazhi ? "Цвета RAL:" : "Цвета"}</p>
-              <div className={styles.productPageColorsList}>{product?.variants?.colors?.map((variant, index) => (variant.color ? <Link key={index} href={`/p/${variant.uri}`} className={`${styles.productPageColorPallete} ${product?.color?.code === variant.color.code ? styles.productPageColorPalleteActive : null} `} style={{ backgroundColor: `${variant.color.hex}` }} aria-label={product?.title}></Link> : null))}</div>
+              <div className={styles.productPageColorsList}>{product?.variants?.colors?.map((variant, index) => (variant.color ? <Link key={index} href={`${cityPrefix}/p/${variant.uri}`} className={`${styles.productPageColorPallete} ${product?.color?.code === variant.color.code ? styles.productPageColorPalleteActive : null} `} style={{ backgroundColor: `${variant.color.hex}` }} aria-label={product?.title}></Link> : null))}</div>
             </div>
           ) : null}
 
@@ -133,7 +137,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
                         const isActiveVariant = product.attributes?.some((attributeGroup) => attributeGroup.items?.some((attributeItem) => attributeItem.value === variant.attribute?.value));
 
                         return (
-                          <Link key={index} href={`/p/${variant.uri}`} className={`${styles.productPageVariantsValue} ${isActiveVariant ? styles.productPageVariantsValueActive : ""}`}>
+                          <Link key={index} href={`${cityPrefix}/p/${variant.uri}`} className={`${styles.productPageVariantsValue} ${isActiveVariant ? styles.productPageVariantsValueActive : ""}`}>
                             {variant.attribute?.value}
                           </Link>
                         );
