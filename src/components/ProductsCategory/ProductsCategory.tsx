@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ProductCard from "@/components/ProductCard/ProductCard";
@@ -25,6 +25,7 @@ interface ProductsCategoryProps {
 }
 
 export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData, filterOptions }) => {
+  const [isInitialized, setIsInitialized] = useState(false);
   const { selectedCity } = useCityContext();
   const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
   const router = useRouter();
@@ -33,16 +34,11 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
   const [initialProducts, setInitialProducts] = useState<Product[]>(initialData.products);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(initialData.products);
   const [sortOption, setSortOption] = useState<string>("popular");
+  const isFirstRender = useRef(true);
 
   const [isFilterOpen, setFilterOpen] = useState(false);
   const openFilter = () => setFilterOpen(true);
   const closeFilter = () => setFilterOpen(false);
-
-  const [tempFilters, setTempFilters] = useState<Filters>({
-    priceRange: [0, Infinity],
-    colors: [],
-    attributes: {},
-  });
 
   const [filters, setFilters] = useState<Filters>({
     priceRange: [0, Infinity],
@@ -53,10 +49,21 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
   const { products, category, pagination } = data;
   const { totalPages, currentPage, totalProducts } = pagination;
 
+  useEffect(() => {
+    // ... initialize filters and sortOption
+
+    setIsInitialized(true);
+  }, [searchParams]);
+
   // Fetch product data based on filters
   useEffect(() => {
+    if (!isInitialized) return; // Wait until initialization is complete
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     fetchFilteredData();
-  }, [filters, searchParams.get("page"), sortOption]);
+  }, [filters, searchParams.get("page"), sortOption, isInitialized]);
 
   const fetchFilteredData = async () => {
     const page = searchParams.get("page") || "1";
@@ -64,7 +71,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
     const maxPrice = filters.priceRange[1];
     const sortParam = sortOption ? `&sorting=${encodeURIComponent(sortOption)}` : "";
 
-    const colorParams = filters.colors.length > 0 ? `&colors=${filters.colors.join(",")}` : "";
+    const colorParams = filters.colors.length > 0 ? filters.colors.map((color) => `&colors=${encodeURIComponent(color)}`).join("") : "";
 
     const attributeParams = Object.entries(filters.attributes)
       .map(([key, values]) => values.map((value) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join("&"))
@@ -84,28 +91,20 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
     }
   };
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      applyFilters();
-    }, 300);
-
-    return () => clearTimeout(timeoutId);
-  }, [tempFilters]);
-
-  const applyFilters = () => {
-    setFilters(tempFilters);
-    goToFirstPage();
-  };
-
   const goToFirstPage = () => {
-    router.push(`?page=1`);
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("page");
+    const queryString = params.toString();
+
+    router.push(`${window.location.pathname}?${queryString}`, { scroll: false });
   };
 
   const handleFilterChange = (newFilters: FilterValues) => {
-    setTempFilters((prevFilters) => ({
+    setFilters((prevFilters) => ({
       ...prevFilters,
       ...newFilters,
     }));
+    goToFirstPage();
   };
 
   const handleSortChange = (selectedSortOption: string) => {

@@ -36,12 +36,16 @@
 .selectedFiltersRemove {
   display: flex;
   align-items: center;
-  color: var(--grey-light);
+  color: var(--blue-light);
   height: 30px;
   cursor: pointer;
   padding: 7px 10px;
-  border: 1px solid var(--grey-light);
+  border: 1px solid var(--blue-light);
   border-radius: 8px;
+}
+
+.selectedFiltersRemove .selectedFiltersRemoveImage {
+  filter: invert(46%) sepia(66%) saturate(2078%) hue-rotate(184deg) brightness(98%) contrast(94%);
 }
 
 .selectedFiltersRemove:hover {
@@ -58,8 +62,12 @@
 }
 
 .selectedFiltersReset {
+  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 40px;
-  padding: 10px 10px 10px 30px;
+  padding: 10px;
   border: 1px solid var(--grey-light);
   width: 100%;
   color: var(--grey-light);
