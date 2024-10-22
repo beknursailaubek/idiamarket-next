@@ -15,6 +15,12 @@ export const CityProvider: React.FC<CityProviderProps> = ({ children }) => {
   const pathname = usePathname();
   const defaultCity = cities.find((city) => city.code === "almaty")!;
 
+  const getCityFromPath = (path: string): City | undefined => {
+    const pathSegments = path.split("/");
+    const cityFromUrl = pathSegments[1]; // Извлекаем город из URL
+    return cities.find((city) => city.uri === cityFromUrl);
+  };
+
   const getCityFromStorageOrUrl = (): City => {
     const storedCity = localStorage.getItem("selectedCity");
     if (storedCity) {
@@ -22,9 +28,7 @@ export const CityProvider: React.FC<CityProviderProps> = ({ children }) => {
       return cities.find((city) => city.code === parsedCity.code) || defaultCity;
     }
 
-    const pathSegments = pathname.split("/");
-    const cityFromUrl = pathSegments[1];
-    return cities.find((city) => city.uri === cityFromUrl) || defaultCity;
+    return getCityFromPath(pathname) || defaultCity;
   };
 
   const [selectedCity, setSelectedCity] = useState<City>(defaultCity);
@@ -33,6 +37,14 @@ export const CityProvider: React.FC<CityProviderProps> = ({ children }) => {
   useEffect(() => {
     const initialCity = getCityFromStorageOrUrl();
     setSelectedCity(initialCity);
+  }, []);
+
+  // Обновляем город при изменении URL
+  useEffect(() => {
+    const cityFromUrl = getCityFromPath(pathname);
+    if (cityFromUrl && cityFromUrl.code !== selectedCity.code) {
+      setSelectedCity(cityFromUrl);
+    }
   }, [pathname]);
 
   // Сохраняем выбранный город в localStorage при его изменении
