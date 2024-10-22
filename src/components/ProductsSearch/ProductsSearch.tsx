@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -21,6 +21,8 @@ interface ProductsSearchProps {
 }
 
 export const ProductsSearch: React.FC<ProductsSearchProps> = ({ initialData, filterOptions, title, searchQuery }) => {
+  const [isInitialized, setIsInitialized] = useState(false);
+  const isFirstRender = useRef(true);
   const router = useRouter();
   const searchParams = useSearchParams();
   const [data, setData] = useState<InitialData>(initialData);
@@ -32,12 +34,6 @@ export const ProductsSearch: React.FC<ProductsSearchProps> = ({ initialData, fil
   const openFilter = () => setFilterOpen(true);
   const closeFilter = () => setFilterOpen(false);
 
-  const [tempFilters, setTempFilters] = useState<Filters>({
-    priceRange: [0, Infinity],
-    colors: [],
-    attributes: {},
-  });
-
   const [filters, setFilters] = useState<Filters>({
     priceRange: [0, Infinity],
     colors: [],
@@ -48,8 +44,17 @@ export const ProductsSearch: React.FC<ProductsSearchProps> = ({ initialData, fil
   const { totalPages, currentPage, totalProducts } = pagination;
 
   useEffect(() => {
+    setIsInitialized(true);
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (!isInitialized) return;
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     fetchFilteredData();
-  }, [filters, searchParams.get("page"), sortOption]);
+  }, [filters, searchParams.get("page"), sortOption, isInitialized]);
 
   const fetchFilteredData = async () => {
     const page = searchParams.get("page") || "1";
@@ -57,15 +62,12 @@ export const ProductsSearch: React.FC<ProductsSearchProps> = ({ initialData, fil
     const maxPrice = filters.priceRange[1];
     const sortParam = sortOption ? `&sorting=${encodeURIComponent(sortOption)}` : "";
 
-    // Concatenate color filters properly
-    const colorParams = filters.colors.length > 0 ? `&colors=${filters.colors.join(",")}` : "";
+    const colorParams = filters.colors.length > 0 ? filters.colors.map((color) => `&colors=${encodeURIComponent(color)}`).join("") : "";
 
-    // Concatenate attribute filters properly
     const attributeParams = Object.entries(filters.attributes)
       .map(([key, values]) => values.map((value) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join("&"))
       .join("&");
 
-    // Build the URL with all query parameters for filtering and sorting
     const url = `${apiUrl}/products/search?query=${encodeURIComponent(searchQuery)}&page=${page}&limit=20&minPrice=${minPrice}&maxPrice=${maxPrice}${colorParams}${attributeParams ? `&${attributeParams}` : ""}${sortParam}`;
 
     try {
@@ -80,28 +82,20 @@ export const ProductsSearch: React.FC<ProductsSearchProps> = ({ initialData, fil
     }
   };
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      applyFilters();
-    }, 300);
-
-    return () => clearTimeout(timeoutId);
-  }, [tempFilters]);
-
-  const applyFilters = () => {
-    setFilters(tempFilters);
-    goToFirstPage();
-  };
-
   const goToFirstPage = () => {
-    router.push(`?page=1`);
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("page");
+    const queryString = params.toString();
+
+    router.push(`${window.location.pathname}?${queryString}`, { scroll: false });
   };
 
   const handleFilterChange = (newFilters: FilterValues) => {
-    setTempFilters((prevFilters) => ({
+    setFilters((prevFilters) => ({
       ...prevFilters,
       ...newFilters,
     }));
+    goToFirstPage();
   };
 
   const handleSortChange = (selectedSortOption: string) => {

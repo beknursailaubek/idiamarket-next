@@ -26,6 +26,7 @@ interface ProductsCategoryProps {
 
 export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData, filterOptions }) => {
   const [isInitialized, setIsInitialized] = useState(false);
+  const isFirstRender = useRef(true);
   const { selectedCity } = useCityContext();
   const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
   const router = useRouter();
@@ -34,7 +35,6 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
   const [initialProducts, setInitialProducts] = useState<Product[]>(initialData.products);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(initialData.products);
   const [sortOption, setSortOption] = useState<string>("popular");
-  const isFirstRender = useRef(true);
 
   const [isFilterOpen, setFilterOpen] = useState(false);
   const openFilter = () => setFilterOpen(true);
@@ -50,14 +50,11 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
   const { totalPages, currentPage, totalProducts } = pagination;
 
   useEffect(() => {
-    // ... initialize filters and sortOption
-
     setIsInitialized(true);
   }, [searchParams]);
 
-  // Fetch product data based on filters
   useEffect(() => {
-    if (!isInitialized) return; // Wait until initialization is complete
+    if (!isInitialized) return;
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;

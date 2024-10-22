@@ -35,7 +35,7 @@ const Header = () => {
   const [searchProducts, setSearchProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [searchHistory, setSearchHistory] = useState<{ query: string; path: string }[]>([]);
+  const [searchHistory, setSearchHistory] = useState<{ query: string }[]>([]);
 
   const openLocationModal = () => setLocationModalOpen(true);
   const closeLocationModal = () => setLocationModalOpen(false);
@@ -58,10 +58,11 @@ const Header = () => {
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && searchQuery.trim()) {
-      const updatedHistory = JSON.parse(localStorage.getItem("searchHistory") || "[]") as { query: string; path: string }[];
+      const updatedHistory = JSON.parse(localStorage.getItem("searchHistory") || "[]") as { query: string }[];
 
       if (!updatedHistory.some((item: { query: string }) => item.query === searchQuery)) {
-        updatedHistory.unshift({ query: searchQuery, path: `/search/${searchQuery}` });
+        updatedHistory.unshift({ query: searchQuery });
+
         localStorage.setItem("searchHistory", JSON.stringify(updatedHistory.slice(0, 5)));
         setSearchHistory(updatedHistory.slice(0, 5));
       }
