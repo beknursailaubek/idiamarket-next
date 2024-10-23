@@ -30,6 +30,7 @@ export interface Product {
   about_url?: string;
   is_enabled?: boolean;
   seo_redirects?: string[];
+  description?: string;
 }
 
 export interface Category {
