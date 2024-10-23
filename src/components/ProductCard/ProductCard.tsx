@@ -104,8 +104,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
             </span>
           </>
         ) : (
-          <span className={styles.reviewsText} itemProp="aggregateRating" itemScope itemType="https://schema.org/AggregateRating">
-            <meta itemProp="reviewCount" content="0" />
+          <span className={styles.reviewsText}>
             Нет отзывов
           </span>
         )}
