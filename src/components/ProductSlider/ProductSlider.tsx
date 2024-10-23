@@ -45,7 +45,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ images }) => {
           {images.map((image, index) => (
             <SwiperSlide className="product-page__slide_item" key={index} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
               <div className="thumbnail-container">
-                <Image className="product-page__slide_preview" loading="lazy" width={400} height={400} src={image} alt="" style={{ transformOrigin, transform }} />
+                <Image className="product-page__slide_preview" loading="lazy" width={400} height={400} src={image} alt="" style={{ transformOrigin, transform }} itemProp="image" />
               </div>
             </SwiperSlide>
           ))}
@@ -63,7 +63,7 @@ const ProductSlider: React.FC<ProductSliderProps> = ({ images }) => {
         <Swiper style={{ width: `${images.length > 5 ? 340 : images.length * 60 + (images.length - 1) * 10}px` }} freeMode={true} watchSlidesProgress={true} onSwiper={setThumbsSwiper} slidesPerView={images.length > 5 ? 5 : images.length} spaceBetween={10} modules={[Navigation, FreeMode, Thumbs]} className="product-page__swiper">
           {images?.map((image, index) => (
             <SwiperSlide key={index} style={{ height: "60px" }}>
-              <Image className="product-page__slide" width={60} height={60} src={image} alt="" />
+              <Image className="product-page__slide" width={60} height={60} src={image} alt="" itemProp="image" />
             </SwiperSlide>
           ))}
         </Swiper>

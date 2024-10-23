@@ -56,9 +56,11 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
 
   return (
     <div className={styles.productPageMain}>
-      <div className={styles.productPageCard}>
+      <div className={styles.productPageCard} itemScope itemType="https://schema.org/Product">
         <div className={styles.headerMob}>
-          <h1 className={`title ${styles.mobile} ${styles.titleMob}`}>{product?.title}</h1>
+          <h1 className={`title ${styles.mobile} ${styles.titleMob}`} itemProp="name" content={product.title}>
+            {product?.title}
+          </h1>
           <span className={`${styles.mobile} ${styles.productPageCodeMob}`}>Код товара: {product?.sku}</span>
         </div>
 
@@ -105,7 +107,9 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         <div className={styles.productPageRight}>
           <span className={styles.productPageCode}>Код товара: {product?.sku}</span>
 
-          <h1 className={`title ${styles.title}`}>{product?.title}</h1>
+          <h1 className={`title ${styles.title}`} itemProp="name" content={product.title}>
+            {product?.title}
+          </h1>
 
           {product?.variants && product?.variants?.colors && product?.variants?.colors?.length > 0 ? (
             <div className={styles.productPageColors}>
@@ -114,12 +118,15 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
             </div>
           ) : null}
 
-          <div className={styles.productPageBuy}>
+          <div className={styles.productPageBuy} itemProp="offers" itemScope itemType="https://schema.org/Offer">
             <div className="product-page__price">
               <span className={styles.productPagePriceActual}>
                 {product?.price_from ? "от" : null} {formatPrice(product.price)} ₸
               </span>
               {product?.old_price && <span className={styles.productPagePriceDiscount}>{formatPrice(product.old_price)} ₸</span>}
+              <meta itemProp="priceCurrency" content="KZT" />
+              <meta itemProp="price" content={product.price} />
+              <Link itemProp="availability" href={"https://schema.org/InStock"} />
             </div>
 
             {isTorgovyeStellazhi ? <button className={styles.productPageButtonCart}>Рассчитать</button> : <button className={styles.productPageButtonCart}>Купить</button>}
@@ -166,11 +173,14 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
                 )}
               </div>
 
-              <div className="product-page__price">
+              <div className="product-page__price" itemProp="offers" itemScope itemType="https://schema.org/Offer">
                 <span className={styles.productPagePriceActual}>
                   {product?.price_from ? "от" : null} {formatPrice(product.price)} ₸
                 </span>
                 {product?.old_price && <span className={styles.productPagePriceDiscount}>{formatPrice(product.old_price)} ₸</span>}
+                <meta itemProp="priceCurrency" content="KZT" />
+                <meta itemProp="price" content={product.price} />
+                <link itemProp="availability" href={"https://schema.org/InStock"} />
               </div>
             </div>
 
@@ -194,6 +204,8 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
           )}
         </div>
       </div>
+      {/* Дополнительные свойства Schema.org */}
+      <meta itemProp="description" content={product.description || ""} />
     </div>
   );
 };

@@ -110,7 +110,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
             {product.old_price && <span className={styles.productCardPriceDiscount}>{formatPrice(product.old_price)} ₸</span>}
             <meta itemProp="priceCurrency" content="KZT" />
             <meta itemProp="price" content={product.price} />
-            <link itemProp="availability" href={"https://schema.org/InStock"} />
+            <Link itemProp="availability" href={"https://schema.org/InStock"} />
           </div>
           <button className={styles.productCardButtonCart}>Купить</button>
         </div>
