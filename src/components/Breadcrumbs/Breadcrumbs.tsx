@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCityContext } from "@/hooks/useCityContext";
 import styles from "./Breadcrumbs.module.css";
+
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
 interface Breadcrumb {
@@ -78,27 +79,31 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ onBreadcrumbClick, code, prod
   };
 
   return (
-    <nav className={styles.breadcrumbs}>
+    <ul className={styles.breadcrumbs} aria-label="Breadcrumb" itemScope itemType="https://schema.org/BreadcrumbList">
       {breadcrumbs.map((breadcrumb, index) => {
         const isLast = index === breadcrumbs.length - 1;
         const breadcrumbUrl = buildUrl(breadcrumb.path);
 
         return isLast ? (
-          <span key={breadcrumbUrl} className={styles.breadcrumb}>
-            {breadcrumb.name}
-          </span>
+          <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
+            <span className={styles.breadcrumb} aria-current="page" itemProp="item">
+              <span itemProp="name">{breadcrumb.name}</span>
+              <meta itemProp="position" content={(index + 1).toString()} />
+            </span>
+          </li>
         ) : (
-          <React.Fragment key={breadcrumbUrl}>
-            <Link href={breadcrumbUrl}>
-              <span className={styles.breadcrumb} onClick={() => handleBreadcrumbClick(breadcrumb)}>
-                {breadcrumb.name}
-              </span>
+          <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
+            <Link href={breadcrumbUrl} className={styles.breadcrumb} onClick={() => handleBreadcrumbClick(breadcrumb)} itemProp="item" role="link" aria-label={`${breadcrumb.name}`}>
+              <span itemProp="name">{breadcrumb.name}</span>
             </Link>
-            <div className={styles.breadcrumbIcon}>/</div>
-          </React.Fragment>
+            <meta itemProp="position" content={(index + 1).toString()} />
+            <span className={styles.breadcrumbIcon} aria-hidden="true">
+              /
+            </span>
+          </li>
         );
       })}
-    </nav>
+    </ul>
   );
 };
 
