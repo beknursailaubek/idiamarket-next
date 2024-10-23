@@ -72,8 +72,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
             ))}
         </div>
         <div className={styles.productCardActions}>
-          <Image className={`${styles.productCardAction} ${styles.productCardActionCompare}`} src="/images/icons/compare.svg" width={24} height={24} alt="Сравнить" />
-          <Image className={`${styles.productCardAction} ${isFavorite ? styles.productCardActionActive : ""}`} width={24} height={24} src="/images/icons/heart.svg" alt={isFavorite ? "Удалить из избранного" : "Добавить в избранное"} onClick={toggleFavorite} role="button" aria-pressed={isFavorite} />
+          <Image className={`${styles.productCardAction} ${styles.productCardActionCompare}`} src="/images/icons/compare.svg" width={24} height={24} alt="" />
+          <Image className={`${styles.productCardAction} ${isFavorite ? styles.productCardActionActive : ""}`} width={24} height={24} src="/images/icons/heart.svg" alt="" onClick={toggleFavorite} />
         </div>
       </div>
       <Link href={`${cityPrefix}/p/${product.uri}`} className={styles.productCardView} title={product.title}>
@@ -82,6 +82,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
       <Link href={`${cityPrefix}/p/${product.uri}`} className={styles.productCardTitle} title={product.title} itemProp="name" content={product.title}>
         {product.title}
       </Link>
+
       <div className={styles.reviews}>
         {product.reviews ? (
           <>
@@ -90,23 +91,26 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
               <span className={styles.reviewsRating} itemProp="aggregateRating" itemScope itemType="https://schema.org/AggregateRating">
                 <meta itemProp="ratingValue" content={(product.rating * 0.05).toFixed(2)} />
                 {(product.rating * 0.05).toFixed(2)}
+                <meta itemProp="reviewCount" content={product.reviews.toString()} />
               </span>
-            ) : (
-              <span className={styles.reviewsRating} itemProp="aggregateRating" itemScope itemType="https://schema.org/AggregateRating">
-                <meta itemProp="ratingValue" content="5.00" />
-                5.00
-              </span>
-            )}
+            ) : null}
 
             <span className={styles.reviewsText}>
-              <span itemProp="reviewCount">{product.reviews}</span>
-              {getReviewWord(product.reviews)}
+              {product.rating && (
+                <span itemProp="aggregateRating" itemScope itemType="https://schema.org/AggregateRating">
+                  <span itemProp="reviewCount">{product.reviews}</span> {getReviewWord(product.reviews)}
+                </span>
+              )}
             </span>
           </>
         ) : (
-          <span className={styles.reviewsText} itemProp="reviewCount">Нет отзывов</span>
+          <span className={styles.reviewsText} itemProp="aggregateRating" itemScope itemType="https://schema.org/AggregateRating">
+            <meta itemProp="reviewCount" content="0" />
+            Нет отзывов
+          </span>
         )}
       </div>
+
       {type === "day" ? (
         <div className={styles.productCardFooter}>
           <div className={styles.productCardPrice} itemProp="offers" itemScope itemType="https://schema.org/Offer">
