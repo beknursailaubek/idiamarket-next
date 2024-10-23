@@ -20,6 +20,14 @@
   text-decoration: underline;
 }
 
+.breadcrumbsItem:last-child .breadcrumbIcon {
+  display: none;
+}
+
+.breadcrumbsItem:last-child .breadcrumb {
+  pointer-events: none;
+}
+
 @media (max-width: 768px) {
   .breadcrumbs {
     overflow-x: scroll;

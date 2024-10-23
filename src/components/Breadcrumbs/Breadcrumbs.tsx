@@ -81,18 +81,10 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ onBreadcrumbClick, code, prod
   return (
     <ul className={styles.breadcrumbs} aria-label="Breadcrumb" itemScope itemType="https://schema.org/BreadcrumbList">
       {breadcrumbs.map((breadcrumb, index) => {
-        const isLast = index === breadcrumbs.length - 1;
         const breadcrumbUrl = buildUrl(breadcrumb.path);
 
-        return isLast ? (
-          <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
-            <span className={styles.breadcrumb} aria-current="page" itemProp="item">
-              <span itemProp="name">{breadcrumb.name}</span>
-              <meta itemProp="position" content={(index + 1).toString()} />
-            </span>
-          </li>
-        ) : (
-          <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
+        return (
+          <li key={index} className={styles.breadcrumbsItem} itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
             <Link href={breadcrumbUrl} className={styles.breadcrumb} onClick={() => handleBreadcrumbClick(breadcrumb)} itemProp="item" role="link" aria-label={`${breadcrumb.name}`}>
               <span itemProp="name">{breadcrumb.name}</span>
             </Link>
