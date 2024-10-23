@@ -208,7 +208,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
 
         <div>
           {filteredProducts && filteredProducts.length > 0 ? (
-            <div className={styles.categoryPageProducts}>
+            <div className={styles.categoryPageProducts} itemScope itemType="http://schema.org/ItemList">
               {filteredProducts.map((product) => (
                 <ProductCard type="" key={product.sku} product={product} />
               ))}

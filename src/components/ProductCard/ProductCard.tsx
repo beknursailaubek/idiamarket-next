@@ -59,7 +59,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
   const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
 
   return (
-    <div className={`${styles.productCard} ${type === "day" ? styles.productCardDay : ""}`} itemScope itemType="https://schema.org/Product">
+    <div className={`${styles.productCard} ${type === "day" ? styles.productCardDay : ""}`} itemScope itemProp="itemListElement" itemType="https://schema.org/Product">
       {/* Изображения и заголовки */}
       <div className={styles.productCardHeader}>
         <div className={styles.productCardStickers}>
