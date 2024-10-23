@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -27,6 +26,7 @@ interface ProductsCategoryProps {
 export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData, filterOptions }) => {
   const [isInitialized, setIsInitialized] = useState(false);
   const isFirstRender = useRef(true);
+  const isFirstFilterChange = useRef(true);
   const { selectedCity } = useCityContext();
   const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
   const router = useRouter();
@@ -96,7 +96,42 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
     router.push(`${window.location.pathname}?${queryString}`, { scroll: false });
   };
 
+  const areFiltersEqual = (filters1: Filters, filters2: Filters): boolean => {
+    if (filters1.priceRange[0] !== filters2.priceRange[0] || filters1.priceRange[1] !== filters2.priceRange[1]) {
+      return false;
+    }
+
+    if (filters1.colors.length !== filters2.colors.length || !filters1.colors.every((color) => filters2.colors.includes(color))) {
+      return false;
+    }
+
+    const keys1 = Object.keys(filters1.attributes);
+    const keys2 = Object.keys(filters2.attributes);
+    if (keys1.length !== keys2.length) return false;
+
+    for (const key of keys1) {
+      if (!filters2.attributes[key] || filters1.attributes[key].length !== filters2.attributes[key].length || !filters1.attributes[key].every((value) => filters2.attributes[key].includes(value))) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   const handleFilterChange = (newFilters: FilterValues) => {
+    if (isFirstFilterChange.current) {
+      isFirstFilterChange.current = false;
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        ...newFilters,
+      }));
+      return;
+    }
+
+    if (areFiltersEqual(filters, newFilters)) {
+      return;
+    }
+
     setFilters((prevFilters) => ({
       ...prevFilters,
       ...newFilters,

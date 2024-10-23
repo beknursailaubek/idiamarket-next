@@ -78,20 +78,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
     setSelectedAttributes(newAttributes);
   }, [searchParams]);
 
-  const updateUrlParams = (key: string, value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    const currentValues = params.getAll(key);
-
-    if (currentValues.includes(value)) {
-      params.delete(key);
-      currentValues.filter((v) => v !== value).forEach((v) => params.append(key, v));
-    } else {
-      params.append(key, value);
-    }
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
-  };
-
   useEffect(() => {
     if (isFilterOpen) {
       document.body.classList.add("no-scroll");
@@ -120,25 +106,12 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
     }));
   };
 
-  useEffect(() => {
-    if (filterOptions && filterOptions.priceRange) {
-      const { priceRange } = filterOptions;
-      setMinPrice(priceRange[0]);
-      setMaxPrice(priceRange[1]);
-      setTempMinPrice(priceRange[0]);
-      setTempMaxPrice(priceRange[1]);
-    }
-  }, [filterOptions]);
-
-  // Handle attribute changes
   const handleAttributeChange = (attributeCode: string, valueCode: string) => {
     setSelectedAttributes((prevAttributes) => {
       const attributeValues = prevAttributes[attributeCode] || [];
 
-      // Toggle the value in the array
       const newValues = attributeValues.includes(valueCode) ? attributeValues.filter((val) => val !== valueCode) : [...attributeValues, valueCode];
 
-      // Create a new attributes object with the updated value
       return {
         ...prevAttributes,
         [attributeCode]: newValues,
@@ -160,14 +133,14 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
   const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value.replace(/\s+/g, ""));
     if (!isNaN(value)) {
-      setTempMinPrice(value); // Allow any value temporarily
+      setTempMinPrice(value);
     }
   };
 
   const handleMaxPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value.replace(/\s+/g, ""));
     if (!isNaN(value)) {
-      setTempMaxPrice(value); // Allow any value temporarily
+      setTempMaxPrice(value);
     }
   };
 
@@ -175,7 +148,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
     let newMinPrice = tempMinPrice;
     let newMaxPrice = tempMaxPrice;
 
-    // Ensure minPrice <= maxPrice and within the allowed range
     if (newMinPrice < priceRange[0]) newMinPrice = priceRange[0];
     if (newMaxPrice > priceRange[1]) newMaxPrice = priceRange[1];
     if (newMinPrice > newMaxPrice) newMinPrice = newMaxPrice;
@@ -205,7 +177,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
   const updateSelectedFilters = () => {
     const filters: SelectedFilter[] = [];
 
-    // Handle price filter
     if (priceRange && (tempMinPrice !== priceRange[0] || tempMaxPrice !== priceRange[1])) {
       filters.push({
         label: `Цена: от ${formatPrice(tempMinPrice)} до ${formatPrice(tempMaxPrice)}`,
@@ -213,7 +184,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
       });
     }
 
-    // Handle color filter
     selectedColors.forEach((colorCode) => {
       const color = colors.find((color) => color.code === colorCode);
       if (color) {
@@ -224,7 +194,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
       }
     });
 
-    // Handle attribute filter
     Object.keys(selectedAttributes).forEach((attributeCode) => {
       const attribute = attributes.find((attr) => attr.code === attributeCode);
       if (attribute) {
@@ -244,94 +213,41 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
   };
 
   const removeFilter = (filter: SelectedFilter) => {
+    if (filter.type !== "price") return;
+
     const params = new URLSearchParams(searchParams.toString());
 
     if (filter.type === "price") {
-      // Reset price filters to initial values
       setMinPrice(priceRange[0]);
       setMaxPrice(priceRange[1]);
       setTempMinPrice(priceRange[0]);
       setTempMaxPrice(priceRange[1]);
 
-      // Remove price parameters from URL
       params.delete("minPrice");
       params.delete("maxPrice");
     }
 
-    if (filter.type === "color") {
-      // Extract color code by name
-      const colorTitle = filter.label.split(": ")[1];
-      const colorToRemove = colors.find((color) => color.title === colorTitle);
-
-      if (colorToRemove) {
-        // Update selected colors state
-        setSelectedColors((prev) => prev.filter((colorCode) => colorCode !== colorToRemove.code));
-
-        // Remove specific color from URL
-        const currentColors = params.getAll("colors");
-        params.delete("colors"); // Remove all colors
-        const updatedColors = currentColors.filter((code) => code !== colorToRemove.code);
-        updatedColors.forEach((color) => params.append("colors", color));
-      }
-    }
-
-    if (filter.type === "attribute") {
-      // Extract attribute name and value
-      const [attributeTitle, attributeValue] = filter.label.split(": ");
-      const attribute = attributes.find((attr) => attr.title === attributeTitle);
-
-      if (attribute) {
-        // Update selected attributes state
-        setSelectedAttributes((prevAttributes) => {
-          const updatedAttributes = { ...prevAttributes };
-
-          if (Array.isArray(updatedAttributes[attribute.code])) {
-            updatedAttributes[attribute.code] = updatedAttributes[attribute.code].filter((val) => val !== attributeValue);
-
-            if (updatedAttributes[attribute.code].length === 0) {
-              // If no more selected values, remove the parameter from URL
-              params.delete(attribute.code);
-            } else {
-              // Update attribute parameters in URL
-              params.delete(attribute.code);
-              updatedAttributes[attribute.code].forEach((val) => params.append(attribute.code, val));
-            }
-          }
-
-          return updatedAttributes;
-        });
-      }
-    }
-
-    // Update URL without adding a new entry to browser history
     const queryString = params.toString();
     router.replace(`${pathname}${queryString ? `?${queryString}` : ""}`, { scroll: false });
 
-    // Update displayed selected filters
     updateSelectedFilters();
   };
 
   const clearAllFilters = () => {
-    // Сброс всех состояний фильтров
     setMinPrice(priceRange[0]);
     setMaxPrice(priceRange[1]);
     setTempMinPrice(priceRange[0]);
     setTempMaxPrice(priceRange[1]);
-    setSelectedColors([]);
-    setSelectedAttributes({});
-    setSelectedFilters([]);
 
-    // Создание нового объекта URLSearchParams без фильтров
     const params = new URLSearchParams(searchParams.toString());
 
-    // Список всех ключей фильтров
-    const filterKeys = ["minPrice", "maxPrice", "colors", ...attributes.map((attr) => attr.code)];
+    const priceKeys = ["minPrice", "maxPrice"];
 
-    // Удаление всех фильтров из параметров
-    filterKeys.forEach((key) => params.delete(key));
+    priceKeys.forEach((key) => params.delete(key));
 
-    // Обновление URL
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    router.replace(`${pathname}${params.toString() ? `?${params.toString()}` : ""}`, { scroll: false });
+
+    updateSelectedFilters();
   };
 
   const formatPrice = (price: number) => {
@@ -341,7 +257,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
   const getBaseUrl = () => {
     const params = new URLSearchParams(searchParams.toString());
 
-    // List of filter-related keys to remove
     const filterKeys = ["minPrice", "maxPrice", "colors", ...attributes.map((attr) => attr.code)];
 
     filterKeys.forEach((key) => params.delete(key));
@@ -354,26 +269,23 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
     const params = new URLSearchParams(searchParams.toString());
 
     if (filter.type === "price") {
-      // Remove both minPrice and maxPrice
       params.delete("minPrice");
       params.delete("maxPrice");
     }
 
     if (filter.type === "color") {
-      // Extract color code by name
       const colorTitle = filter.label.split(": ")[1];
       const colorToRemove = colors.find((color) => color.title === colorTitle);
 
       if (colorToRemove) {
         const currentColors = params.getAll("colors");
-        params.delete("colors"); // Remove all colors
+        params.delete("colors");
         const updatedColors = currentColors.filter((code) => code !== colorToRemove.code);
         updatedColors.forEach((color) => params.append("colors", color));
       }
     }
 
     if (filter.type === "attribute") {
-      // Extract attribute name and value
       const [attributeTitle, attributeValue] = filter.label.split(": ");
       const attribute = attributes.find((attr) => attr.title === attributeTitle);
 
@@ -403,12 +315,25 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
             <p className={styles.selectedFiltersTitle}>Вы выбрали:</p>
             <div className={styles.selectedFiltersItems}>
               {selectedFilters.map((filter, index) => (
-                <Link key={index} href={generateRemoveFilterHref(filter)} className={styles.selectedFiltersRemove}>
+                <Link
+                  key={index}
+                  href={generateRemoveFilterHref(filter)}
+                  onClick={(e) => {
+                    removeFilter(filter);
+                  }}
+                  className={styles.selectedFiltersRemove}
+                >
                   {filter.label} <Image className={styles.selectedFiltersRemoveImage} src="/images/icons/close.svg" width={20} height={20} alt="Remove filter" />
                 </Link>
               ))}
             </div>
-            <Link href={getBaseUrl()} className={styles.selectedFiltersReset}>
+            <Link
+              href={getBaseUrl()}
+              onClick={(e) => {
+                clearAllFilters();
+              }}
+              className={styles.selectedFiltersReset}
+            >
               Очистить все
             </Link>
           </div>
