@@ -83,29 +83,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, type }) => {
         {product.title}
       </Link>
 
-      <div className={styles.reviews}>
-        {product.reviews ? (
-          <>
-            <Image className={styles.reviewsIcon} src="/images/icons/star.svg" alt="Рейтинг" width={12} height={12} />
-            {product.rating ? (
-              <span className={styles.reviewsRating} itemProp="aggregateRating" itemScope itemType="https://schema.org/AggregateRating">
-                <meta itemProp="ratingValue" content={(product.rating * 0.05).toFixed(2)} />
-                {(product.rating * 0.05).toFixed(2)}
-              </span>
-            ) : null}
-
-            <span className={styles.reviewsText}>
-              {product.rating && (
-                <span itemProp="aggregateRating" itemScope itemType="https://schema.org/AggregateRating">
-                  <span itemProp="reviewCount">{product.reviews}</span> {getReviewWord(product.reviews)}
-                </span>
-              )}
+      {product.reviews ? (
+        <div className={styles.reviews} itemProp="aggregateRating" itemScope itemType="http://schema.org/AggregateRating">
+          <Image className={styles.reviewsIcon} src="/images/icons/star.svg" alt="" width={12} height={12} />
+          {product.rating && (
+            <span className={styles.reviewsRating}>
+              <meta itemProp="ratingValue" content={(product.rating * 0.05).toFixed(2)} />
+              {(product.rating * 0.05).toFixed(2)}
             </span>
-          </>
-        ) : (
+          )}
+
+          <span className={styles.reviewsText}>
+            <span itemProp="reviewCount">{product.reviews}</span> {getReviewWord(product.reviews)}
+          </span>
+        </div>
+      ) : (
+        <div className={styles.reviews}>
           <span className={styles.reviewsText}>Нет отзывов</span>
-        )}
-      </div>
+        </div>
+      )}
 
       {type === "day" ? (
         <div className={styles.productCardFooter}>
