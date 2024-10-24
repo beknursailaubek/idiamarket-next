@@ -83,7 +83,7 @@ export default async function SearchPage({ params, searchParams }: SearchPagePro
 
   return (
     <div className="container">
-      <Breadcrumbs />
+      <Breadcrumbs page="search" />
       <ProductsSearch initialData={data} filterOptions={filterOptions} title={decodeURI(searchQuery)} searchQuery={searchQuery} />
     </div>
   );

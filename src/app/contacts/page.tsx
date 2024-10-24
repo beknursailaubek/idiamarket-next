@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import styles from "./Contact.module.css";
 
 const ContactPage = () => {
@@ -8,6 +9,8 @@ const ContactPage = () => {
 
   return (
     <div className={styles.container}>
+      <Breadcrumbs page={"contacts"} />
+
       <div className={styles.body}>
         <h1 className={`title ${styles.title}`}>Контакты</h1>
 

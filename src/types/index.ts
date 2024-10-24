@@ -148,6 +148,7 @@ export interface FilterValues {
 export interface SeoData {
   meta_header: string;
   seo_text: string;
+  faq: string;
 }
 
 export interface FavoritesContextProps {

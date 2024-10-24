@@ -17,7 +17,14 @@ interface BreadcrumbsProps {
   onBreadcrumbClick?: (breadcrumb: Breadcrumb) => void;
   code?: string;
   productName?: string;
+  page?: string;
 }
+
+const customBreadcrumbs: Breadcrumb[] = [
+  { name: "Контакты", path: "/contacts" },
+  { name: "О нас", path: "/about" },
+  { name: "Поиск", path: "/search" },
+];
 
 const fetchBreadcrumbsData = async (code: string, category_code: string): Promise<Breadcrumb[]> => {
   try {
@@ -39,7 +46,7 @@ const fetchBreadcrumbsData = async (code: string, category_code: string): Promis
   }
 };
 
-const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ onBreadcrumbClick, code, productName }) => {
+const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ onBreadcrumbClick, code, productName, page }) => {
   const { selectedCity } = useCityContext();
   const pathname = usePathname();
   const [breadcrumbs, setBreadcrumbs] = useState<Breadcrumb[]>([]);
@@ -66,11 +73,22 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ onBreadcrumbClick, code, prod
         });
       }
 
+      // Проверяем наличие page и сравниваем с customBreadcrumbs
+      if (page) {
+        const matchedCustomBreadcrumb = customBreadcrumbs.find((crumb) => crumb.path === `/${page}`);
+        if (matchedCustomBreadcrumb) {
+          data.push({
+            name: matchedCustomBreadcrumb.name,
+            path: buildUrl(matchedCustomBreadcrumb.path),
+          });
+        }
+      }
+
       setBreadcrumbs(data);
     };
 
     fetchAndSetBreadcrumbs();
-  }, [code, productName, pathname]);
+  }, [code, productName, pathname, page]);
 
   const handleBreadcrumbClick = (breadcrumb: Breadcrumb) => {
     if (onBreadcrumbClick) {
@@ -89,9 +107,11 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ onBreadcrumbClick, code, prod
               <span itemProp="name">{breadcrumb.name}</span>
             </Link>
             <meta itemProp="position" content={(index + 1).toString()} />
-            <span className={styles.breadcrumbIcon} aria-hidden="true">
-              /
-            </span>
+            {index < breadcrumbs.length - 1 && (
+              <span className={styles.breadcrumbIcon} aria-hidden="true">
+                /
+              </span>
+            )}
           </li>
         );
       })}
