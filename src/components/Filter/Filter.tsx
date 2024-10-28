@@ -25,10 +25,11 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
 
   const { priceRange = [0, 0], colors = [], attributes = [] } = filterOptions || {};
 
-  const [minPrice, setMinPrice] = useState<number>(filterOptions.priceRange[0]);
-  const [maxPrice, setMaxPrice] = useState<number>(filterOptions.priceRange[1]);
-  const [tempMinPrice, setTempMinPrice] = useState<number>(filterOptions.priceRange[0]);
-  const [tempMaxPrice, setTempMaxPrice] = useState<number>(filterOptions.priceRange[1]);
+  const [minPrice, setMinPrice] = useState<number>(filterOptions?.priceRange?.[0] ?? 0);
+  const [maxPrice, setMaxPrice] = useState<number>(filterOptions?.priceRange?.[1] ?? 0);
+
+  const [tempMinPrice, setTempMinPrice] = useState<number>(filterOptions?.priceRange?.[0] ?? 0);
+  const [tempMaxPrice, setTempMaxPrice] = useState<number>(filterOptions?.priceRange?.[1] ?? 0);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedAttributes, setSelectedAttributes] = useState<Record<string, string[]>>({});
   const [selectedFilters, setSelectedFilters] = useState<SelectedFilter[]>([]);

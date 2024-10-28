@@ -1,5 +1,6 @@
 "use client";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
+import Advantages from "@/components/Advantages/Advantages";
 import React, { useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -18,16 +19,18 @@ import { Navigation, Pagination } from "swiper/modules";
 const AboutPage = () => {
   return (
     <div className={styles.body}>
-      <div className={styles.container}>
+      <div className="container">
         <Breadcrumbs page={"about"} />
+      </div>
 
+      <div className={styles.container}>
         <div className={styles.contentBox}>
           {/* Заголовок */}
           <h1 className={`${styles.title} title`}>О компании</h1>
 
           {/* Описание компании */}
           <div className={styles.desc}>
-            <p className={styles.descTitle}>Компания IDIA Market, основанная в 2010, является надежным партнером в области торгового, холодильного и складского оборудования в Казахстане. Мы специализируемся на предоставлении широкого ассортимента высококачественных товаров для бизнеса по доступным ценам.</p>
+            <p className={styles.descTitle}>Компания IDIA Market является надежным партнером в области торгового, холодильного и складского оборудования в Казахстане. Мы специализируемся на предоставлении широкого ассортимента высококачественных товаров для бизнеса по доступным ценам.</p>
             <p className={styles.descText}>IDIA Market располагает развитой сетью доставки, охватывающей все регионы Казахстана, включая Алматы, Астану, Шымкент, Караганду, Тараз и другие города. Наша компания гордится высококвалифицированной командой специалистов и собственными сервисными центрами, обеспечивающими квалифицированное обслуживание и поддержку клиентов.</p>
           </div>
 
@@ -35,34 +38,85 @@ const AboutPage = () => {
           <div className={styles.slider}>
             <Swiper
               slidesPerView={1}
-              spaceBetween={30}
-              centeredSlides={true}
               pagination={{
                 clickable: true,
               }}
-              navigation={true}
               loop={true}
-              modules={[Pagination, Navigation]}
+              modules={[Pagination]}
               className="mySwiper"
             >
               <SwiperSlide className={styles.slide}>
-                <Image className={styles.slideImage} src="/images/about/1.webp" width={700} height={500} alt="" />
+                <Image className={styles.slideImage} src="/images/about/banner.png" width={1140} height={500} alt="" />
               </SwiperSlide>
               <SwiperSlide className={styles.slide}>
-                <Image className={styles.slideImage} src="/images/about/2.webp" width={700} height={500} alt="" />
-              </SwiperSlide>
-              <SwiperSlide className={styles.slide}>
-                <Image className={styles.slideImage} src="/images/about/3.webp" width={700} height={500} alt="" />
-              </SwiperSlide>
-              <SwiperSlide className={styles.slide}>
-                <Image className={styles.slideImage} src="/images/about/4.webp" width={700} height={500} alt="" />
+                <Image className={styles.slideImage} src="/images/about/banner.png" width={1140} height={500} alt="" />
               </SwiperSlide>
             </Swiper>
           </div>
 
+          {/* Статистика */}
+          <div className={styles.results}>
+            <h3 className={styles.resultsTitle}>«IDIA Market» сегодня</h3>
+
+            <div className={styles.resultsItems}>
+              <div className={styles.resultsRow}>
+                <div className={styles.resultItem}>
+                  <div className={styles.resultContent}>
+                    <p className={styles.resultTitle}>14</p>
+                    <p className={styles.resultText}>лет на рынке</p>
+                  </div>
+                  <div className={styles.resultImage}>
+                    <Image src="/images/icons/exp.svg" className={styles.resultIcon} width={48} height={48} alt="" />
+                  </div>
+                </div>
+
+                <div className={styles.resultItem}>
+                  <div className={styles.resultContent}>
+                    <p className={styles.resultTitle}>3</p>
+                    <p className={styles.resultText}>филиала по Казахстану</p>
+                  </div>
+                  <div className={styles.resultImage}>
+                    <Image src="/images/icons/branch.svg" className={styles.resultIcon} width={48} height={48} alt="" />
+                  </div>
+                </div>
+
+                <div className={styles.resultItem}>
+                  <div className={styles.resultContent}>
+                    <p className={styles.resultTitle}>3000 +</p>
+                    <p className={styles.resultText}>товаров в наличии</p>
+                  </div>
+                  <div className={styles.resultImage}>
+                    <Image src="/images/icons/clients.svg" className={styles.resultIcon} width={48} height={48} alt="" />
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.resultsRow}>
+                <div className={styles.resultItem}>
+                  <div className={styles.resultContent}>
+                    <p className={styles.resultTitle}>14 000 +</p>
+                    <p className={styles.resultText}>довольных клиентов</p>
+                  </div>
+                  <div className={styles.resultImage}>
+                    <Image src="/images/icons/products.svg" className={styles.resultIcon} width={48} height={48} alt="" />
+                  </div>
+                </div>
+                <div className={styles.resultItem}>
+                  <div className={styles.resultContent}>
+                    <p className={styles.resultTitle}>27 000 +</p>
+                    <p className={styles.resultText}>успешно выполненных проектов</p>
+                  </div>
+                  <div className={styles.resultImage}>
+                    <Image src="/images/icons/projects.svg" className={styles.resultIcon} width={48} height={48} alt="" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Основные направления */}
           <div className={styles.directions}>
-            <p className={styles.directionsTitle}>Основные направления деятельности компании</p>
+            <h3 className={styles.directionsTitle}>Основные направления деятельности компании</h3>
 
             <div className={styles.direction}>
               <div className={styles.directionContent}>
@@ -95,6 +149,12 @@ const AboutPage = () => {
                 <p className={styles.directionText}>Профессиональные замеры и качественное обслуживание оборудования. Гарантируем долговечность и надежность ваших инвестиций.</p>
               </div>
             </div>
+          </div>
+
+          <Advantages />
+
+          <div className={styles.clients}>
+            
           </div>
         </div>
       </div>

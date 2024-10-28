@@ -6,6 +6,7 @@ import Image from "next/image";
 import ProductCard from "@/components/ProductCard/ProductCard";
 import Banner from "@/components/Banner/Banner";
 import Slider from "@/components/Slider/Slider";
+import Advantages from "@/components/Advantages/Advantages";
 import { Product } from "@/types";
 
 import styles from "./Home.module.css";
@@ -61,6 +62,12 @@ export default async function HomePage({ params }: HomePageProps) {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className={styles.advantages}>
+        <div className="container">
+          <Advantages />
         </div>
       </section>
 
