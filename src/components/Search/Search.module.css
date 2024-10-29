@@ -100,6 +100,16 @@
   margin-bottom: 5px;
 }
 
+.productCardPriceActual {
+  font-size: 14px;
+  margin-right: 5px;
+}
+
+.productCardPriceDiscount {
+  font-size: 14px;
+  text-decoration: line-through;
+}
+
 .searchOftenItems {
   display: flex;
   flex-wrap: wrap;

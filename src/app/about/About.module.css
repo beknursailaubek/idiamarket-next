@@ -12,7 +12,7 @@
 }
 
 .desc {
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 .descTitle {
@@ -83,6 +83,8 @@
 }
 
 .directionImage {
+  height: 450px;
+  object-fit: cover;
   width: calc(50% - 30px);
   border-radius: 20px;
 }

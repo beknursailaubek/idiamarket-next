@@ -123,11 +123,11 @@ const AboutPage = () => {
                 <p className={styles.directionTitle}>3D Проектирование</p>
                 <p className={styles.directionText}>Создаем удобные и привлекательные 3D проекты любой уровни сложности. Бесплатная визуализация помогает избежать ошибок при реализации.</p>
               </div>
-              <Image src="/images/about/1.webp" width={500} height={450} alt="" className={styles.directionImage} />
+              <Image src="/images/about/3d.jpg" width={500} height={450} alt="" className={styles.directionImage} />
             </div>
 
             <div className={styles.direction}>
-              <Image src="/images/about/2.webp" width={500} height={450} alt="" className={styles.directionImage} />
+              <Image src="/images/about/equipment.jpeg" width={500} height={450} alt="" className={styles.directionImage} />
               <div className={styles.directionContent}>
                 <p className={styles.directionTitle}>Оснащение</p>
                 <p className={styles.directionText}>Оптимальная планировка и эффективное размещение оборудования. Предлагаем разнообразные и эксклюзивные решения для вашего бизнеса.</p>
@@ -143,7 +143,7 @@ const AboutPage = () => {
             </div>
 
             <div className={styles.direction}>
-              <Image src="/images/about/3.webp" width={500} height={450} alt="" className={styles.directionImage} />
+              <Image src="/images/about/service.jpeg" width={500} height={450} alt="" className={styles.directionImage} />
               <div className={styles.directionContent}>
                 <p className={styles.directionTitle}>Сервисное обслуживание</p>
                 <p className={styles.directionText}>Профессиональные замеры и качественное обслуживание оборудования. Гарантируем долговечность и надежность ваших инвестиций.</p>
