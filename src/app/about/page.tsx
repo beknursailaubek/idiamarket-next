@@ -46,10 +46,10 @@ const AboutPage = () => {
               className="mySwiper"
             >
               <SwiperSlide className={styles.slide}>
-                <Image className={styles.slideImage} src="/images/about/banner.png" width={1140} height={500} alt="" />
+                <Image className={styles.slideImage} src="/images/about/banner.png" width={1140} height={450} alt="" />
               </SwiperSlide>
               <SwiperSlide className={styles.slide}>
-                <Image className={styles.slideImage} src="/images/about/banner.png" width={1140} height={500} alt="" />
+                <Image className={styles.slideImage} src="/images/about/banner.png" width={1140} height={450} alt="" />
               </SwiperSlide>
             </Swiper>
           </div>
@@ -153,9 +153,7 @@ const AboutPage = () => {
 
           <Advantages />
 
-          <div className={styles.clients}>
-            
-          </div>
+          <div className={styles.clients}></div>
         </div>
       </div>
     </div>
