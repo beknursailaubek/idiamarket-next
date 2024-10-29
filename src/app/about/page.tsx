@@ -46,10 +46,7 @@ const AboutPage = () => {
               className="mySwiper"
             >
               <SwiperSlide className={styles.slide}>
-                <Image className={styles.slideImage} src="/images/about/banner.png" width={1140} height={450} alt="" />
-              </SwiperSlide>
-              <SwiperSlide className={styles.slide}>
-                <Image className={styles.slideImage} src="/images/about/banner.png" width={1140} height={450} alt="" />
+                <Image className={styles.slideImage} src="/images/about/slide1.png" width={1140} height={450} alt="" />
               </SwiperSlide>
             </Swiper>
           </div>
@@ -139,11 +136,11 @@ const AboutPage = () => {
                 <p className={styles.directionTitle}>Розничная и оптовая продажа</p>
                 <p className={styles.directionText}>Широкий ассортимент оборудования от ведущих брендов. Скоро откроется наш новый крупный склад, обеспечивающий быструю доставку по всему Казахстану.</p>
               </div>
-              <Image src="/images/about/4.webp" width={500} height={450} alt="" className={styles.directionImage} />
+              <Image src="/images/about/sklad.jpg" width={500} height={450} alt="" className={styles.directionImage} />
             </div>
 
             <div className={styles.direction}>
-              <Image src="/images/about/service.jpg" width={500} height={450} alt="" className={styles.directionImage} />
+              <Image src="/images/about/service.webp" width={1000} height={450} alt="" className={styles.directionImage} />
               <div className={styles.directionContent}>
                 <p className={styles.directionTitle}>Сервисное обслуживание</p>
                 <p className={styles.directionText}>Профессиональные замеры и качественное обслуживание оборудования. Гарантируем долговечность и надежность ваших инвестиций.</p>

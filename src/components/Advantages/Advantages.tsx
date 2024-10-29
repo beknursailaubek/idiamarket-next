@@ -9,7 +9,7 @@ const Advantages = () => {
         <div className={styles.advantage}>
           <div className={styles.advantageTitle}>Гарантия</div>
           <div className={styles.advantageInner}>
-            <Image className={styles.advantageImage} width={70} height={70} alt="" src="/images/icons/guarantee-styled.svg" />
+            <Image className={styles.advantageImage} width={70} height={70} alt="" src="/images/icons/guarantee-styled.png" />
             <div className={styles.advantageText}>качества товара на всю продукцию</div>
           </div>
         </div>
@@ -17,7 +17,7 @@ const Advantages = () => {
         <div className={styles.advantage}>
           <div className={styles.advantageTitle}>Доставка</div>
           <div className={styles.advantageInner}>
-            <Image className={styles.advantageImage} width={70} height={70} alt="" src="/images/icons/delivery-styled.svg" />
+            <Image className={styles.advantageImage} width={70} height={70} alt="" src="/images/icons/delivery-styled.png" />
             <div className={styles.advantageText}>осуществляется во все регионы РК</div>
           </div>
         </div>
@@ -25,7 +25,7 @@ const Advantages = () => {
         <div className={styles.advantage}>
           <div className={styles.advantageTitle}>Сервис</div>
           <div className={styles.advantageInner}>
-            <Image className={styles.advantageImage} width={70} height={70} alt="" src="/images/icons/service-styled.svg" />
+            <Image className={styles.advantageImage} width={70} height={70} alt="" src="/images/icons/service-styled.png" />
             <div className={styles.advantageText}>безупречное сервисное обслуживание</div>
           </div>
         </div>
@@ -33,7 +33,7 @@ const Advantages = () => {
         <div className={styles.advantage}>
           <div className={styles.advantageTitle}>3D проект</div>
           <div className={styles.advantageInner}>
-            <Image className={styles.advantageImage} width={70} height={70} alt="" src="/images/icons/3d-styled.svg" />
+            <Image className={styles.advantageImage} width={70} height={70} alt="" src="/images/icons/3d-styled.png" />
             <div className={styles.advantageText}>дизайн-проект торгового пространства</div>
           </div>
         </div>
@@ -41,7 +41,7 @@ const Advantages = () => {
         <div className={styles.advantage}>
           <div className={styles.advantageTitle}>Время</div>
           <div className={styles.advantageInner}>
-            <Image className={styles.advantageImage} width={70} height={70} alt="" src="/images/icons/client-time-styled.svg" />
+            <Image className={styles.advantageImage} width={70} height={70} alt="" src="/images/icons/client-time-styled.png" />
             <div className={styles.advantageText}>бережное отношение ко времени Клиента</div>
           </div>
         </div>
