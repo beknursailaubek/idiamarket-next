@@ -143,7 +143,7 @@ const AboutPage = () => {
             </div>
 
             <div className={styles.direction}>
-              <Image src="/images/about/service.jpeg" width={500} height={450} alt="" className={styles.directionImage} />
+              <Image src="/images/about/service.jpg" width={500} height={450} alt="" className={styles.directionImage} />
               <div className={styles.directionContent}>
                 <p className={styles.directionTitle}>Сервисное обслуживание</p>
                 <p className={styles.directionText}>Профессиональные замеры и качественное обслуживание оборудования. Гарантируем долговечность и надежность ваших инвестиций.</p>
