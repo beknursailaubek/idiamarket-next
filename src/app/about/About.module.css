@@ -231,6 +231,14 @@
   .slideImage {
     height: 400px;
   }
+
+  .resultsItems {
+    gap: 10px;
+  }
+
+  .resultItem {
+    padding: 20px;
+  }
 }
 
 .card {

@@ -50,6 +50,11 @@
     margin-bottom: 10px;
   }
 
+  .advantageTitle {
+    font-size: 14px;
+    padding: 5px;
+  }
+
   .advantagesRow {
     flex-direction: column;
     gap: 10px;
@@ -62,5 +67,6 @@
 
   .advantageInner {
     padding: 20px;
+    gap: 10px;
   }
 }
