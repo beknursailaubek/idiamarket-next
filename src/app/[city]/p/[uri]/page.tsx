@@ -41,17 +41,35 @@ async function fetchProductDescription(about_url: string): Promise<{ html_conten
   }
 }
 
-const ProductPage = async ({ params }: { params: { uri: string } }) => {
+export async function generateMetadata({ params }: { params: { uri: string; city: string } }) {
   const product = await fetchProductData(params.uri);
+  const { city } = params;
 
-  const category_code = product?.categories?.[product?.categories?.length - 1]?.category_code ?? "";
+  if (!product) {
+    notFound();
+    return {};
+  }
+
+  return {
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/${city}/p/${params.uri}`,
+    },
+  };
+}
+
+const ProductPage = async ({ params }: { params: { uri: string } }) => {
+  const productPromise = fetchProductData(params.uri);
+  const product = await productPromise;
 
   if (!product) {
     notFound();
     return null;
   }
 
-  const aboutContent = product.about_url ? await fetchProductDescription(product.about_url) : null;
+  const descriptionPromise = product.about_url ? fetchProductDescription(product.about_url) : null;
+  const aboutContent = await descriptionPromise;
+
+  const category_code = product.categories?.[product.categories.length - 1]?.category_code ?? "";
 
   const attributeGroups: AttributeGroup[] = (product.attributes ?? []).map((attr) => ({
     title: attr.title,
@@ -61,7 +79,7 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
   return (
     <div className={`container ${styles.productPage}`}>
       <div className={styles.breadcrumbs}>
-        <Breadcrumbs code={category_code} productName={product?.title} />
+        <Breadcrumbs code={category_code} productName={product.title} />
       </div>
 
       <div className={styles.productPageBody}>

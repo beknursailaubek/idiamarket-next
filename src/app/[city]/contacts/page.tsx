@@ -3,6 +3,16 @@ import Image from "next/image";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import styles from "./Contact.module.css";
 
+export function generateMetadata({ params }: { params: { city: string } }) {
+  const { city } = params;
+
+  return {
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/${city}/contacts`,
+    },
+  };
+}
+
 const ContactPage = () => {
   const currentYear = new Date().getFullYear();
   const yearsInMarket = currentYear - 2010;

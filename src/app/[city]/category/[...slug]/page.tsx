@@ -1,12 +1,17 @@
+// Страница категории с оптимизацией запросов
+
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { ProductsCategory } from "@/components/ProductsCategory/ProductsCategory";
 import { InitialData, FilterOptions } from "@/types";
+
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
 interface CategoryPageProps {
-  params: { slug: string[] };
+  params: { slug: string[]; city: string };
   searchParams: { [key: string]: string | string[] };
+  data: InitialData;
+  filterOptions: FilterOptions;
 }
 
 async function getProductsByCategory(category_code: string, page: number = 1, minPrice?: string, maxPrice?: string, sort: string = "popular", colors?: string[], attributes?: Record<string, string[]>): Promise<InitialData> {
@@ -51,14 +56,16 @@ async function getFilterOptions(category_code: string): Promise<FilterOptions> {
   return options;
 }
 
-export async function generateMetadata({ params, searchParams }: CategoryPageProps) {
+export async function generateMetadata({ params }: CategoryPageProps) {
+  const { city } = params;
   const category_code = params.slug[params.slug.length - 1] || "";
   const data = await getProductsByCategory(category_code, 1);
 
   if (!data.category || !data.category.meta_data) {
     return {
-      title: "IDIA Market – купить торговое оборудование",
-      description: "Качественные товары по доступным ценам на idiamarket.kz",
+      alternates: {
+        canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/${city}/category/${data.category.uri}`,
+      },
     };
   }
 
@@ -66,6 +73,9 @@ export async function generateMetadata({ params, searchParams }: CategoryPagePro
   const metaDescription = data.category.meta_data.meta_description;
 
   return {
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/${city}category/${data.category.uri}`,
+    },
     title: metaTitle,
     description: metaDescription,
   };
@@ -77,14 +87,10 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
 
   const minPrice = typeof searchParams.minPrice === "string" ? searchParams.minPrice : undefined;
   const maxPrice = typeof searchParams.maxPrice === "string" ? searchParams.maxPrice : undefined;
-
   const sort = typeof searchParams.sort === "string" ? searchParams.sort : "popular";
-
   const colors = Array.isArray(searchParams.colors) ? searchParams.colors : searchParams.colors ? [searchParams.colors] : [];
 
   const attributes: Record<string, string[]> = {};
-
-  // Предполагается, что все ключи, кроме 'page', 'minPrice', 'maxPrice', 'sort', 'colors' являются атрибутами
   Object.entries(searchParams).forEach(([key, value]) => {
     if (!["page", "minPrice", "maxPrice", "sort", "colors"].includes(key)) {
       if (Array.isArray(value)) {
@@ -95,9 +101,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
     }
   });
 
-  const data = await getProductsByCategory(category_code, page, minPrice, maxPrice, sort, colors, attributes);
-
-  const filterOptions = await getFilterOptions(category_code);
+  const [data, filterOptions] = await Promise.all([getProductsByCategory(category_code, page, minPrice, maxPrice, sort, colors, attributes), getFilterOptions(category_code)]);
 
   return (
     <div className="container">

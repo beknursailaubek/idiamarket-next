@@ -1,20 +1,18 @@
-"use client";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import Advantages from "@/components/Advantages/Advantages";
+import AboutSlider from "@/components/AboutSlider/AboutSlider";
 import React, { useRef, useState } from "react";
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
 
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-
-import Image from "next/image";
 import styles from "./About.module.css";
+import Image from "next/image";
 
-// import required modules
-import { Navigation, Pagination } from "swiper/modules";
+export function generateMetadata() {
+  return {
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/about`,
+    },
+  };
+}
 
 const AboutPage = () => {
   return (
@@ -35,21 +33,7 @@ const AboutPage = () => {
           </div>
 
           {/* Слайдер */}
-          <div className={styles.slider}>
-            <Swiper
-              slidesPerView={1}
-              pagination={{
-                clickable: true,
-              }}
-              loop={true}
-              modules={[Pagination]}
-              className="mySwiper"
-            >
-              <SwiperSlide className={styles.slide}>
-                <Image className={styles.slideImage} src="/images/about/slide1.png" width={1140} height={450} alt="" />
-              </SwiperSlide>
-            </Swiper>
-          </div>
+          <AboutSlider />
 
           {/* Статистика */}
           <div className={styles.results}>
