@@ -8,10 +8,8 @@ import { InitialData, FilterOptions } from "@/types";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
 interface CategoryPageProps {
-  params: { slug: string[],  city: string };
+  params: { slug: string[]; city: string };
   searchParams: { [key: string]: string | string[] };
-  data: InitialData;
-  filterOptions: FilterOptions;
 }
 
 async function getProductsByCategory(category_code: string, page: number = 1, minPrice?: string, maxPrice?: string, sort: string = "popular", colors?: string[], attributes?: Record<string, string[]>): Promise<InitialData> {
