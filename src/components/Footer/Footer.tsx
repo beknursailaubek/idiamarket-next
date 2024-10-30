@@ -43,13 +43,8 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li className={styles.footerContact}>
-                    <Link href="tel:87273449900" className={`${styles.footerLink} ${styles.contactPhone}`}>
-                      8 (727) 344-99-00
-                    </Link>
-                  </li>
-                  <li className={styles.footerContact}>
-                    <Link href="tel:87012667700" className={`${styles.footerLink} ${styles.contactPhone}`}>
-                      +7 (701) 266-77-00
+                    <Link href="tel:87029942200" className={`${styles.footerLink} ${styles.contactPhone}`}>
+                      +7 (702) 993-44-00
                     </Link>
                   </li>
                   <li className={styles.footerContact}>
@@ -66,13 +61,8 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li className={styles.footerContact}>
-                    <Link href="tel:87172279900" className={`${styles.footerLink} ${styles.contactPhone}`}>
-                      8 (7172) 27-99-00
-                    </Link>
-                  </li>
-                  <li className={styles.footerContact}>
-                    <Link href="tel:87015112200" className={`${styles.footerLink} ${styles.contactPhone}`}>
-                      +7 (701) 511-22-00
+                    <Link href="tel:87027732200" className={`${styles.footerLink} ${styles.contactPhone}`}>
+                      +7 (702) 773-22-00
                     </Link>
                   </li>
                   <li className={styles.footerContact}>
@@ -89,13 +79,8 @@ const Footer = () => {
                     </Link>
                   </li>
                   <li className={styles.footerContact}>
-                    <Link href="tel:87273449900" className={`${styles.footerLink} ${styles.contactPhone}`}>
-                      8 (727) 344-99-00
-                    </Link>
-                  </li>
-                  <li className={styles.footerContact}>
-                    <Link href="tel:87012667700" className={`${styles.footerLink} ${styles.contactPhone}`}>
-                      +7 (701) 266-77-00
+                    <Link href="tel:87029942200" className={`${styles.footerLink} ${styles.contactPhone}`}>
+                      +7 (702) 994-22-00
                     </Link>
                   </li>
                   <li className={styles.footerContact}>

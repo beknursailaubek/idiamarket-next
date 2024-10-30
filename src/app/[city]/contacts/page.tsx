@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import styles from "./Contact.module.css";
 
 const ContactPage = () => {
@@ -8,6 +9,8 @@ const ContactPage = () => {
 
   return (
     <div className={styles.container}>
+      <Breadcrumbs page={"contacts"} />
+
       <div className={styles.body}>
         <h1 className={`title ${styles.title}`}>Контакты</h1>
 
@@ -37,12 +40,8 @@ const ContactPage = () => {
                 <p className={styles.label}>Телефон</p>
 
                 <div className={styles.phoneInfos}>
-                  <Link className={`${styles.link} ${styles.phoneInfo}`} href="tel:87012667700">
-                    +7 (701) 266-77-00
-                  </Link>
-
-                  <Link className={`${styles.link} ${styles.phoneInfo}`} href="tel:87273449900">
-                    8 (727) 344-99-00
+                  <Link className={`${styles.link} ${styles.phoneInfo}`} href="tel:87029934400">
+                    +7 (702) 993-44-00
                   </Link>
                 </div>
               </div>
@@ -84,12 +83,8 @@ const ContactPage = () => {
                 <p className={styles.label}>Телефон</p>
 
                 <div className={styles.phoneInfos}>
-                  <Link className={`${styles.link} ${styles.phoneInfo}`} href="tel:87015112200">
-                    +7 (701) 511-22-00
-                  </Link>
-
-                  <Link className={`${styles.link} ${styles.phoneInfo}`} href="tel:87172279900">
-                    8 (7172) 27-99-00
+                  <Link className={`${styles.link} ${styles.phoneInfo}`} href="tel:87027732200">
+                    +7 (702) 773-22-00
                   </Link>
                 </div>
               </div>
@@ -131,12 +126,8 @@ const ContactPage = () => {
                 <p className={styles.label}>Телефон</p>
 
                 <div className={styles.phoneInfos}>
-                  <Link className={`${styles.link} ${styles.phoneInfo}`} href="tel:87012667700">
-                    +7 (701) 266-77-00
-                  </Link>
-
-                  <Link className={`${styles.link} ${styles.phoneInfo}`} href="tel:87273449900">
-                    8 (727) 344-99-00
+                  <Link className={`${styles.link} ${styles.phoneInfo}`} href="tel:87029942200">
+                    +7 (702) 994-22-00
                   </Link>
                 </div>
               </div>

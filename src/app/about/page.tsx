@@ -133,17 +133,17 @@ const AboutPage = () => {
 
             <div className={styles.direction}>
               <div className={styles.directionContent}>
-                <p className={styles.directionTitle}>Розничная и оптовая продажа</p>
-                <p className={styles.directionText}>Широкий ассортимент оборудования от ведущих брендов. Скоро откроется наш новый крупный склад, обеспечивающий быструю доставку по всему Казахстану.</p>
-              </div>
-              <Image src="/images/about/sklad.jpg" width={500} height={450} alt="" className={styles.directionImage} />
+                <p className={styles.directionTitle}>Сервисное обслуживание</p>
+                <p className={styles.directionText}>Профессиональные замеры и качественное обслуживание оборудования. Гарантируем долговечность и надежность ваших инвестиций.</p>
+              </div>{" "}
+              <Image src="/images/about/service.webp" width={1000} height={450} alt="" className={styles.directionImage} />
             </div>
 
             <div className={styles.direction}>
-              <Image src="/images/about/service.webp" width={1000} height={450} alt="" className={styles.directionImage} />
+              <Image src="/images/about/sklad.jpg" width={500} height={450} alt="" className={styles.directionImage} />
               <div className={styles.directionContent}>
-                <p className={styles.directionTitle}>Сервисное обслуживание</p>
-                <p className={styles.directionText}>Профессиональные замеры и качественное обслуживание оборудования. Гарантируем долговечность и надежность ваших инвестиций.</p>
+                <p className={styles.directionTitle}>Розничная и оптовая продажа</p>
+                <p className={styles.directionText}>Широкий ассортимент оборудования от ведущих брендов. Скоро откроется наш новый крупный склад, обеспечивающий быструю доставку по всему Казахстану.</p>
               </div>
             </div>
           </div>

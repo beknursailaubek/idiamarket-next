@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import RecentlyWatched from "@/components/RecentlyWatched/RecentlyWatched";
 
 export default function NotFound() {
   return (
@@ -9,6 +10,8 @@ export default function NotFound() {
       <Link className=" text-sky-500 " href="/">
         На главную страницу
       </Link>
+
+      <RecentlyWatched page="home" />
     </div>
   );
 }

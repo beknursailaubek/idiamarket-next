@@ -128,30 +128,30 @@ const Header = () => {
               <div className={styles.contacts}>
                 <div className={styles.contactsInfo}>
                   <Image className={styles.contactsIconPhone} src="/images/icons/phone.svg" alt="Phone" width={16} height={16} />
-                  <Link href="tel:87012667700" className={styles.contactsPhone}>
-                    8 (701) 266-77-00
+                  <Link href="tel:87029934400" className={styles.contactsPhone}>
+                    8 (702) 993-44-00
                   </Link>
                   <Image className={styles.contactsIcon} src="/images/icons/arrow-down.svg" alt="Arrow Down" width={16} height={16} />
                 </div>
                 <div className={styles.contactsDropdown}>
                   <div className={styles.contactsCity}>
                     <span className={styles.contactsCityName}>Алматы</span>
-                    <Link href="tel:87013667700" className={styles.contactsCityPhone}>
-                      +7 (701) 266-77-00
+                    <Link href="tel:87029934400" className={styles.contactsCityPhone}>
+                      +7 (702) 994-22-00
                     </Link>
                   </div>
 
                   <div className={styles.contactsCity}>
                     <span className={styles.contactsCityName}>Астана </span>
-                    <Link href="tel:87015112200" className={styles.contactsCityPhone}>
-                      +7 (701) 511-22-00
+                    <Link href="tel:87027732200" className={styles.contactsCityPhone}>
+                      +7 (702) 773-22-00
                     </Link>
                   </div>
 
                   <div className={styles.contactsCity}>
                     <span className={styles.contactsCityName}>Шымкент</span>
-                    <Link href="tel:87012667700" className={styles.contactsCityPhone}>
-                      +7 (701) 266-77-00
+                    <Link href="tel:87029942200" className={styles.contactsCityPhone}>
+                      +7 (702) 994-22-00
                     </Link>
                   </div>
                 </div>
