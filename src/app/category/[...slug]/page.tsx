@@ -1,5 +1,3 @@
-// Страница категории с оптимизацией запросов
-
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { ProductsCategory } from "@/components/ProductsCategory/ProductsCategory";
