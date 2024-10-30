@@ -26,17 +26,17 @@ async function fetchProductData(uri: string): Promise<Product | null> {
   }
 }
 
-async function fetchProductDescription(sku: string): Promise<{ html_content: string } | null> {
+async function fetchProductDescription(about_url: string): Promise<{ html_content: string } | null> {
   try {
-    const response = await fetch(`${apiUrl}/descriptions/${sku}`, { cache: "no-store" });
+    const response = await fetch(about_url, { cache: "no-store" });
+
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      throw new Error(`Failed to fetch: ${response.status}`);
     }
 
-    const data = await response.json();
-    return data;
+    const html_content = await response.text();
+    return { html_content };
   } catch (error) {
-    console.error("Error fetching product description:", error);
     return null;
   }
 }
@@ -51,7 +51,7 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
     return null;
   }
 
-  const productDescription = await fetchProductDescription(product.sku);
+  const aboutContent = product.about_url ? await fetchProductDescription(product.about_url) : null;
 
   const attributeGroups: AttributeGroup[] = (product.attributes ?? []).map((attr) => ({
     title: attr.title,
@@ -67,7 +67,7 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
       <div className={styles.productPageBody}>
         <ProductInfo product={product} />
 
-        {productDescription && <Description content={productDescription.html_content} />}
+        {aboutContent && <Description content={aboutContent.html_content} />}
 
         {product.attributes?.length && product.attributes.length > 0 ? <Attributes attributes={attributeGroups} /> : null}
       </div>
