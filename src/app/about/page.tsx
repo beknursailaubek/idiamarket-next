@@ -63,7 +63,7 @@ const AboutPage = () => {
 
                 <div className={styles.resultItem}>
                   <div className={styles.resultContent}>
-                    <p className={styles.resultTitle}>3000 +</p>
+                    <p className={styles.resultTitle}>10 000 +</p>
                     <p className={styles.resultText}>товаров в ассортименте</p>
                   </div>
                   <div className={styles.resultImage}>
@@ -101,40 +101,46 @@ const AboutPage = () => {
 
             <div className={styles.direction}>
               <div className={styles.directionContent}>
-                <p className={styles.directionTitle}>3D Проектирование</p>
-                <p className={styles.directionText}>Создаем удобные и привлекательные 3D проекты любой уровни сложности. Бесплатная визуализация помогает избежать ошибок при реализации.</p>
+                <p className={styles.directionTitle}>Замер</p>
+                <p className={styles.directionText}>Выезд специалиста для проведения точных замеров, необходимых для подбора и установки оборудования.</p>
               </div>
               <Image src="/images/about/3d.jpg" width={500} height={450} alt="" className={styles.directionImage} />
             </div>
 
             <div className={styles.direction}>
-              <Image src="/images/about/equipment.jpeg" width={500} height={450} alt="" className={styles.directionImage} />
+              <Image src="/images/about/3d.jpg" width={500} height={450} alt="" className={styles.directionImage} />
+              <div className={styles.directionContent}>
+                <p className={styles.directionTitle}>3D Проектирование</p>
+                <p className={styles.directionText}>Наши проект-менеджеры помогут продумать заранее, как будет выглядеть ваше торговое пространство, и вы сможете внести любые правки на этапе проектирования.</p>
+              </div>
+            </div>
+
+            <div className={styles.direction}>
               <div className={styles.directionContent}>
                 <p className={styles.directionTitle}>Оснащение</p>
-                <p className={styles.directionText}>Оптимальная планировка и эффективное размещение оборудования. Предлагаем разнообразные и эксклюзивные решения для вашего бизнеса.</p>
+                <p className={styles.directionText}>Комплексный процесс, включающий подбор и установку специализированного оборудования, оптимально подходящего для вашего бизнеса.</p>
+              </div>
+              <Image src="/images/about/equipment.jpeg" width={500} height={450} alt="" className={styles.directionImage} />
+            </div>
+
+            <div className={styles.direction}>
+              <Image src="/images/about/service.webp" width={1000} height={450} alt="" className={styles.directionImage} />
+              <div className={styles.directionContent}>
+                <p className={styles.directionTitle}>Доставка</p>
+                <p className={styles.directionText}>У нас свой автопарк и оптимизированные логистические процессы. Доставка в черте города Бесплатно. Товар будет привезен точно в согласованный день и выбранное вами время по указанному адресу.</p>
               </div>
             </div>
 
             <div className={styles.direction}>
               <div className={styles.directionContent}>
                 <p className={styles.directionTitle}>Сервисное обслуживание</p>
-                <p className={styles.directionText}>Профессиональные замеры и качественное обслуживание оборудования. Гарантируем долговечность и надежность ваших инвестиций.</p>
-              </div>{" "}
-              <Image src="/images/about/service.webp" width={1000} height={450} alt="" className={styles.directionImage} />
-            </div>
-
-            <div className={styles.direction}>
-              <Image src="/images/about/sklad.jpg" width={500} height={450} alt="" className={styles.directionImage} />
-              <div className={styles.directionContent}>
-                <p className={styles.directionTitle}>Розничная и оптовая продажа</p>
-                <p className={styles.directionText}>Широкий ассортимент оборудования от ведущих брендов. Скоро откроется наш новый крупный склад, обеспечивающий быструю доставку по всему Казахстану.</p>
+                <p className={styles.directionText}>Наши высококвалифицированные специалисты оперативно и точно соберут и сделают установку оборудования любой сложности, обеспечив их устойчивость и соответствие стандартам безопасности.</p>
               </div>
+              <Image src="/images/about/sklad.jpg" width={500} height={450} alt="" className={styles.directionImage} />
             </div>
           </div>
 
           <Advantages />
-
-          <div className={styles.clients}></div>
         </div>
       </div>
     </div>

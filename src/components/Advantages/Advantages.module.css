@@ -54,7 +54,6 @@
 
   .advantagesTitle {
     font-size: 16px;
-    margin-bottom: 10px;
     text-align: center;
     color: white;
   }
@@ -65,7 +64,7 @@
     width: 250px;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 20px;
     padding: 10px;
   }
 
@@ -83,7 +82,7 @@
   .advantagesRow {
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
   }
 
   .advantageImage {

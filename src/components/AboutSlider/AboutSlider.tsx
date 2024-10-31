@@ -26,7 +26,7 @@ const AboutSlider = () => {
         className="mySwiper"
       >
         <SwiperSlide className={styles.slide}>
-          <Image className={styles.slideImage} src="/images/about/slide1.png" width={1140} height={450} alt="" />
+          <Image className={styles.slideImage} src="/images/about/slide3.webp" width={1250} height={650} alt="" />
         </SwiperSlide>
       </Swiper>
     </div>
