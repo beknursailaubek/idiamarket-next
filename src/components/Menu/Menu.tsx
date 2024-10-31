@@ -30,6 +30,8 @@ const Menu = ({ isOpen, onClose }: MenuProps) => {
     setIsDropdownOpen((prev) => !prev);
   };
 
+  const cityPhoneNumber = selectedCity?.name === "Астана" ? "8 (702) 773-22-00" : selectedCity?.name === "Шымкент" ? "8 (702) 994-22-00" : "8 (702) 993-44-00";
+
   return (
     <div className={isOpen ? `${styles.menu} ${styles.menuActive}` : `${styles.menu}`}>
       <div className={`container ${styles.menuInner}`}>
@@ -39,8 +41,8 @@ const Menu = ({ isOpen, onClose }: MenuProps) => {
             zakaz@idiamarket.kz
           </Link>
 
-          <Link href="tel:87273449900" className={`${styles.rowItem} ${styles.contactsPhone}`}>
-            <Image className={styles.contactsIconPhone} src="/images/icons/phone.svg" alt="Phone" width={16} height={16} />8 (727) 344-99-00
+          <Link href={`tel:${cityPhoneNumber}`} className={`${styles.rowItem} ${styles.contactsPhone}`}>
+            <Image className={styles.contactsIconPhone} src="/images/icons/phone.svg" alt="Phone" width={16} height={16} /> {cityPhoneNumber}
           </Link>
         </div>
 

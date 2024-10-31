@@ -64,7 +64,7 @@ const AboutPage = () => {
                 <div className={styles.resultItem}>
                   <div className={styles.resultContent}>
                     <p className={styles.resultTitle}>3000 +</p>
-                    <p className={styles.resultText}>товаров в наличии</p>
+                    <p className={styles.resultText}>товаров в ассортименте</p>
                   </div>
                   <div className={styles.resultImage}>
                     <Image src="/images/icons/clients.svg" className={styles.resultIcon} width={48} height={48} alt="" />

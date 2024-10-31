@@ -8,6 +8,9 @@ function formatDate(date: Date) {
   return new Date().toISOString().split("T")[0];
 }
 
+// Categories to exclude from sitemap by URI
+const exceptionCategories = ["kassovye-boksy", "torgovoe-oborudovanie", "pos-oborudovanie", "oborudovanie-dlya-obshepita", "oborudovanie-dlya-obshepita/teplovoe-oborudovanie", "oborudovanie-dlya-obshepita/teplovoe-oborudovanie/gazovye-plity", "kommercheskaya-mebel", "metallicheskie-stellazhi/palletnye-stellazhi", "holodilnoe-oborudovanie", "vitriny", "metallicheskie-shkafy", "oborudovanie-dlya-aptek", "nejtralnoe-oborudovanie", "metallicheskie-stellazhi/torgovye-stellazhi/setchatye-stellazhi", "metallicheskie-stellazhi/torgovye-stellazhi/aksessuary"];
+
 async function fetchProducts() {
   const res = await fetch(`${API_URL}/products`);
   if (!res.ok) throw new Error("Failed to fetch products");
@@ -17,7 +20,9 @@ async function fetchProducts() {
 async function fetchCategories() {
   const res = await fetch(`${API_URL}/categories`);
   if (!res.ok) throw new Error("Failed to fetch categories");
-  return res.json();
+  const categories = await res.json();
+  // Filter out the exception categories
+  return categories.filter((category: { uri: string }) => !exceptionCategories.includes(category.uri));
 }
 
 const staticPages = [

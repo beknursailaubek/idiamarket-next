@@ -12,5 +12,9 @@ Disallow: /cart*
 Disallow: /search
 Disallow: *sorting=*
 
+# Googlebot-Image
+User-agent: Googlebot-Image
+Disallow: /
+
 # Sitemaps
 Sitemap: https://idiamarket.kz/sitemap.xml

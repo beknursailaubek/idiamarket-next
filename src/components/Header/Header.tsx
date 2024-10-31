@@ -111,6 +111,8 @@ const Header = () => {
     };
   }, []);
 
+  const cityPhoneNumber = selectedCity?.name === "Астана" ? "8 (702) 773-22-00" : selectedCity?.name === "Шымкент" ? "8 (702) 994-22-00" : "8 (702) 993-44-00";
+
   return (
     <>
       <header className={styles.header}>
@@ -128,8 +130,8 @@ const Header = () => {
               <div className={styles.contacts}>
                 <div className={styles.contactsInfo}>
                   <Image className={styles.contactsIconPhone} src="/images/icons/phone.svg" alt="Phone" width={16} height={16} />
-                  <Link href="tel:87029934400" className={styles.contactsPhone}>
-                    8 (702) 993-44-00
+                  <Link href={`tel:${cityPhoneNumber}`} className={styles.contactsPhone}>
+                    {cityPhoneNumber}
                   </Link>
                   <Image className={styles.contactsIcon} src="/images/icons/arrow-down.svg" alt="Arrow Down" width={16} height={16} />
                 </div>
