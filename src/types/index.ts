@@ -44,6 +44,7 @@ export interface Category {
   image?: string;
   anchors?: Anchor[];
   meta_data?: SeoMetadata;
+  faq?: FaqData;
 }
 
 export interface Attributes {
@@ -72,14 +73,6 @@ export interface Color {
   title: string;
   color_type?: number;
   hex: string;
-}
-
-export interface SeoMetadata {
-  _id?: string;
-  meta_title?: string;
-  meta_description?: string;
-  meta_header?: string;
-  seo_text?: string;
 }
 
 export interface ShortDescription {
@@ -145,10 +138,17 @@ export interface FilterValues {
   attributes: { [key: string]: string[] };
 }
 
-export interface SeoData {
-  meta_header: string;
+export interface SeoMetadata {
+  _id?: string;
+  meta_title?: string;
+  meta_description?: string;
+  meta_header?: string;
   seo_text: string;
-  faq: string;
+}
+
+export interface FaqData {
+  title: string;
+  list: { question: string; answer: string }[];
 }
 
 export interface FavoritesContextProps {

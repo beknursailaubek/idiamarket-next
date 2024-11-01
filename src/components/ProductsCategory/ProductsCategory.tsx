@@ -13,8 +13,9 @@ import AnchorList from "@/components/AnchorList/AnchorList";
 import RecentlyWatched from "@/components/RecentlyWatched/RecentlyWatched";
 import { getProductWord } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
-import { InitialData, Product, Filters, FilterOptions, SeoData, FilterValues } from "@/types";
+import { InitialData, Product, Filters, FilterOptions, FilterValues, SeoMetadata, FaqData } from "@/types";
 import Seo from "@/components/Seo/Seo";
+import Faq from "@/components/Faq/Faq";
 import { useCityContext } from "@/hooks/useCityContext";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
@@ -223,7 +224,9 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
 
         <RecentlyWatched page="" />
 
-        {category.meta_data && <Seo data={category.meta_data as SeoData} />}
+        {category.meta_data && <Seo data={category.meta_data as SeoMetadata} />}
+
+        {category.faq && <Faq data={category.faq as FaqData} />}
       </div>
     </div>
   );

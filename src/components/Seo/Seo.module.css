@@ -1,6 +1,6 @@
 .seo {
   position: relative;
-  font-size: 12px;
+  font-size: 14px;
   background: var(--white);
   border-radius: 8px;
   padding: 20px 20px 60px;
@@ -65,20 +65,17 @@
   font-size: 24px;
 }
 
-.seoFaq {
-  margin-top: 20px;
+.seo p {
+  margin: 14px 0;
+  line-height: 1.1;
 }
 
-.seo p {
-  font-size: 16px;
+.seo strong {
+  font-weight: 400;
 }
 
 .seo a {
   font-size: 16px;
-}
-
-.seo p:not(:last-child) {
-  margin-bottom: 10px;
 }
 
 .seo h3 {
