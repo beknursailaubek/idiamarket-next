@@ -13,22 +13,22 @@ const Contacts = ({ closeModal }: ContactsProps) => {
       <div className={styles.contacts}>
         <div className={styles.contactsCity}>
           <span className={styles.contactsCityName}>Алматы</span>
-          <Link href="tel:87013667700" className={styles.contactsCityPhone}>
-            +7 (701) 266-77-00
+          <Link href="tel:87029934400" className={styles.contactsCityPhone}>
+            +7 (702) 993-44-00
           </Link>
         </div>
 
         <div className={styles.contactsCity}>
           <span className={styles.contactsCityName}>Астана </span>
-          <Link href="tel:87015112200" className={styles.contactsCityPhone}>
-            +7 (701) 511-22-00
+          <Link href="tel:87027732200" className={styles.contactsCityPhone}>
+            +7 (702) 773-22-00
           </Link>
         </div>
 
         <div className={styles.contactsCity}>
           <span className={styles.contactsCityName}>Шымкент</span>
-          <Link href="tel:87012667700" className={styles.contactsCityPhone}>
-            +7 (701) 266-77-00
+          <Link href="tel:87029942200" className={styles.contactsCityPhone}>
+            +7 (702) 994-22-00
           </Link>
         </div>
       </div>

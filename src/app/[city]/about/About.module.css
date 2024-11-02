@@ -11,22 +11,101 @@
   border-radius: 8px;
 }
 
-/* Баннер */
-.banner {
-  background-color: #1e3a8a;
-  height: 240px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
+.desc {
+  margin-bottom: 20px;
 }
 
-.bannerTitle {
-  color: #ffffff;
-  font-size: 2.25rem; /* text-4xl */
-  font-weight: 700; /* font-bold */
-  text-transform: uppercase;
+.descTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
+
+.directions {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.direction {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+
+.directionsTitle {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.directionContent {
+  width: calc(50% - 30px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+.directionTitle {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.directionImage {
+  height: 450px;
+  object-fit: cover;
+  width: calc(50% - 30px);
+  border-radius: 20px;
+}
+
+.results {
+  margin-bottom: 50px;
+}
+
+.resultsTitle {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.resultsItems {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.resultsRow {
+  display: flex;
+  gap: 20px;
+}
+
+.resultItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-grow: 1;
+  flex-basis: 100%;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0px 2px 18px rgba(41, 41, 41, 0.1);
+}
+
+.resultTitle {
+  font-size: 48px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: var(--blue);
+}
+
+.resultIcon {
+  filter: invert(18%) sepia(97%) saturate(2239%) hue-rotate(201deg) brightness(88%) contrast(98%);
+}
+
+/* OLD  */
 
 /* Секции описания */
 .textSection {
@@ -45,27 +124,82 @@
 }
 
 @media (max-width: 768px) {
+  .title {
+    font-size: 20px;
+  }
+
   .container {
     padding: 0;
   }
 
-  .cardsGrid {
-    grid-template-columns: 1fr;
+  .desc {
+    margin-bottom: 20px;
+  }
+
+  .descTitle {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .resultsRow {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .resultsTitle {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .resultTitle {
+    font-size: 32px;
+    margin-bottom: 10px;
   }
 
   .contentBox {
-    padding: 20px 12px;
+    padding: 20px 12px 0px;
   }
 
-  .bannerTitle {
-    display: flex;
+  .directions {
+    gap: 25px;
+    margin-bottom: 20px;
+  }
+
+  .direction {
+    gap: 10px;
     flex-direction: column;
-    font-size: 24px;
-    text-align: center;
   }
 
-  .textSection {
-    padding: 20px 0;
+  .directionContent {
+    width: 100%;
+    padding: 0px;
+    order: -1;
+  }
+
+  .directionImage {
+  }
+
+  .directionsTitle {
+    font-size: 20px;
+    margin-bottom: 0;
+  }
+
+  .directionTitle {
+    font-size: 16px;
+  }
+
+  .directionImage {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .resultsItems {
+    gap: 10px;
+  }
+
+  .resultItem {
+    padding: 20px;
   }
 }
 

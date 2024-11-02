@@ -1,6 +1,6 @@
 .seo {
   position: relative;
-  font-size: 12px;
+  font-size: 14px;
   background: var(--white);
   border-radius: 8px;
   padding: 20px 20px 60px;
@@ -65,24 +65,38 @@
   font-size: 24px;
 }
 
-.seoText > p {
+.seo p {
+  margin: 14px 0;
+  line-height: 1.1;
+}
+
+.seo strong {
+  font-weight: 400;
+}
+
+.seo a {
   font-size: 16px;
 }
 
-.seoText > p:not(:last-child) {
-  margin-bottom: 10px;
-}
-
-.seoText > h3 {
+.seo h3 {
   font-weight: 700;
   font-size: 20px;
   margin-bottom: 10px;
 }
-.seoText > h3:not(:first-child) {
+.seo h3:not(:first-child) {
   margin-top: 20px;
 }
 
-.seoText > ul {
+.seo h4 {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.seo h4:not(:first-child) {
+  margin-top: 20px;
+}
+
+.seo ul {
   list-style-type: disc;
   display: flex;
   flex-direction: column;
@@ -90,15 +104,15 @@
   font-size: 16px;
 }
 
-.seoText > ul:not(:last-child) {
+.seo ul:not(:last-child) {
   margin-bottom: 20px;
 }
 
-.seoText > ul > li {
+.seo ul li {
   margin-left: 30px;
 }
 
-.seoText > ol {
+.seo ol {
   list-style-type: decimal;
   display: flex;
   flex-direction: column;
@@ -106,11 +120,11 @@
   font-size: 16px;
 }
 
-.seoText > ol:not(:last-child) {
+.seo ol:not(:last-child) {
   margin-bottom: 10px;
 }
 
-.seoText > ol > li {
+.seo ol li {
   margin-left: 30px;
 }
 
@@ -123,23 +137,31 @@
     font-size: 16px;
   }
 
-  .seoText > p {
+  .seo p {
     font-size: 14px;
   }
 
-  .seoText > h3 {
+  .seo a {
     font-size: 14px;
   }
 
-  .seoText > ul {
+  .seo h3 {
     font-size: 14px;
   }
 
-  .seoText > ul > li {
+  .seo h4 {
     font-size: 14px;
   }
 
-  .seoText > ol {
+  .seo ul {
+    font-size: 14px;
+  }
+
+  .seo ul li {
+    font-size: 14px;
+  }
+
+  .seo ol {
     font-size: 14px;
   }
 }

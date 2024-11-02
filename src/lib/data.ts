@@ -1,7 +1,7 @@
 export const cities = [
-  { name: "Алматы", title: "Алматы", uri: "", code: "almaty" },
-  { name: "Астана", title: "Астане", uri: "astana", code: "astana" },
-  { name: "Шымкент", title: "Шымкенте", uri: "shymkent", code: "shymkent" },
+  { name: "Алматы", title: "Алматы", uri: "", code: "almaty", phone: "8 (702) 993-44-00" },
+  { name: "Астана", title: "Астане", uri: "astana", code: "astana", phone: "8 (702) 773-22-00" },
+  { name: "Шымкент", title: "Шымкенте", uri: "shymkent", code: "shymkent", phone: "8 (702) 994-22-00" },
   { name: "Актау", title: "Актау", uri: "aktau", code: "aktau" },
   { name: "Актобе", title: "Актобе", uri: "aktobe", code: "aktobe" },
   { name: "Атырау", title: "Атырау", uri: "atyrau", code: "atyrau" },

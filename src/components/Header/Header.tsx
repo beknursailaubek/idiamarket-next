@@ -35,7 +35,7 @@ const Header = () => {
   const [searchProducts, setSearchProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [searchHistory, setSearchHistory] = useState<{ query: string; path: string }[]>([]);
+  const [searchHistory, setSearchHistory] = useState<{ query: string }[]>([]);
 
   const openLocationModal = () => setLocationModalOpen(true);
   const closeLocationModal = () => setLocationModalOpen(false);
@@ -58,10 +58,11 @@ const Header = () => {
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && searchQuery.trim()) {
-      const updatedHistory = JSON.parse(localStorage.getItem("searchHistory") || "[]") as { query: string; path: string }[];
+      const updatedHistory = JSON.parse(localStorage.getItem("searchHistory") || "[]") as { query: string }[];
 
       if (!updatedHistory.some((item: { query: string }) => item.query === searchQuery)) {
-        updatedHistory.unshift({ query: searchQuery, path: `/search/${searchQuery}` });
+        updatedHistory.unshift({ query: searchQuery });
+
         localStorage.setItem("searchHistory", JSON.stringify(updatedHistory.slice(0, 5)));
         setSearchHistory(updatedHistory.slice(0, 5));
       }
@@ -110,6 +111,8 @@ const Header = () => {
     };
   }, []);
 
+  const cityPhoneNumber = selectedCity?.name === "Астана" ? "8 (702) 773-22-00" : selectedCity?.name === "Шымкент" ? "8 (702) 994-22-00" : "8 (702) 993-44-00";
+
   return (
     <>
       <header className={styles.header}>
@@ -127,30 +130,30 @@ const Header = () => {
               <div className={styles.contacts}>
                 <div className={styles.contactsInfo}>
                   <Image className={styles.contactsIconPhone} src="/images/icons/phone.svg" alt="Phone" width={16} height={16} />
-                  <Link href="tel:87012667700" className={styles.contactsPhone}>
-                    8 (701) 266-77-00
+                  <Link href={`tel:${cityPhoneNumber}`} className={styles.contactsPhone}>
+                    {cityPhoneNumber}
                   </Link>
                   <Image className={styles.contactsIcon} src="/images/icons/arrow-down.svg" alt="Arrow Down" width={16} height={16} />
                 </div>
                 <div className={styles.contactsDropdown}>
                   <div className={styles.contactsCity}>
                     <span className={styles.contactsCityName}>Алматы</span>
-                    <Link href="tel:87013667700" className={styles.contactsCityPhone}>
-                      +7 (701) 266-77-00
+                    <Link href="tel:87029934400" className={styles.contactsCityPhone}>
+                      +7 (702) 993-44-00
                     </Link>
                   </div>
 
                   <div className={styles.contactsCity}>
                     <span className={styles.contactsCityName}>Астана </span>
-                    <Link href="tel:87015112200" className={styles.contactsCityPhone}>
-                      +7 (701) 511-22-00
+                    <Link href="tel:87027732200" className={styles.contactsCityPhone}>
+                      +7 (702) 773-22-00
                     </Link>
                   </div>
 
                   <div className={styles.contactsCity}>
                     <span className={styles.contactsCityName}>Шымкент</span>
-                    <Link href="tel:87012667700" className={styles.contactsCityPhone}>
-                      +7 (701) 266-77-00
+                    <Link href="tel:87029942200" className={styles.contactsCityPhone}>
+                      +7 (702) 994-22-00
                     </Link>
                   </div>
                 </div>

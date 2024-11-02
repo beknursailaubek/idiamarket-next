@@ -1,11 +1,10 @@
 import { notFound } from "next/navigation";
 
 import React, { useContext } from "react";
-import Link from "next/link";
-import Image from "next/image";
 import ProductCard from "@/components/ProductCard/ProductCard";
 import Banner from "@/components/Banner/Banner";
 import Slider from "@/components/Slider/Slider";
+import Advantages from "@/components/Advantages/Advantages";
 import { Product } from "@/types";
 
 import styles from "./Home.module.css";
@@ -19,6 +18,12 @@ interface HomePageProps {
     id: string;
   };
 }
+
+export const metadata = {
+  alternates: {
+    canonical: process.env.NEXT_PUBLIC_SITE_URL,
+  },
+};
 
 async function getProductsByType(type: string): Promise<Product[]> {
   const res = await fetch(`${apiUrl}/products/${type}`);
@@ -42,15 +47,12 @@ export default async function HomePage({ params }: HomePageProps) {
           </div>
         </div>
       </section>
-
       <Categories />
-
       <section className={styles.watched}>
         <div className="container">
           <RecentlyWatched page="home" />
         </div>
       </section>
-
       <section className={styles.popular}>
         <div className="container">
           <div className={styles.popularInner}>
@@ -63,7 +65,11 @@ export default async function HomePage({ params }: HomePageProps) {
           </div>
         </div>
       </section>
-
+      <section className={styles.advantages}>
+        <div className="container">
+          <Advantages />
+        </div>
+      </section>
       <section className={styles.about}>
         <div className="container">
           <AboutAccordion />

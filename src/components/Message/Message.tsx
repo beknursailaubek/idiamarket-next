@@ -13,7 +13,7 @@ const Message = () => {
         <Image className={styles.logo} src="/images/logo.svg" width={50} height={17} alt="" />
       </div>
 
-      <Link href="tel:87012667700" className={styles.call}>
+      <Link href="tel:87029942200" className={styles.call}>
         Получить консультацию
       </Link>
 

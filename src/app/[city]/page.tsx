@@ -1,11 +1,10 @@
 import { notFound } from "next/navigation";
 
 import React, { useContext } from "react";
-import Link from "next/link";
-import Image from "next/image";
 import ProductCard from "@/components/ProductCard/ProductCard";
 import Banner from "@/components/Banner/Banner";
 import Slider from "@/components/Slider/Slider";
+import Advantages from "@/components/Advantages/Advantages";
 import { Product } from "@/types";
 
 import styles from "./Home.module.css";
@@ -17,6 +16,16 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 interface HomePageProps {
   params: {
     id: string;
+  };
+}
+
+export function generateMetadata({ params }: { params: { city: string } }) {
+  const { city } = params;
+
+  return {
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/${city}`,
+    },
   };
 }
 
@@ -42,15 +51,12 @@ export default async function HomePage({ params }: HomePageProps) {
           </div>
         </div>
       </section>
-
       <Categories />
-
       <section className={styles.watched}>
         <div className="container">
           <RecentlyWatched page="home" />
         </div>
       </section>
-
       <section className={styles.popular}>
         <div className="container">
           <div className={styles.popularInner}>
@@ -63,7 +69,11 @@ export default async function HomePage({ params }: HomePageProps) {
           </div>
         </div>
       </section>
-
+      <section className={styles.advantages}>
+        <div className="container">
+          <Advantages />
+        </div>
+      </section>
       <section className={styles.about}>
         <div className="container">
           <AboutAccordion />

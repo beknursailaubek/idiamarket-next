@@ -6,8 +6,8 @@ import Footer from "@/components/Footer/Footer";
 import Providers from "@/components/Providers/Providers";
 
 export const metadata: Metadata = {
-  title: "IDIA Market – купить торговое оборудование",
-  description: "Качественные товары по доступным ценам на idiamarket.kz",
+  title: "IDIA Market - торговое оборудование в Алматы",
+  description: "IDIA Market – интернет-магазин торгового, холодильного и складского оборудования для бизнеса в Казахстане. Бесплатная доставка. Закажите качественное оборудование для успешного бизнеса!",
 };
 
 export default function RootLayout({

@@ -6,27 +6,38 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
 interface SearchPageProps {
   params: { slug: string[] };
-  searchParams: { [key: string]: string };
+  searchParams: { [key: string]: string | string[] };
 }
 
-async function fetchSearchResults(searchQuery: string, page: number = 1, minPrice?: string, maxPrice?: string, colors?: string[], sort: string = "popular"): Promise<InitialData> {
+async function fetchSearchResults(searchQuery: string, page: number = 1, minPrice?: string, maxPrice?: string, sort: string = "popular", colors?: string[], attributes?: Record<string, string[]>): Promise<InitialData> {
   let url = `${apiUrl}/products/search?query=${encodeURIComponent(searchQuery)}&page=${page}&limit=20`;
 
   if (minPrice) url += `&minPrice=${minPrice}`;
   if (maxPrice) url += `&maxPrice=${maxPrice}`;
+  if (sort) url += `&sorting=${encodeURIComponent(sort)}`;
 
   if (colors && colors.length > 0) {
-    const colorParams = colors.map((color) => `colors=${encodeURIComponent(color)}`).join("&");
-    url += `&${colorParams}`;
+    colors.forEach((color) => {
+      url += `&colors=${encodeURIComponent(color)}`;
+    });
   }
 
-  if (sort) {
-    url += `&sorting=${encodeURIComponent(sort)}`;
+  if (attributes) {
+    Object.entries(attributes).forEach(([key, values]) => {
+      values.forEach((value) => {
+        url += `&${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+      });
+    });
   }
+
+  console.log(url);
 
   const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) {
+    notFound();
+  }
+
   const data = await res.json();
-  console.log(data);
   return data;
 }
 
@@ -44,16 +55,29 @@ async function getFilterOptions(searchQuery: string): Promise<FilterOptions> {
 export default async function SearchPage({ params, searchParams }: SearchPageProps) {
   const searchQuery = params.slug?.map(decodeURIComponent).join(" ") || "";
 
-  const page = parseInt(searchParams.page || "1", 10);
+  const page = parseInt(typeof searchParams.page === "string" ? searchParams.page : searchParams.page?.[0] || "1", 10);
 
-  const minPrice = searchParams.minPrice || "";
-  const maxPrice = searchParams.maxPrice || "";
+  const minPrice = typeof searchParams.minPrice === "string" ? searchParams.minPrice : undefined;
+  const maxPrice = typeof searchParams.maxPrice === "string" ? searchParams.maxPrice : undefined;
 
-  const colors = searchParams.colors ? searchParams.colors.split(",") : [];
+  const sort = typeof searchParams.sort === "string" ? searchParams.sort : "popular";
 
-  const sort = searchParams.sort || "popular";
+  const colors = Array.isArray(searchParams.colors) ? searchParams.colors : searchParams.colors ? [searchParams.colors] : [];
 
-  const data = await fetchSearchResults(searchQuery, page, minPrice, maxPrice, colors, sort);
+  const attributes: Record<string, string[]> = {};
+
+  // Предполагается, что все ключи, кроме 'page', 'minPrice', 'maxPrice', 'sort', 'colors' являются атрибутами
+  Object.entries(searchParams).forEach(([key, value]) => {
+    if (!["page", "minPrice", "maxPrice", "sort", "colors"].includes(key)) {
+      if (Array.isArray(value)) {
+        attributes[key] = value;
+      } else {
+        attributes[key] = [value];
+      }
+    }
+  });
+
+  const data = await fetchSearchResults(searchQuery, page, minPrice, maxPrice, sort, colors, attributes);
 
   const filterOptions = await getFilterOptions(searchQuery);
 

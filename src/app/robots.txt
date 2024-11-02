@@ -1,0 +1,20 @@
+# *
+User-agent: *
+Disallow: /compare
+Disallow: /cart*
+Disallow: /search
+Disallow: *sorting=*
+
+# Yandex
+User-agent: Yandex
+Disallow: /compare
+Disallow: /cart*
+Disallow: /search
+Disallow: *sorting=*
+
+# Googlebot-Image
+User-agent: Googlebot-Image
+Disallow: /
+
+# Sitemaps
+Sitemap: https://idiamarket.kz/sitemap.xml

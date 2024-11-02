@@ -1,6 +1,6 @@
+// src/components/ProductsCategory/ProductsCategory.tsx
 "use client";
-
-import { useEffect, useState, useCallback } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ProductCard from "@/components/ProductCard/ProductCard";
@@ -9,13 +9,12 @@ import Filter from "@/components/Filter/Filter";
 import Sort from "@/components/Sort/Sort";
 import CardViews from "@/components/CardViews/CardViews";
 import Pagination from "@/components/Pagination/Pagination";
-import Modal from "@/components/Modal/Modal";
-import AnchorList from "@/components/AnchorList/AnchorList";
 import RecentlyWatched from "@/components/RecentlyWatched/RecentlyWatched";
+import AnchorList from "@/components/AnchorList/AnchorList";
 import { getProductWord } from "@/lib/utils";
-import { useRouter, useSearchParams } from "next/navigation";
-import { InitialData, Product, Filters, FilterOptions, SeoData, FilterValues } from "@/types";
+import { InitialData, FilterOptions } from "@/types";
 import Seo from "@/components/Seo/Seo";
+import Faq from "@/components/Faq/Faq";
 import { useCityContext } from "@/hooks/useCityContext";
 
 interface ProductsCategoryProps {
@@ -24,84 +23,25 @@ interface ProductsCategoryProps {
 }
 
 export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData, filterOptions }) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
   const { selectedCity } = useCityContext();
   const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
 
-  const { category, products, pagination } = initialData;
+  const [isFilterOpen, setFilterOpen] = useState(false);
+  const openFilter = () => setFilterOpen(true);
+  const closeFilter = () => setFilterOpen(false);
 
-  const [tempFilters, setTempFilters] = useState<Filters>({
-    priceRange: [0, Infinity],
-    colors: [],
-    attributes: {},
-  });
-
-  const applyFilters = useCallback(() => {
-    const filterPath = buildFilterPath(tempFilters);
-    router.push(`${cityPrefix}/category/${category?.uri}/f/${filterPath}`);
-  }, [tempFilters, category, cityPrefix]);
-
-  const buildFilterPath = (filters: Filters): string => {
-    const { colors, attributes } = filters;
-
-    let pathSegments = [];
-
-    if (colors.length > 0) {
-      pathSegments.push(`color/${colors.join(",")}`);
-    }
-
-    for (const [attributeCode, values] of Object.entries(attributes)) {
-      if (values.length > 0) {
-        pathSegments.push(`${attributeCode}/${values.join(",")}`);
-      }
-    }
-
-    return pathSegments.join("/");
-  };
-
-  const handleFilterChange = (newFilters: FilterValues) => {
-    setTempFilters((prevFilters) => ({
-      ...prevFilters,
-      ...newFilters,
-    }));
-  };
-
-  const handleSortingAndPriceChange = (sortValue: string, priceRange: [number, number]) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (priceRange[0] > 0) params.set("priceMin", priceRange[0].toString());
-    if (priceRange[1] < Infinity) params.set("priceMax", priceRange[1].toString());
-
-    if (sortValue) params.set("sorting", sortValue);
-
-    router.push(`${cityPrefix}/category/${category?.uri}/f/${buildFilterPath(tempFilters)}?${params.toString()}`);
-  };
-
-  useEffect(() => {
-    if (hasActiveFilters(tempFilters)) {
-      const timeoutId = setTimeout(() => {
-        applyFilters();
-      }, 300);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [tempFilters, applyFilters]);
-
-  const hasActiveFilters = (filters: Filters): boolean => {
-    return filters.colors.length > 0 || Object.values(filters.attributes).some((values) => values.length > 0);
-  };
+  const { products, category, pagination } = initialData;
+  const { totalPages, currentPage, totalProducts } = pagination;
 
   return (
     <div className={styles.categoryPage}>
-      <Filter filterOptions={filterOptions} onFilterChange={handleFilterChange} />
-
+      <Filter filterOptions={filterOptions} isFilterOpen={isFilterOpen} closeFilter={closeFilter} />
       <div className={styles.categoryPageBody}>
-        {category?.children?.length > 0 ? (
+        {category.children && category.children.length > 0 ? (
           <>
             <div className={styles.categoryPageInfo}>
               <h1 className={`title ${styles.categoryPageTitle}`}>
-                {category.title} в {selectedCity.title}
+                {category.title} {`в ${selectedCity.title}`}
               </h1>
             </div>
 
@@ -116,48 +56,67 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
 
             <div className={styles.categoryPageHeader}>
               <span className={styles.categoryPageCount}>
-                {pagination.totalProducts === 1 ? "Найден" : "Найдено"} {pagination.totalProducts} {getProductWord(pagination.totalProducts)}
+                {totalProducts === 1 ? "Найден" : "Найдено"} {totalProducts} {getProductWord(totalProducts)}
               </span>
               <div className={styles.actions}>
-                <Sort onSortChange={handleFilterChange} />
-                <CardViews />
-                <div className={styles.filter} onClick={() => {}}>
-                  <Image src="/images/icons/filter.svg" alt="Filter" width={20} height={20} /> Фильтры
+                <div className={styles.view}>
+                  <Sort />
+                  <CardViews />
+                </div>
+                <div className={styles.filter} onClick={openFilter}>
+                  <Image src="/images/icons/filter.svg" alt="" width={20} height={20} /> Фильтры
                 </div>
               </div>
             </div>
           </>
         ) : (
-          <div className={styles.pageHeader}>
-            <h1 className={`title ${styles.pageTitle}`}>
-              {category?.title} в {selectedCity.title}
-            </h1>
-            <span className={styles.categoryPageCount}>
-              {pagination.totalProducts === 1 ? "Найден" : "Найдено"} {pagination.totalProducts} {getProductWord(pagination.totalProducts)}
-            </span>
-          </div>
+          <>
+            <div className={styles.pageHeader}>
+              <div className={styles.categoryPageInfo}>
+                <h1 className={`title ${styles.pageTitle}`}>
+                  {category.title} {`в ${selectedCity.title}`}
+                </h1>
+                <span className={styles.categoryPageCount}>
+                  {totalProducts === 1 ? "Найден" : "Найдено"} {totalProducts} {getProductWord(totalProducts)}
+                </span>
+              </div>
+
+              <div className={styles.actions}>
+                <div className={styles.view}>
+                  <Sort />
+                  <CardViews />
+                </div>
+                <div className={styles.filter} onClick={openFilter}>
+                  <Image src="/images/icons/filter.svg" alt="" width={20} height={20} /> Фильтры
+                </div>
+              </div>
+            </div>
+          </>
         )}
 
         <div>
-          {products.length > 0 ? (
-            <div className={styles.categoryPageProducts}>
+          {products && products.length > 0 ? (
+            <div className={styles.categoryPageProducts} itemScope itemType="http://schema.org/ItemList">
               {products.map((product) => (
-                <ProductCard key={product.sku} product={product} />
+                <ProductCard type="" key={product.sku} product={product} />
               ))}
             </div>
           ) : (
             <div>Не найдено</div>
           )}
         </div>
+        {pagination && pagination.totalPages > 1 && <Pagination totalPages={totalPages} currentPage={currentPage} />}
 
-        {pagination.totalPages > 1 && <Pagination totalPages={pagination.totalPages} currentPage={pagination.currentPage} />}
-
-        {category.anchors?.length > 0 && <AnchorList items={category.anchors} />}
+        {category.anchors?.length ? <AnchorList items={category.anchors} /> : null}
 
         <RecentlyWatched page="" />
 
-        {category.meta_data && <Seo data={category.meta_data as SeoData} />}
+        {category.meta_data && <Seo data={category.meta_data} />}
+
+        {category.faq && <Faq data={category.faq} />}
       </div>
     </div>
   );
 };
+
+export default ProductsCategory;

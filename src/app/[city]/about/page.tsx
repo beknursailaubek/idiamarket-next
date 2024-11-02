@@ -1,80 +1,148 @@
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
+import Advantages from "@/components/Advantages/Advantages";
+import AboutSlider from "@/components/AboutSlider/AboutSlider";
+import React, { useRef, useState } from "react";
+
 import styles from "./About.module.css";
+import Image from "next/image";
+
+export function generateMetadata({ params }: { params: { city: string } }) {
+  const { city } = params;
+
+  return {
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/${city}/about`,
+    },
+  };
+}
 
 const AboutPage = () => {
   return (
     <div className={styles.body}>
+      <div className="container">
+        <Breadcrumbs page={"about"} />
+      </div>
+
       <div className={styles.container}>
         <div className={styles.contentBox}>
-          {/* Баннер */}
-          <div className={styles.banner}>
-            <h1 className={styles.bannerTitle}>
-              <span>Интернет-магазин</span> <span>IDIA Market</span>
-            </h1>
-          </div>
+          {/* Заголовок */}
+          <h1 className={`${styles.title} title`}>О компании</h1>
 
           {/* Описание компании */}
-          <section className={styles.textSection}>
-            <p className={styles.text}>IDIA Market — это ваш надежный партнер в области торгового, холодильного и складского оборудования в Казахстане. Мы предлагаем широкий ассортимент товаров высокого качества для бизнеса по доступным ценам.</p>
-            <p className={styles.text}>В нашем каталоге представлены торговые стеллажи, холодильные установки, оборудование для общепита, POS-системы, металлические шкафы и многое другое. Мы работаем с лучшими мировыми брендами и доставляем наши товары по всему Казахстану: Алматы, Астана, Шымкент, Караганда, Тараз и другие города.</p>
-          </section>
+          <div className={styles.desc}>
+            <p className={styles.descTitle}>Компания IDIA Market является надежным партнером в области торгового, холодильного и складского оборудования в Казахстане. Мы специализируемся на предоставлении широкого ассортимента высококачественных товаров для бизнеса по доступным ценам.</p>
+            <p className={styles.descText}>IDIA Market располагает развитой сетью доставки, охватывающей все регионы Казахстана, включая Алматы, Астану, Шымкент, Караганду, Тараз и другие города. Наша компания гордится высококвалифицированной командой специалистов и собственными сервисными центрами, обеспечивающими квалифицированное обслуживание и поддержку клиентов.</p>
+          </div>
 
-          {/* Карточки с преимуществами */}
-          <div className={styles.cardsGrid}>
-            <div className={styles.card}>
-              <h2 className={styles.cardTitle}>14</h2>
-              <p className={styles.cardText}>Лет на рынке</p>
-            </div>
-            <div className={styles.card}>
-              <h2 className={styles.cardTitle}>27000+</h2>
-              <p className={styles.cardText}>Успешных проектов</p>
-            </div>
-            <div className={styles.card}>
-              <h2 className={styles.cardTitle}>100%</h2>
-              <p className={styles.cardText}>Качество и надежность</p>
-            </div>
-            <div className={styles.card}>
-              <h2 className={styles.cardTitle}>24/7</h2>
-              <p className={styles.cardText}>Поддержка клиентов</p>
+          {/* Слайдер */}
+          <AboutSlider />
+
+          {/* Статистика */}
+          <div className={styles.results}>
+            <h3 className={styles.resultsTitle}>«IDIA Market» сегодня</h3>
+
+            <div className={styles.resultsItems}>
+              <div className={styles.resultsRow}>
+                <div className={styles.resultItem}>
+                  <div className={styles.resultContent}>
+                    <p className={styles.resultTitle}>14</p>
+                    <p className={styles.resultText}>лет на рынке</p>
+                  </div>
+                  <div className={styles.resultImage}>
+                    <Image src="/images/icons/exp.svg" className={styles.resultIcon} width={48} height={48} alt="" />
+                  </div>
+                </div>
+
+                <div className={styles.resultItem}>
+                  <div className={styles.resultContent}>
+                    <p className={styles.resultTitle}>3</p>
+                    <p className={styles.resultText}>филиала по Казахстану</p>
+                  </div>
+                  <div className={styles.resultImage}>
+                    <Image src="/images/icons/branch.svg" className={styles.resultIcon} width={48} height={48} alt="" />
+                  </div>
+                </div>
+
+                <div className={styles.resultItem}>
+                  <div className={styles.resultContent}>
+                    <p className={styles.resultTitle}>10 000 +</p>
+                    <p className={styles.resultText}>товаров в ассортименте</p>
+                  </div>
+                  <div className={styles.resultImage}>
+                    <Image src="/images/icons/clients.svg" className={styles.resultIcon} width={48} height={48} alt="" />
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.resultsRow}>
+                <div className={styles.resultItem}>
+                  <div className={styles.resultContent}>
+                    <p className={styles.resultTitle}>14 000 +</p>
+                    <p className={styles.resultText}>довольных клиентов</p>
+                  </div>
+                  <div className={styles.resultImage}>
+                    <Image src="/images/icons/products.svg" className={styles.resultIcon} width={48} height={48} alt="" />
+                  </div>
+                </div>
+                <div className={styles.resultItem}>
+                  <div className={styles.resultContent}>
+                    <p className={styles.resultTitle}>27 000 +</p>
+                    <p className={styles.resultText}>успешно выполненных проектов</p>
+                  </div>
+                  <div className={styles.resultImage}>
+                    <Image src="/images/icons/projects.svg" className={styles.resultIcon} width={48} height={48} alt="" />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Ассортимент продукции */}
-          <section className="mt-10">
-            <h2 className={styles.sectionTitle}>Что мы предлагаем?</h2>
-            <ul className={styles.list}>
-              <li>Торговое оборудование и стеллажи</li>
-              <li>Холодильные установки и оборудование для общепита</li>
-              <li>POS-системы и кассовые боксы</li>
-              <li>Складские стеллажи и металлические шкафы</li>
-              <li>Оборудование для аптек и коммерческая мебель</li>
-              <li>Нейтральное оборудование и витрины</li>
-            </ul>
-          </section>
+          {/* Основные направления */}
+          <div className={styles.directions}>
+            <h3 className={styles.directionsTitle}>Основные направления деятельности компании</h3>
 
-          {/* Условия доставки и заказа */}
-          <section className="mt-10">
-            <h2 className={styles.sectionTitle}>Доставка и заказ</h2>
-            <p className={styles.text}>Мы доставляем товары по всему Казахстану, включая отдаленные регионы. Вы можете выбрать доставку до двери или самовывоз из наших пунктов выдачи. Стоимость доставки рассчитывается автоматически при оформлении заказа и зависит от объема и региона.</p>
-            <p className={styles.text}>Оформить заказ легко: выберите нужный товар, добавьте его в корзину и следуйте инструкциям на сайте. Мы свяжемся с вами для подтверждения и уточнения деталей.</p>
-          </section>
+            <div className={styles.direction}>
+              <div className={styles.directionContent}>
+                <p className={styles.directionTitle}>Замер</p>
+                <p className={styles.directionText}>Выезд специалиста для проведения точных замеров, необходимых для подбора и установки оборудования.</p>
+              </div>
+              <Image src="/images/about/zamer.png" width={1000} height={450} alt="" className={styles.directionImage} />
+            </div>
 
-          {/* Контактная информация */}
-          <section className="mt-10">
-            <h2 className={styles.sectionTitle}>Свяжитесь с нами</h2>
-            <p className={styles.text}>
-              Посетите наш сайт:{" "}
-              <a href="#" className={styles.contactLink}>
-                idiamarket.kz
-              </a>
-            </p>
-            <p className={styles.text}>
-              Свяжитесь с нами по телефону:{" "}
-              <a href="tel:+77171717171" className={styles.contactLink}>
-                +7 (717) 171-71-71
-              </a>
-            </p>
-            <p className={styles.text}>Мы всегда рады вам помочь!</p>
-          </section>
+            <div className={styles.direction}>
+              <Image src="/images/about/3d.jpg" width={1000} height={450} alt="" className={styles.directionImage} />
+              <div className={styles.directionContent}>
+                <p className={styles.directionTitle}>3D Проектирование</p>
+                <p className={styles.directionText}>Наши проект-менеджеры помогут продумать заранее, как будет выглядеть ваше торговое пространство, и вы сможете внести любые правки на этапе проектирования.</p>
+              </div>
+            </div>
+
+            <div className={styles.direction}>
+              <div className={styles.directionContent}>
+                <p className={styles.directionTitle}>Оснащение</p>
+                <p className={styles.directionText}>Комплексный процесс, включающий подбор и установку специализированного оборудования, оптимально подходящего для вашего бизнеса.</p>
+              </div>
+              <Image src="/images/about/equipment.jpeg" width={1000} height={450} alt="" className={styles.directionImage} />
+            </div>
+
+            <div className={styles.direction}>
+              <Image src="/images/about/delivery.png" width={1000} height={450} alt="" className={styles.directionImage} />
+              <div className={styles.directionContent}>
+                <p className={styles.directionTitle}>Доставка</p>
+                <p className={styles.directionText}>У нас свой автопарк и оптимизированные логистические процессы. Доставка в черте города Бесплатно. Товар будет привезен точно в согласованный день и выбранное вами время по указанному адресу.</p>
+              </div>
+            </div>
+
+            <div className={styles.direction}>
+              <div className={styles.directionContent}>
+                <p className={styles.directionTitle}>Сервисное обслуживание</p>
+                <p className={styles.directionText}>Наши высококвалифицированные специалисты оперативно и точно соберут и сделают установку оборудования любой сложности, обеспечив их устойчивость и соответствие стандартам безопасности.</p>
+              </div>
+              <Image src="/images/about/service.jpg" width={1000} height={450} alt="" className={styles.directionImage} />
+            </div>
+          </div>
+
+          <Advantages />
         </div>
       </div>
     </div>

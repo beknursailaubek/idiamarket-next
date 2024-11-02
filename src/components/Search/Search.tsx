@@ -138,7 +138,7 @@ const Search: React.FC<SearchProps> = ({ isOpen, onClose, searchProducts, search
               </div>
               <div className={styles.searchHistoryList}>
                 {searchHistory.map((item, index) => (
-                  <Link href={`${cityPrefix}/${item.path}`} key={index} className={styles.searchHistoryRedirect} onClick={onClose}>
+                  <Link href={`${cityPrefix}/search/${item.query}`} key={index} className={styles.searchHistoryRedirect} onClick={onClose}>
                     {item.query}
                   </Link>
                 ))}

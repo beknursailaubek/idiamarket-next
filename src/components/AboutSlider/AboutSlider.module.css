@@ -1,0 +1,41 @@
+.slider {
+  margin-bottom: 50px;
+  height: 450px;
+  border-radius: 20px;
+}
+
+.slide {
+  border-radius: 20px;
+  height: 450px;
+}
+
+.slideImage {
+  border-radius: 20px;
+  height: 450px;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.sliderArrowPrev {
+  left: 20px;
+}
+
+.sliderArrowNext {
+  right: 20px;
+}
+
+@media (max-width: 768px) {
+  .slider {
+    height: 200px;
+    margin-bottom: 20px;
+  }
+
+  .slide {
+    height: 200px;
+  }
+
+  .slideImage {
+    height: 200px;
+  }
+}

@@ -26,32 +26,49 @@ async function fetchProductData(uri: string): Promise<Product | null> {
   }
 }
 
-async function fetchProductDescription(sku: string): Promise<{ html_content: string } | null> {
+async function fetchProductDescription(about_url: string): Promise<{ html_content: string } | null> {
   try {
-    const response = await fetch(`${apiUrl}/descriptions/${sku}`, { cache: "no-store" });
+    const response = await fetch(about_url, { cache: "no-store" });
+
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      throw new Error(`Failed to fetch: ${response.status}`);
     }
 
-    const data = await response.json();
-    return data;
+    const html_content = await response.text();
+    return { html_content };
   } catch (error) {
-    console.error("Error fetching product description:", error);
     return null;
   }
 }
 
-const ProductPage = async ({ params }: { params: { uri: string } }) => {
+export async function generateMetadata({ params }: { params: { uri: string } }) {
   const product = await fetchProductData(params.uri);
 
-  const category_code = product?.categories?.[product?.categories?.length - 1]?.category_code ?? "";
+  if (!product) {
+    notFound();
+    return {};
+  }
+
+  return {
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/p/${params.uri}`,
+    },
+  };
+}
+
+const ProductPage = async ({ params }: { params: { uri: string } }) => {
+  const productPromise = fetchProductData(params.uri);
+  const product = await productPromise;
 
   if (!product) {
     notFound();
     return null;
   }
 
-  const productDescription = await fetchProductDescription(product.sku);
+  const descriptionPromise = product.about_url ? fetchProductDescription(product.about_url) : null;
+  const aboutContent = await descriptionPromise;
+
+  const category_code = product.categories?.[product.categories.length - 1]?.category_code ?? "";
 
   const attributeGroups: AttributeGroup[] = (product.attributes ?? []).map((attr) => ({
     title: attr.title,
@@ -61,13 +78,13 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
   return (
     <div className={`container ${styles.productPage}`}>
       <div className={styles.breadcrumbs}>
-        <Breadcrumbs code={category_code} productName={product?.title} />
+        <Breadcrumbs code={category_code} productName={product.title} />
       </div>
 
       <div className={styles.productPageBody}>
         <ProductInfo product={product} />
 
-        {productDescription && <Description content={productDescription.html_content} />}
+        {aboutContent && <Description content={aboutContent.html_content} />}
 
         {product.attributes?.length && product.attributes.length > 0 ? <Attributes attributes={attributeGroups} /> : null}
       </div>

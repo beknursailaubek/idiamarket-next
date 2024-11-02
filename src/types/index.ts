@@ -5,9 +5,9 @@ export interface Product {
   title: string;
   images?: string[];
   color?: Color;
-  categories?: Category[] | undefined;
-  short_description?: ShortDescription[] | undefined;
-  attributes?: Attributes[] | undefined;
+  categories?: Category[];
+  short_description?: ShortDescription[];
+  attributes?: Attributes[];
   price: string;
   old_price?: string;
   price_from?: boolean;
@@ -30,6 +30,7 @@ export interface Product {
   about_url?: string;
   is_enabled?: boolean;
   seo_redirects?: string[];
+  description?: string;
 }
 
 export interface Category {
@@ -37,12 +38,13 @@ export interface Category {
   title: string;
   uri: string;
   source?: string;
-  parent?: Category | null;
+  parent?: Category;
   category_code: string;
   children?: Category[];
   image?: string;
   anchors?: Anchor[];
   meta_data?: SeoMetadata;
+  faq?: FaqData;
 }
 
 export interface Attributes {
@@ -71,14 +73,6 @@ export interface Color {
   title: string;
   color_type?: number;
   hex: string;
-}
-
-export interface SeoMetadata {
-  _id?: string;
-  meta_title?: string;
-  meta_description?: string;
-  meta_header?: string;
-  seo_text?: string;
 }
 
 export interface ShortDescription {
@@ -145,9 +139,17 @@ export interface InitialData {
   pagination: Pagination;
 }
 
-export interface SeoData {
-  meta_header: string;
+export interface SeoMetadata {
+  _id?: string;
+  meta_title?: string;
+  meta_description?: string;
+  meta_header?: string;
   seo_text: string;
+}
+
+export interface FaqData {
+  title: string;
+  list: { question: string; answer: string }[];
 }
 
 export interface FavoritesContextProps {

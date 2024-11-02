@@ -2,9 +2,9 @@
 import { useState } from "react";
 import Image from "next/image";
 import styles from "./Seo.module.css";
-import { SeoData } from "@/types";
+import { SeoMetadata } from "@/types";
 
-const Seo = ({ data }: { data: SeoData }) => {
+const Seo = ({ data }: { data: SeoMetadata }) => {
   const [isAboutHidden, setIsAboutHidden] = useState(true);
 
   const toggleAboutHidden = () => {

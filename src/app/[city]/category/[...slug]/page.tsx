@@ -1,27 +1,37 @@
+// Страница категории с оптимизацией запросов
+
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import { ProductsCategory } from "@/components/ProductsCategory/ProductsCategory";
 import { InitialData, FilterOptions } from "@/types";
+import { cities } from "@/lib/data";
+
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 
 interface CategoryPageProps {
-  params: { slug: string[] };
-  searchParams: { [key: string]: string };
+  params: { slug: string[]; city: string };
+  searchParams: { [key: string]: string | string[] };
 }
 
-async function getProductsByCategory(category_code: string, page: number = 1, minPrice?: string, maxPrice?: string, colors?: string[], sort: string = "popular"): Promise<InitialData> {
+async function getProductsByCategory(category_code: string, page: number = 1, minPrice?: string, maxPrice?: string, sort: string = "popular", colors?: string[], attributes?: Record<string, string[]>): Promise<InitialData> {
   let url = `${apiUrl}/categories/${category_code}?page=${page}&limit=20`;
 
   if (minPrice) url += `&minPrice=${minPrice}`;
   if (maxPrice) url += `&maxPrice=${maxPrice}`;
+  if (sort) url += `&sorting=${encodeURIComponent(sort)}`;
 
   if (colors && colors.length > 0) {
-    const colorParams = colors.map((color) => `colors=${encodeURIComponent(color)}`).join("&");
-    url += `&${colorParams}`;
+    colors.forEach((color) => {
+      url += `&colors=${encodeURIComponent(color)}`;
+    });
   }
 
-  if (sort) {
-    url += `&sorting=${encodeURIComponent(sort)}`;
+  if (attributes) {
+    Object.entries(attributes).forEach(([key, values]) => {
+      values.forEach((value) => {
+        url += `&${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+      });
+    });
   }
 
   console.log(url);
@@ -45,21 +55,46 @@ async function getFilterOptions(category_code: string): Promise<FilterOptions> {
   return options;
 }
 
-export async function generateMetadata({ params, searchParams }: CategoryPageProps) {
-  const category_code = params.slug[params.slug.length - 1] || "";
+export async function generateMetadata({ params }: CategoryPageProps) {
+  const { city, slug } = params;
+  const category_code = slug?.[slug.length - 1] || "";
   const data = await getProductsByCategory(category_code, 1);
+
+  const matchedCity = cities.find((c) => c.uri === city);
+  if (!matchedCity) {
+    return notFound();
+  }
+
+  const cityTitle = matchedCity.title;
+  const cityPhone = matchedCity.phone;
 
   if (!data.category || !data.category.meta_data) {
     return {
-      title: "IDIA Market – купить торговое оборудование",
-      description: "Качественные товары по доступным ценам на idiamarket.kz",
+      alternates: {
+        canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/${city}/category/${category_code}`,
+      },
     };
   }
 
-  const metaTitle = data.category.meta_data.meta_title;
-  const metaDescription = data.category.meta_data.meta_description;
+  let { meta_title: metaTitle, meta_description: metaDescription } = data.category.meta_data;
+
+  if (metaTitle?.includes("Алматы") && cityTitle) {
+    metaTitle = metaTitle.replace(/Алматы/g, cityTitle);
+  }
+
+  if (metaDescription) {
+    if (metaDescription.includes("Алматы") && cityTitle) {
+      metaDescription = metaDescription.replace(/Алматы/g, cityTitle);
+    }
+    if (metaDescription.includes("8 (702) 993-44-00") && cityPhone) {
+      metaDescription = metaDescription.replace(/8 \(702\) 993-44-00/g, cityPhone);
+    }
+  }
 
   return {
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/${city}/category/${data.category.uri}`,
+    },
     title: metaTitle,
     description: metaDescription,
   };
@@ -67,18 +102,21 @@ export async function generateMetadata({ params, searchParams }: CategoryPagePro
 
 export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const category_code = params.slug[params.slug.length - 1] || "";
-  const page = parseInt(searchParams.page || "1", 10);
+  const page = parseInt(Array.isArray(searchParams.page) ? searchParams.page[0] : searchParams.page || "1", 10);
 
-  const minPrice = searchParams.minPrice || "";
-  const maxPrice = searchParams.maxPrice || "";
+  const minPrice = Array.isArray(searchParams.minPrice) ? searchParams.minPrice[0] : searchParams.minPrice;
+  const maxPrice = Array.isArray(searchParams.maxPrice) ? searchParams.maxPrice[0] : searchParams.maxPrice;
+  const sort = Array.isArray(searchParams.sort) ? searchParams.sort[0] : searchParams.sort || "popular";
+  const colors = Array.isArray(searchParams.colors) ? searchParams.colors : searchParams.colors ? [searchParams.colors] : [];
 
-  const colors = searchParams.colors ? searchParams.colors.split(",") : [];
+  const attributes: Record<string, string[]> = {};
+  Object.entries(searchParams).forEach(([key, value]) => {
+    if (!["page", "minPrice", "maxPrice", "sort", "colors"].includes(key)) {
+      attributes[key] = Array.isArray(value) ? value : [value];
+    }
+  });
 
-  const sort = searchParams.sort || "popular";
-
-  const data = await getProductsByCategory(category_code, page, minPrice, maxPrice, colors, sort);
-
-  const filterOptions = await getFilterOptions(category_code);
+  const [data, filterOptions] = await Promise.all([getProductsByCategory(category_code, page, minPrice, maxPrice, sort, colors, attributes), getFilterOptions(category_code)]);
 
   return (
     <div className="container">
