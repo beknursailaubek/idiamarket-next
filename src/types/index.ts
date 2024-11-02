@@ -5,9 +5,9 @@ export interface Product {
   title: string;
   images?: string[];
   color?: Color;
-  categories?: Category[] | undefined;
-  short_description?: ShortDescription[] | undefined;
-  attributes?: Attributes[] | undefined;
+  categories?: Category[];
+  short_description?: ShortDescription[];
+  attributes?: Attributes[];
   price: string;
   old_price?: string;
   price_from?: boolean;
@@ -38,7 +38,7 @@ export interface Category {
   title: string;
   uri: string;
   source?: string;
-  parent?: Category | null;
+  parent?: Category;
   category_code: string;
   children?: Category[];
   image?: string;

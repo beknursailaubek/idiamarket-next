@@ -12,7 +12,6 @@ import Pagination from "@/components/Pagination/Pagination";
 import RecentlyWatched from "@/components/RecentlyWatched/RecentlyWatched";
 import AnchorList from "@/components/AnchorList/AnchorList";
 import { getProductWord } from "@/lib/utils";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { InitialData, FilterOptions } from "@/types";
 import Seo from "@/components/Seo/Seo";
 import Faq from "@/components/Faq/Faq";
@@ -26,9 +25,6 @@ interface ProductsCategoryProps {
 export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData, filterOptions }) => {
   const { selectedCity } = useCityContext();
   const cityPrefix = selectedCity?.uri ? `/${selectedCity.uri}` : "";
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
 
   const [isFilterOpen, setFilterOpen] = useState(false);
   const openFilter = () => setFilterOpen(true);

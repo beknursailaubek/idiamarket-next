@@ -55,31 +55,22 @@ async function getFilterOptions(searchQuery: string): Promise<FilterOptions> {
 export default async function SearchPage({ params, searchParams }: SearchPageProps) {
   const searchQuery = params.slug?.map(decodeURIComponent).join(" ") || "";
 
-  const page = parseInt(typeof searchParams.page === "string" ? searchParams.page : searchParams.page?.[0] || "1", 10);
+  const page = parseInt(Array.isArray(searchParams.page) ? searchParams.page[0] : searchParams.page || "1", 10);
 
-  const minPrice = typeof searchParams.minPrice === "string" ? searchParams.minPrice : undefined;
-  const maxPrice = typeof searchParams.maxPrice === "string" ? searchParams.maxPrice : undefined;
+  const minPrice = Array.isArray(searchParams.minPrice) ? searchParams.minPrice[0] : searchParams.minPrice;
+  const maxPrice = Array.isArray(searchParams.maxPrice) ? searchParams.maxPrice[0] : searchParams.maxPrice;
 
   const sort = typeof searchParams.sort === "string" ? searchParams.sort : "popular";
-
   const colors = Array.isArray(searchParams.colors) ? searchParams.colors : searchParams.colors ? [searchParams.colors] : [];
 
   const attributes: Record<string, string[]> = {};
-
-  // Предполагается, что все ключи, кроме 'page', 'minPrice', 'maxPrice', 'sort', 'colors' являются атрибутами
   Object.entries(searchParams).forEach(([key, value]) => {
     if (!["page", "minPrice", "maxPrice", "sort", "colors"].includes(key)) {
-      if (Array.isArray(value)) {
-        attributes[key] = value;
-      } else {
-        attributes[key] = [value];
-      }
+      attributes[key] = Array.isArray(value) ? value : [value];
     }
   });
 
-  const data = await fetchSearchResults(searchQuery, page, minPrice, maxPrice, sort, colors, attributes);
-
-  const filterOptions = await getFilterOptions(searchQuery);
+  const [data, filterOptions] = await Promise.all([fetchSearchResults(searchQuery, page, minPrice, maxPrice, sort, colors, attributes), getFilterOptions(searchQuery)]);
 
   return (
     <div className="container">
