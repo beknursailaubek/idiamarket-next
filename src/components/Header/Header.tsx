@@ -139,7 +139,7 @@ const Header = () => {
                   <div className={styles.contactsCity}>
                     <span className={styles.contactsCityName}>Алматы</span>
                     <Link href="tel:87029934400" className={styles.contactsCityPhone}>
-                      +7 (702) 994-22-00
+                      +7 (702) 993-44-00
                     </Link>
                   </div>
 
