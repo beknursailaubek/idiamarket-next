@@ -1,16 +1,19 @@
+// src/components/Sort/Sort.tsx
 "use client";
 import Image from "next/image";
 import { useState, useRef, useEffect, FC } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import styles from "./Sort.module.css";
 
-interface SortProps {
-  onSortChange: (option: string) => void;
-}
+const Sort: FC = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
 
-const Sort: FC<SortProps> = ({ onSortChange }) => {
-  const [selectedOption, setSelectedOption] = useState<string>("popular");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const sortRef = useRef<HTMLDivElement | null>(null);
+
+  const selectedOption = searchParams.get("sort") || "popular";
 
   useEffect(() => {
     if (isOpen) {
@@ -44,9 +47,12 @@ const Sort: FC<SortProps> = ({ onSortChange }) => {
   };
 
   const handleOptionClick = (option: { label: string; value: string }) => {
-    setSelectedOption(option.value);
     setIsOpen(false);
-    onSortChange(option.value);
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("sort", option.value);
+    params.delete("page");
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   // Get the label for the currently selected option

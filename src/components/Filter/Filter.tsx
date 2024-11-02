@@ -7,18 +7,16 @@ import styles from "./Filter.module.css";
 import { FilterOptions, FilterValues, Color } from "@/types";
 
 interface FilterProps {
-  onFilterChange: (filters: FilterValues) => void;
   filterOptions: FilterOptions;
   isFilterOpen: boolean;
   closeFilter: () => void;
 }
-
 interface SelectedFilter {
   label: string;
   type: "color" | "price" | "attribute";
 }
 
-const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilterOpen, closeFilter }) => {
+const Filter: React.FC<FilterProps> = ({ filterOptions, isFilterOpen, closeFilter }) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -54,6 +52,8 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
       params.append("colors", colorCode);
     }
 
+    params.delete("page");
+
     return `${pathname}?${params.toString()}`;
   };
 
@@ -67,6 +67,8 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
     } else {
       params.append(attributeCode, valueCode);
     }
+
+    params.delete("page");
 
     return `${pathname}?${params.toString()}`;
   };
@@ -82,6 +84,20 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
     setSelectedColors(currentColors);
     setSelectedAttributes(newAttributes);
   }, [searchParams]);
+
+  // Update tempMinPrice and tempMaxPrice when searchParams change
+  useEffect(() => {
+    const minPriceParam = Number(searchParams.get("minPrice")) || priceRange[0];
+    const maxPriceParam = Number(searchParams.get("maxPrice")) || priceRange[1];
+
+    setTempMinPrice(minPriceParam);
+    setTempMaxPrice(maxPriceParam);
+  }, [searchParams]);
+
+  // Call updateSelectedFilters when filters change
+  useEffect(() => {
+    updateSelectedFilters();
+  }, [selectedColors, selectedAttributes]);
 
   useEffect(() => {
     if (isFilterOpen) {
@@ -112,28 +128,20 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
   };
 
   const handleAttributeChange = (attributeCode: string, valueCode: string) => {
-    setSelectedAttributes((prevAttributes) => {
-      const attributeValues = prevAttributes[attributeCode] || [];
+    const params = new URLSearchParams(searchParams.toString());
+    const currentValues = params.getAll(attributeCode);
 
-      const newValues = attributeValues.includes(valueCode) ? attributeValues.filter((val) => val !== valueCode) : [...attributeValues, valueCode];
+    if (currentValues.includes(valueCode)) {
+      params.delete(attributeCode);
+      currentValues.filter((value) => value !== valueCode).forEach((value) => params.append(attributeCode, value));
+    } else {
+      params.append(attributeCode, valueCode);
+    }
 
-      return {
-        ...prevAttributes,
-        [attributeCode]: newValues,
-      };
-    });
+    params.delete("page");
 
-    updateSelectedFilters();
+    router.push(`${pathname}?${params.toString()}`);
   };
-
-  useEffect(() => {
-    onFilterChange({
-      priceRange: [minPrice, maxPrice],
-      colors: selectedColors,
-      attributes: selectedAttributes,
-    });
-    updateSelectedFilters();
-  }, [minPrice, maxPrice, selectedColors, selectedAttributes]);
 
   const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value.replace(/\s+/g, ""));
@@ -157,10 +165,22 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
     if (newMaxPrice > priceRange[1]) newMaxPrice = priceRange[1];
     if (newMinPrice > newMaxPrice) newMinPrice = newMaxPrice;
 
-    setMinPrice(newMinPrice);
-    setMaxPrice(newMaxPrice);
-    setTempMinPrice(newMinPrice);
-    setTempMaxPrice(newMaxPrice);
+    // Update URL
+    const params = new URLSearchParams(searchParams.toString());
+    if (newMinPrice !== priceRange[0]) {
+      params.set("minPrice", String(newMinPrice));
+    } else {
+      params.delete("minPrice");
+    }
+    if (newMaxPrice !== priceRange[1]) {
+      params.set("maxPrice", String(newMaxPrice));
+    } else {
+      params.delete("maxPrice");
+    }
+
+    params.delete("page");
+
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   const handleBlur = () => {
@@ -174,9 +194,19 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
   };
 
   const handleColorChange = (color: Color) => {
-    const newSelectedColors = selectedColors.includes(color.code) ? selectedColors.filter((c) => c !== color.code) : [...selectedColors, color.code];
+    const params = new URLSearchParams(searchParams.toString());
+    const currentColors = params.getAll("colors");
 
-    setSelectedColors(newSelectedColors as string[]);
+    if (currentColors.includes(color.code)) {
+      params.delete("colors");
+      currentColors.filter((c) => c !== color.code).forEach((c) => params.append("colors", c));
+    } else {
+      params.append("colors", color.code);
+    }
+
+    params.delete("page");
+
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   const updateSelectedFilters = () => {
@@ -215,46 +245,6 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
     });
 
     setSelectedFilters(filters);
-  };
-
-  const removeFilter = (filter: SelectedFilter) => {
-    if (filter.type !== "price") return;
-
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (filter.type === "price") {
-      setMinPrice(priceRange[0]);
-      setMaxPrice(priceRange[1]);
-      setTempMinPrice(priceRange[0]);
-      setTempMaxPrice(priceRange[1]);
-
-      params.delete("minPrice");
-      params.delete("maxPrice");
-    }
-
-    const queryString = params.toString();
-    router.replace(`${pathname}${queryString ? `?${queryString}` : ""}`, {
-      scroll: false,
-    });
-
-    updateSelectedFilters();
-  };
-
-  const clearAllFilters = () => {
-    setMinPrice(priceRange[0]);
-    setMaxPrice(priceRange[1]);
-    setTempMinPrice(priceRange[0]);
-    setTempMaxPrice(priceRange[1]);
-
-    const params = new URLSearchParams(searchParams.toString());
-
-    const priceKeys = ["minPrice", "maxPrice"];
-
-    priceKeys.forEach((key) => params.delete(key));
-
-    router.replace(`${pathname}${params.toString() ? `?${params.toString()}` : ""}`, { scroll: false });
-
-    updateSelectedFilters();
   };
 
   const formatPrice = (price: number) => {
@@ -322,25 +312,12 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
             <p className={styles.selectedFiltersTitle}>Вы выбрали:</p>
             <div className={styles.selectedFiltersItems}>
               {selectedFilters.map((filter, index) => (
-                <Link
-                  key={index}
-                  href={generateRemoveFilterHref(filter)}
-                  onClick={(e) => {
-                    removeFilter(filter);
-                  }}
-                  className={styles.selectedFiltersRemove}
-                >
+                <Link key={index} href={generateRemoveFilterHref(filter)} className={styles.selectedFiltersRemove}>
                   {filter.label} <Image className={styles.selectedFiltersRemoveImage} src="/images/icons/close.svg" width={20} height={20} alt="Remove filter" />
                 </Link>
               ))}
             </div>
-            <Link
-              href={getBaseUrl()}
-              onClick={(e) => {
-                clearAllFilters();
-              }}
-              className={styles.selectedFiltersReset}
-            >
+            <Link href={getBaseUrl()} className={styles.selectedFiltersReset}>
               Очистить все
             </Link>
           </div>

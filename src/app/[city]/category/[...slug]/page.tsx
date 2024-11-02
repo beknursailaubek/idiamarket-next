@@ -102,21 +102,17 @@ export async function generateMetadata({ params }: CategoryPageProps) {
 
 export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const category_code = params.slug[params.slug.length - 1] || "";
-  const page = parseInt(typeof searchParams.page === "string" ? searchParams.page : searchParams.page?.[0] || "1", 10);
+  const page = parseInt(Array.isArray(searchParams.page) ? searchParams.page[0] : searchParams.page || "1", 10);
 
-  const minPrice = typeof searchParams.minPrice === "string" ? searchParams.minPrice : undefined;
-  const maxPrice = typeof searchParams.maxPrice === "string" ? searchParams.maxPrice : undefined;
-  const sort = typeof searchParams.sort === "string" ? searchParams.sort : "popular";
+  const minPrice = Array.isArray(searchParams.minPrice) ? searchParams.minPrice[0] : searchParams.minPrice;
+  const maxPrice = Array.isArray(searchParams.maxPrice) ? searchParams.maxPrice[0] : searchParams.maxPrice;
+  const sort = Array.isArray(searchParams.sort) ? searchParams.sort[0] : searchParams.sort || "popular";
   const colors = Array.isArray(searchParams.colors) ? searchParams.colors : searchParams.colors ? [searchParams.colors] : [];
 
   const attributes: Record<string, string[]> = {};
   Object.entries(searchParams).forEach(([key, value]) => {
     if (!["page", "minPrice", "maxPrice", "sort", "colors"].includes(key)) {
-      if (Array.isArray(value)) {
-        attributes[key] = value;
-      } else {
-        attributes[key] = [value];
-      }
+      attributes[key] = Array.isArray(value) ? value : [value];
     }
   });
 
