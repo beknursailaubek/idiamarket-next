@@ -107,6 +107,7 @@
 }
 
 .toggleButton {
+  text-align: left;
   margin-top: 10px;
   font-size: 14px;
   color: var(--blue-light);
@@ -176,7 +177,6 @@
 .filterAttributes {
   display: flex;
   flex-direction: column;
-  gap: 5px;
 }
 
 .filterColor {

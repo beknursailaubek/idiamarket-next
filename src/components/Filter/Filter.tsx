@@ -35,9 +35,13 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
   const [selectedFilters, setSelectedFilters] = useState<SelectedFilter[]>([]);
 
   const [showColors, setShowColors] = useState<boolean>(true);
-  const [visibleAttributes, setVisibleAttributes] = useState<{ [key: string]: boolean }>(attributes?.reduce((acc, attr) => ({ ...acc, [attr.code]: true }), {}));
+  const [visibleAttributes, setVisibleAttributes] = useState<{
+    [key: string]: boolean;
+  }>(attributes?.reduce((acc, attr) => ({ ...acc, [attr.code]: true }), {}));
 
-  const [expandedSections, setExpandedSections] = useState<{ [key: string]: boolean }>({});
+  const [expandedSections, setExpandedSections] = useState<{
+    [key: string]: boolean;
+  }>({});
 
   const generateColorHref = (colorCode: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -229,7 +233,9 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
     }
 
     const queryString = params.toString();
-    router.replace(`${pathname}${queryString ? `?${queryString}` : ""}`, { scroll: false });
+    router.replace(`${pathname}${queryString ? `?${queryString}` : ""}`, {
+      scroll: false,
+    });
 
     updateSelectedFilters();
   };
@@ -368,24 +374,26 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
                 <label className={styles.filterTitle}>Цвет</label>
                 <Image className={styles.filterToggleButton} src={showColors ? "/images/icons/arrow-up.svg" : "/images/icons/arrow-down.svg"} width={20} height={20} alt="" />
               </div>
-              <div className={`${styles.filterColors} ${styles.filterValues} ${colors.length > 4 && !expandedSections["color"] ? styles.filterValuesHidden : ""}`}>
+              <div className="">
                 {showColors && (
-                  <div className={`${styles.filterColors} ${styles.filterValues} ${colors.length > 4 && !expandedSections["color"] ? styles.filterValuesHidden : ""}`}>
-                    {colors.slice(0, expandedSections["color"] ? colors.length : 4).map((color) => (
-                      <Link href={generateColorHref(color.code)} key={color.code} className={`${styles.filterColor} ${selectedColors.includes(color.code) ? styles.filterColorActive : ""}`}>
-                        <input type="checkbox" value={color.code} onChange={() => handleColorChange(color)} checked={selectedColors.includes(color.code)} />
-                        <span className={styles.filterColorPalette} style={{ backgroundColor: color.hex }}></span>
-                        <span className={styles.filterColorLabel}>{color.title}</span>
-                      </Link>
-                    ))}
-                  </div>
+                  <>
+                    <div className={`${styles.filterColors} ${colors.length > 4 && !expandedSections["color"] ? styles.filterValuesHidden : ""}`}>
+                      {colors.slice(0, expandedSections["color"] ? colors.length : 4).map((color) => (
+                        <Link href={generateColorHref(color.code)} key={color.code} className={`${styles.filterColor} ${selectedColors.includes(color.code) ? styles.filterColorActive : ""}`}>
+                          <input type="checkbox" value={color.code} onChange={() => handleColorChange(color)} checked={selectedColors.includes(color.code)} />
+                          <span className={styles.filterColorPalette} style={{ backgroundColor: color.hex }}></span>
+                          <span className={styles.filterColorLabel}>{color.title}</span>
+                        </Link>
+                      ))}
+                    </div>
+                    {colors.length > 4 && (
+                      <button className={styles.toggleButton} onClick={() => toggleSection("color")}>
+                        {expandedSections["color"] ? "Скрыть" : "Показать все"}
+                      </button>
+                    )}
+                  </>
                 )}
               </div>
-              {colors.length > 4 && (
-                <button className={styles.toggleButton} onClick={() => toggleSection("color")}>
-                  {expandedSections["color"] ? "Скрыть" : "Показать все"}
-                </button>
-              )}
             </div>
           )}
           {attributes?.map((attribute, index) => (
@@ -394,24 +402,26 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange, filterOptions, isFilter
                 <label className={styles.filterTitle}>{attribute.title}</label>
                 <Image className={styles.filterToggleButton} src={visibleAttributes[attribute.code] ? "/images/icons/arrow-up.svg" : "/images/icons/arrow-down.svg"} width={20} height={20} alt="" />
               </div>
-              <div className={`${styles.filterAttributes} ${styles.filterValues} ${attribute.values.length > 4 && !expandedSections[attribute.code] ? styles.filterValuesHidden : ""}`}>
+              <div className={styles.filterAttributes}>
                 {visibleAttributes[attribute.code] && (
-                  <div className={`${styles.filterAttributes} ${styles.filterValues} ${attribute.values.length > 4 && !expandedSections[attribute.code] ? styles.filterValuesHidden : ""}`}>
-                    {attribute.values.slice(0, expandedSections[attribute.code] ? attribute.values.length : 4).map((value) => (
-                      <Link href={generateAttributeHref(attribute.code, value)} key={value} className={`${styles.filterAttribute} ${selectedAttributes[attribute.code]?.includes(value) ? styles.filterAttributeActive : ""}`}>
-                        <input type="checkbox" value={value} onChange={() => handleAttributeChange(attribute.code, value)} checked={selectedAttributes[attribute.code]?.includes(value)} />
-                        <span className={styles.filterAttributeCustomCheckbox}></span>
-                        <span className={styles.filterAttributeLabel}>{value}</span>
-                      </Link>
-                    ))}
-                  </div>
+                  <>
+                    <div className={`${styles.filterValues} ${attribute.values.length > 4 && !expandedSections[attribute.code] ? styles.filterValuesHidden : ""}`}>
+                      {attribute.values.slice(0, expandedSections[attribute.code] ? attribute.values.length : 4).map((value) => (
+                        <Link href={generateAttributeHref(attribute.code, value)} key={value} className={`${styles.filterAttribute} ${selectedAttributes[attribute.code]?.includes(value) ? styles.filterAttributeActive : ""}`}>
+                          <input type="checkbox" value={value} onChange={() => handleAttributeChange(attribute.code, value)} checked={selectedAttributes[attribute.code]?.includes(value)} />
+                          <span className={styles.filterAttributeCustomCheckbox}></span>
+                          <span className={styles.filterAttributeLabel}>{value}</span>
+                        </Link>
+                      ))}
+                    </div>
+                    {attribute.values.length > 4 && (
+                      <button className={styles.toggleButton} onClick={() => toggleSection(attribute.code)}>
+                        {expandedSections[attribute.code] ? "Скрыть" : "Показать все"}
+                      </button>
+                    )}
+                  </>
                 )}
               </div>
-              {attribute.values.length > 4 && (
-                <button className={styles.toggleButton} onClick={() => toggleSection(attribute.code)}>
-                  {expandedSections[attribute.code] ? "Скрыть" : "Показать все"}
-                </button>
-              )}
             </div>
           ))}
         </div>
