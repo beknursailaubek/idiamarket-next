@@ -143,7 +143,8 @@ export interface SeoMetadata {
   _id?: string;
   meta_title?: string;
   meta_description?: string;
-  meta_header?: string;
+  page_title?: string;
+  seo_header?: string;
   seo_text: string;
 }
 

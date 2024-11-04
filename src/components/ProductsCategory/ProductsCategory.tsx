@@ -1,4 +1,3 @@
-// src/components/ProductsCategory/ProductsCategory.tsx
 "use client";
 import { useState } from "react";
 import Link from "next/link";
@@ -41,7 +40,7 @@ export const ProductsCategory: React.FC<ProductsCategoryProps> = ({ initialData,
           <>
             <div className={styles.categoryPageInfo}>
               <h1 className={`title ${styles.categoryPageTitle}`}>
-                {category.title} {`в ${selectedCity.title}`}
+                {category?.meta_data?.page_title ? category?.meta_data?.page_title : category.title} {`в ${selectedCity.title}`}
               </h1>
             </div>
 
