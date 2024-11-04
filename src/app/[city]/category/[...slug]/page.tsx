@@ -99,9 +99,12 @@ export async function generateMetadata({ params, searchParams }: CategoryPagePro
   }
 
   if (metaDescription) {
-    if (metaDescription.includes("Алматы") && cityTitle) {
+    if (metaDescription.includes("по городу Алматы") && cityTitle) {
+      metaDescription = metaDescription.replace(/по городу Алматы/g, `по городу ${matchedCity.name}`);
+    } else if (metaDescription.includes("Алматы") && cityTitle) {
       metaDescription = metaDescription.replace(/Алматы/g, cityTitle);
     }
+
     if (metaDescription.includes("8 (702) 993-44-00") && cityPhone) {
       metaDescription = metaDescription.replace(/8 \(702\) 993-44-00/g, cityPhone);
     }
