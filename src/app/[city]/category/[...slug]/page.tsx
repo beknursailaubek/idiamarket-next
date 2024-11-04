@@ -55,10 +55,26 @@ async function getFilterOptions(category_code: string): Promise<FilterOptions> {
   return options;
 }
 
-export async function generateMetadata({ params }: CategoryPageProps) {
+export async function generateMetadata({ params, searchParams }: CategoryPageProps) {
   const { city, slug } = params;
   const category_code = slug?.[slug.length - 1] || "";
-  const data = await getProductsByCategory(category_code, 1);
+
+  const minPrice = Array.isArray(searchParams.minPrice) ? searchParams.minPrice[0] : searchParams.minPrice;
+  const maxPrice = Array.isArray(searchParams.maxPrice) ? searchParams.maxPrice[0] : searchParams.maxPrice;
+  const sort = Array.isArray(searchParams.sort) ? searchParams.sort[0] : searchParams.sort || "popular";
+
+  // Parse colors
+  const colors = Array.isArray(searchParams.colors) ? searchParams.colors : searchParams.colors ? [searchParams.colors] : [];
+
+  // Parse attributes
+  const attributes: Record<string, string[]> = {};
+  Object.entries(searchParams).forEach(([key, value]) => {
+    if (!["page", "minPrice", "maxPrice", "sort", "colors"].includes(key)) {
+      attributes[key] = Array.isArray(value) ? value : [value];
+    }
+  });
+
+  const data = await getProductsByCategory(category_code, 1, minPrice, maxPrice, sort, colors, attributes);
 
   const matchedCity = cities.find((c) => c.uri === city);
   if (!matchedCity) {
