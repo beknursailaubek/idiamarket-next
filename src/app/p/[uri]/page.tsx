@@ -1,16 +1,11 @@
 import { notFound } from "next/navigation";
 import styles from "./Product.module.css";
-import Attributes from "@/components/Attributes/Attributes";
+import ProductAttributes from "@/components/ProductAttributes/ProductAttributes";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import Description from "@/components/Description/Description";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
-import { Product, AttributeItem } from "@/types";
+import { Product } from "@/types";
 import ProductInfo from "@/components/ProductInfo/ProductInfo";
-
-type AttributeGroup = {
-  title: string;
-  items: AttributeItem[];
-};
 
 async function fetchProductData(uri: string): Promise<Product | null> {
   try {
@@ -46,7 +41,6 @@ export async function generateMetadata({ params }: { params: { uri: string } }) 
 
   if (!product) {
     notFound();
-    return {};
   }
 
   return {
@@ -62,18 +56,12 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
 
   if (!product) {
     notFound();
-    return null;
   }
 
   const descriptionPromise = product.about_url ? fetchProductDescription(product.about_url) : null;
   const aboutContent = await descriptionPromise;
 
   const category_code = product.categories?.[product.categories.length - 1]?.category_code ?? "";
-
-  const attributeGroups: AttributeGroup[] = (product.attributes ?? []).map((attr) => ({
-    title: attr.title,
-    items: attr.items ?? [],
-  }));
 
   return (
     <div className={`container ${styles.productPage}`}>
@@ -86,7 +74,7 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
 
         {aboutContent && <Description content={aboutContent.html_content} />}
 
-        {product.attributes?.length && product.attributes.length > 0 ? <Attributes attributes={attributeGroups} /> : null}
+        {product.attributes && product.attributes.length && <ProductAttributes attributes={product.attributes} />}
       </div>
     </div>
   );

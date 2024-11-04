@@ -57,6 +57,10 @@
   color: var(--grey);
 }
 
+.attributeValue::first-letter {
+  text-transform: uppercase;
+}
+
 .attributesHide {
   position: absolute;
   bottom: 0;

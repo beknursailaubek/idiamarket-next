@@ -53,7 +53,6 @@ export interface Attributes {
   title: string;
   is_active?: boolean;
   items?: AttributeItem[];
-  values: string[];
 }
 
 export interface AttributeItem {
@@ -127,12 +126,6 @@ export interface FilterValues {
   attributes?: { [key: string]: string[] };
 }
 
-export interface FilterOptions {
-  priceRange: [number, number];
-  colors: Array<{ code: string; title: string; hex: string }>;
-  attributes: Array<{ code: string; title: string; values: string[] }>;
-}
-
 export interface InitialData {
   products: Product[];
   category: Category;
@@ -175,4 +168,23 @@ export interface City {
 export interface Anchor {
   title: string;
   uri: string;
+}
+
+export interface AttributeValue {
+  title: string;
+  code: string;
+}
+
+export interface Attribute {
+  code: string;
+  title: string;
+  display_type: string;
+  priority: number;
+  values: AttributeValue[];
+}
+
+export interface FilterOptions {
+  priceRange: [number, number];
+  colors: Array<{ code: string; title: string; hex: string }>;
+  attributes: Attribute[];
 }

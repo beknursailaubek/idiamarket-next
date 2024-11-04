@@ -11,9 +11,13 @@ interface FilterProps {
   isFilterOpen: boolean;
   closeFilter: () => void;
 }
+
 interface SelectedFilter {
   label: string;
   type: "color" | "price" | "attribute";
+  colorCode?: string;
+  attributeCode?: string;
+  valueCode?: string;
 }
 
 const Filter: React.FC<FilterProps> = ({ filterOptions, isFilterOpen, closeFilter }) => {
@@ -236,11 +240,16 @@ const Filter: React.FC<FilterProps> = ({ filterOptions, isFilterOpen, closeFilte
       if (attribute) {
         const selectedValues = selectedAttributes[attributeCode];
         if (Array.isArray(selectedValues)) {
-          selectedValues.forEach((value) => {
-            filters.push({
-              label: `${attribute.title}: ${value}`,
-              type: "attribute",
-            });
+          selectedValues.forEach((valueCode) => {
+            const value = attribute.values.find((val) => val.code === valueCode);
+            if (value) {
+              filters.push({
+                label: `${attribute.title}: ${value.title}`,
+                type: "attribute",
+                attributeCode: attribute.code,
+                valueCode: value.code,
+              });
+            }
           });
         }
       }
@@ -285,14 +294,14 @@ const Filter: React.FC<FilterProps> = ({ filterOptions, isFilterOpen, closeFilte
     }
 
     if (filter.type === "attribute") {
-      const [attributeTitle, attributeValue] = filter.label.split(": ");
-      const attribute = attributes.find((attr) => attr.title === attributeTitle);
+      const attributeCode = filter.attributeCode;
+      const valueCode = filter.valueCode;
 
-      if (attribute) {
-        const currentValues = params.getAll(attribute.code);
-        params.delete(attribute.code);
-        const updatedValues = currentValues.filter((val) => val !== attributeValue);
-        updatedValues.forEach((val) => params.append(attribute.code, val));
+      if (attributeCode && valueCode) {
+        const currentValues = params.getAll(attributeCode);
+        params.delete(attributeCode);
+        const updatedValues = currentValues.filter((val) => val !== valueCode);
+        updatedValues.forEach((val) => params.append(attributeCode, val));
       }
     }
 
@@ -386,10 +395,10 @@ const Filter: React.FC<FilterProps> = ({ filterOptions, isFilterOpen, closeFilte
                   <>
                     <div className={`${styles.filterValues} ${attribute.values.length > 4 && !expandedSections[attribute.code] ? styles.filterValuesHidden : ""}`}>
                       {attribute.values.slice(0, expandedSections[attribute.code] ? attribute.values.length : 4).map((value) => (
-                        <Link href={generateAttributeHref(attribute.code, value)} key={value} className={`${styles.filterAttribute} ${selectedAttributes[attribute.code]?.includes(value) ? styles.filterAttributeActive : ""}`}>
-                          <input type="checkbox" value={value} onChange={() => handleAttributeChange(attribute.code, value)} checked={selectedAttributes[attribute.code]?.includes(value)} />
+                        <Link href={generateAttributeHref(attribute.code, value.code)} key={value.code} className={`${styles.filterAttribute} ${selectedAttributes[attribute.code]?.includes(value.code) ? styles.filterAttributeActive : ""}`}>
+                          <input type="checkbox" value={value.code} onChange={() => handleAttributeChange(attribute.code, value.code)} checked={selectedAttributes[attribute.code]?.includes(value.code)} />
                           <span className={styles.filterAttributeCustomCheckbox}></span>
-                          <span className={styles.filterAttributeLabel}>{value}</span>
+                          <span className={styles.filterAttributeLabel}>{value.title}</span>
                         </Link>
                       ))}
                     </div>
