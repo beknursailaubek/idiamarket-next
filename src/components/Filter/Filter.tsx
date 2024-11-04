@@ -32,6 +32,8 @@ const Filter: React.FC<FilterProps> = ({ filterOptions, isFilterOpen, closeFilte
   const [selectedAttributes, setSelectedAttributes] = useState<Record<string, string[]>>({});
   const [selectedFilters, setSelectedFilters] = useState<SelectedFilter[]>([]);
 
+  const [isInitialRender, setIsInitialRender] = useState(true);
+
   const [showColors, setShowColors] = useState<boolean>(true);
   const [visibleAttributes, setVisibleAttributes] = useState<{
     [key: string]: boolean;
