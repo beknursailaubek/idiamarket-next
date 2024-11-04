@@ -53,6 +53,7 @@ export interface Attributes {
   title: string;
   is_active?: boolean;
   items?: AttributeItem[];
+  priority?: number;
 }
 
 export interface AttributeItem {
@@ -64,6 +65,7 @@ export interface AttributeItem {
   description?: string;
   show_description?: boolean;
   attribute_values?: string;
+  priority?: number;
 }
 
 export interface Color {
