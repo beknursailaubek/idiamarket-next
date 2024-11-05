@@ -19,10 +19,11 @@
 
 .link {
   display: block;
-  padding: 8px 16px;
+  padding: 4px 8px;
   color: var(--blue-light);
   border-radius: 8px;
   border: 1px solid var(--blue-light);
+  font-size: 14px;
 }
 
 @media (max-width: 768px) {
