@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import styles from "./ProductAttributes.module.css";
 import { Attributes } from "@/types";
@@ -15,17 +15,15 @@ const ProductAttributes = ({ attributes }: AttributesProps) => {
     setIsAttributesHidden(!isAttributesHidden);
   };
 
-  const filteredAttributes = useMemo(() => {
-    return attributes.filter((item) => item.is_active).sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
-  }, [attributes]);
+  attributes = attributes.filter((item) => item.is_active).sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
 
   return (
     <div className={`${styles.attributes} ${isAttributesHidden ? styles.attributesHidden : ""}`}>
       <h2 className={`title ${styles.title}`}>Характеристики</h2>
 
       <div className={styles.attributesList}>
-        {filteredAttributes.length > 0 &&
-          filteredAttributes.map((group, index) => (
+        {attributes.length > 0 &&
+          attributes.map((group, index) => (
             <div key={index} className={styles.attributesGroup}>
               <p className={styles.attributesGroupTitle}>{group.title}</p>
 

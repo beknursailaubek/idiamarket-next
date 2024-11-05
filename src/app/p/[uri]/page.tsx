@@ -9,7 +9,7 @@ import ProductInfo from "@/components/ProductInfo/ProductInfo";
 
 async function fetchProductData(uri: string): Promise<Product | null> {
   try {
-    const response = await fetch(`${apiUrl}/product/${uri}`);
+    const response = await fetch(`${apiUrl}/product/${uri}`, { cache: "no-store" });
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
