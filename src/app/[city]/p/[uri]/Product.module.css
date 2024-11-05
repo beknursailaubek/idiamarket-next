@@ -5,6 +5,14 @@
   gap: 20px;
 }
 
+.watched {
+  margin: 20px 0;
+}
+
+.popular {
+  margin: 20px 0;
+}
+
 @media (max-width: 768px) {
   .productPage {
     padding: 0;
