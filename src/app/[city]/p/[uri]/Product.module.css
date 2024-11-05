@@ -6,11 +6,11 @@
 }
 
 .watched {
-  margin: 20px 0;
+  margin-top: 20px;
 }
 
 .popular {
-  margin: 20px 0;
+  margin-top: 20px;
 }
 
 @media (max-width: 768px) {
@@ -27,7 +27,7 @@
   }
 
   .watched {
-    margin: 16px 12px 0;
+    margin: 16px 0 0;
   }
 
   .popular {

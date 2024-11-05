@@ -50,11 +50,7 @@ export default async function HomePage({ params }: HomePageProps) {
 
       <Categories />
 
-      <section className={styles.watched}>
-        <div className="container">
-          <RecentlyWatched page="home" />
-        </div>
-      </section>
+      <RecentlyWatched page="home" />
 
       <section className={styles.popular}>
         <div className="container">

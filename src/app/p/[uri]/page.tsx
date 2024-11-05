@@ -82,7 +82,7 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
       </div>
 
       <div className={styles.watched}>
-        <RecentlyWatched page="home" />
+        <RecentlyWatched page="product" />
       </div>
 
       <div className={styles.popular}>

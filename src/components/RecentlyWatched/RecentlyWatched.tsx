@@ -34,7 +34,7 @@ const RecentlyWatched = ({ page }: RecentlyWatchedProps) => {
 
   if (loading) {
     return (
-      <div className={`${styles.body} ${page == "home" ? styles.home : ""}`}>
+      <div className={`${styles.body} ${page == "home" ? styles.home : ""} ${page == "product" ? styles.product : ""}`}>
         <p className={`title ${styles.title}`}>Вы недавно смотрели</p>
         <div className={styles.list}>
           {Array.from({ length: 4 }).map((_, index) => (
@@ -48,9 +48,8 @@ const RecentlyWatched = ({ page }: RecentlyWatchedProps) => {
   if (!products || products.length === 0) return null;
 
   return (
-    <div className={`${styles.body} ${page == "home" ? styles.home : ""}`}>
+    <div className={`${styles.body} ${page == "home" ? styles.home : ""} ${page == "product" ? styles.product : ""}`}>
       <p className={`title ${styles.title}`}>Вы недавно смотрели</p>
-
       <div className={`${styles.list} `}>
         {products.map((product, index) => (
           <ProductCard key={index} product={product} type="" />

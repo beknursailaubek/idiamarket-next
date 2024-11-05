@@ -3,7 +3,16 @@
 }
 
 .home {
-  margin-top: 0px;
+  max-width: calc(1300px + 40px);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.product {
+  max-width: calc(1300px + 40px);
+  width: 100%;
+  margin: 0 auto;
 }
 
 .list {
@@ -13,6 +22,10 @@
 }
 
 .home .list {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.product .list {
   grid-template-columns: repeat(6, 1fr);
 }
 
@@ -26,7 +39,19 @@
     gap: 8px;
   }
 
+  .home {
+    padding: 0 12px;
+  }
+
   .home .list {
+    overflow-x: scroll;
+  }
+
+  .product {
+    padding: 0 12px;
+  }
+
+  .product .list {
     overflow-x: scroll;
   }
 }
