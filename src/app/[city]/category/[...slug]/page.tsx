@@ -78,7 +78,7 @@ export async function generateMetadata({ params, searchParams }: CategoryPagePro
 
   const matchedCity = cities.find((c) => c.uri === city);
   if (!matchedCity) {
-    return notFound();
+    return;
   }
 
   const cityTitle = matchedCity.title;

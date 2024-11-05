@@ -40,10 +40,12 @@ export async function generateMetadata({ params }: { params: { uri: string } }) 
   const product = await fetchProductData(params.uri);
 
   if (!product) {
-    notFound();
+    return;
   }
 
   return {
+    title: `${product.title} купить в Алматы`,
+    description: `idiamarket.kz предлагает купить ${product.title} с доставкой по Казахстану`,
     alternates: {
       canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/p/${params.uri}`,
     },

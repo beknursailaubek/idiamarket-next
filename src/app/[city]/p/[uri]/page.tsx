@@ -6,6 +6,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 import { Product } from "@/types";
 import ProductInfo from "@/components/ProductInfo/ProductInfo";
 import ProductAttributes from "@/components/ProductAttributes/ProductAttributes";
+import { cities } from "@/lib/data";
 
 async function fetchProductData(uri: string): Promise<Product | null> {
   try {
@@ -41,11 +42,17 @@ export async function generateMetadata({ params }: { params: { uri: string; city
   const { city } = params;
 
   if (!product) {
-    notFound();
-    return {};
+    return;
+  }
+
+  const matchedCity = cities.find((c) => c.uri === city);
+  if (!matchedCity) {
+    return;
   }
 
   return {
+    title: `${product.title} купить в ${matchedCity.title}`,
+    description: `idiamarket.kz предлагает купить ${product.title} с доставкой по Казахстану`,
     alternates: {
       canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/${city}/p/${params.uri}`,
     },
