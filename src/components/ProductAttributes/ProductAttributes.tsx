@@ -32,6 +32,7 @@ const ProductAttributes = ({ attributes }: AttributesProps) => {
                   {Object.entries(
                     group.items
                       .filter((item) => item.is_active)
+                      .sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0))
                       .reduce<Record<string, string[]>>((acc, item) => {
                         if (!acc[item.title]) {
                           acc[item.title] = [];
