@@ -23,6 +23,7 @@
 @media (max-width: 768px) {
   .list {
     grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
   }
 
   .home .list {

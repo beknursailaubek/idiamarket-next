@@ -1,0 +1,20 @@
+/* POPULAR */
+.popularProducts {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+@media (max-width: 1024px) {
+  .popularProducts {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .popularProducts {
+    display: flex;
+    overflow-x: scroll;
+    gap: 8px;
+  }
+}

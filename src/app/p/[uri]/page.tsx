@@ -6,6 +6,8 @@ import Description from "@/components/Description/Description";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
 import { Product } from "@/types";
 import ProductInfo from "@/components/ProductInfo/ProductInfo";
+import RecentlyWatched from "@/components/RecentlyWatched/RecentlyWatched";
+import PopularProducts from "@/components/PopularProducts/PopularProducts";
 
 async function fetchProductData(uri: string): Promise<Product | null> {
   try {
@@ -77,6 +79,14 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
         {aboutContent && <Description content={aboutContent.html_content} />}
 
         {product.attributes && product.attributes.length > 0 ? <ProductAttributes attributes={product.attributes} /> : null}
+      </div>
+
+      <div className={styles.watched}>
+        <RecentlyWatched page="home" />
+      </div>
+
+      <div className={styles.popular}>
+        <PopularProducts />
       </div>
     </div>
   );

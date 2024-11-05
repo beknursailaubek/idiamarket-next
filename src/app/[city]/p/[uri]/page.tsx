@@ -8,6 +8,9 @@ import ProductInfo from "@/components/ProductInfo/ProductInfo";
 import ProductAttributes from "@/components/ProductAttributes/ProductAttributes";
 import { cities } from "@/lib/data";
 
+import RecentlyWatched from "@/components/RecentlyWatched/RecentlyWatched";
+import PopularProducts from "@/components/PopularProducts/PopularProducts";
+
 async function fetchProductData(uri: string): Promise<Product | null> {
   try {
     const response = await fetch(`${apiUrl}/product/${uri}`);
@@ -84,6 +87,14 @@ const ProductPage = async ({ params }: { params: { uri: string } }) => {
         {aboutContent && <Description content={aboutContent.html_content} />}
 
         {product.attributes && product.attributes.length && <ProductAttributes attributes={product.attributes} />}
+      </div>
+
+      <div className={styles.watched}>
+        <RecentlyWatched page="home" />
+      </div>
+
+      <div className={styles.popular}>
+        <PopularProducts />
       </div>
     </div>
   );
