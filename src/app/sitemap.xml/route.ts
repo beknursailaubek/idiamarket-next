@@ -31,6 +31,8 @@ const staticPages = [
   { url: "contacts", priority: "0.4" },
 ];
 
+const queryCategoryPages = ["metallicheskie-stellazhi?material=zheleznyj", "metallicheskie-stellazhi?podborka=sbornye-stellazhi", "metallicheskie-stellazhi/torgovye-stellazhi?material=metallicheskij", "metallicheskie-stellazhi/torgovye-stellazhi?naznachenie=stellazhi-dlya-magazina", "metallicheskie-stellazhi/torgovye-stellazhi?podborka=stellazhi-i-vitriny", "metallicheskie-stellazhi/torgovye-stellazhi?naznachenie=stellazhi-dlya-produktov", "metallicheskie-stellazhi/torgovye-stellazhi?podborka=torgovoe-oborudovanie-stellazh", "metallicheskie-stellazhi/torgovye-stellazhi?naznachenie=stellazhi-dlya-avtomagazina"];
+
 export async function GET() {
   try {
     const [products, categories] = await Promise.all([fetchProducts(), fetchCategories()]);
@@ -53,6 +55,11 @@ export async function GET() {
         priority: "0.9",
         lastmod: today,
       })),
+      ...queryCategoryPages.map((queryUri) => ({
+        loc: `https://idiamarket.kz/${cityUri}/category/${queryUri}`,
+        priority: "0.8",
+        lastmod: today,
+      })),
     ];
 
     // Generate pages without a city prefix (root URLs)
@@ -70,6 +77,11 @@ export async function GET() {
       ...categories.map((category: { uri: string }) => ({
         loc: `https://idiamarket.kz/category/${category.uri}`,
         priority: "0.9",
+        lastmod: today,
+      })),
+      ...queryCategoryPages.map((queryUri) => ({
+        loc: `https://idiamarket.kz/category/${queryUri}`,
+        priority: "0.8",
         lastmod: today,
       })),
     ];
